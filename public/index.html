@@ -21,7 +21,7 @@ main{padding:70px 6%}.sectionhead{display:flex;justify-content:space-between;ali
 footer{background:#111;color:#ddd;padding:48px 6%;margin-top:50px}footer b{color:#fff;font-size:20px}footer p{color:#aaa;max-width:600px;line-height:1.6}footer small{color:#888}
 @media(max-width:1050px){.grid{grid-template-columns:repeat(3,1fr)}.links{display:none}.stats{grid-template-columns:repeat(2,1fr)}}
 @media(max-width:720px){.navsearch{width:130px}.hero{min-height:590px;padding:48px 7%}.hero h1{font-size:50px}.quick{grid-template-columns:1fr;margin:14px 5% 0}.grid{grid-template-columns:repeat(2,1fr);gap:12px}main{padding:52px 5%}.sectionhead h2{font-size:35px}.two{grid-template-columns:1fr}.two>img{height:310px}.band{margin:0 3%;padding:32px 7%;display:block}.steps{grid-template-columns:1fr}.stats{grid-template-columns:1fr 1fr}}
-@media(max-width:480px){.top{font-size:10px}.logo{font-size:19px}.navsearch{display:none}.grid{grid-template-columns:1fr}.hero h1{font-size:43px}.hero{margin:0}.sectionhead{align-items:start}.stats{grid-template-columns:1fr}.box{padding:22px 18px}}
+@media(max-width:480px){.top{font-size:10px}.logo{font-size:19px}.logoImage{width:160px;height:42px}.navsearch{display:none}.grid{grid-template-columns:1fr}.hero h1{font-size:43px}.hero{margin:0}.sectionhead{align-items:start}.stats{grid-template-columns:1fr}.box{padding:22px 18px}}
 .audience{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin:34px 5% 0}.aud-card{padding:32px;border-radius:22px;border:1px solid var(--line);box-shadow:var(--shadow);background:var(--paper)}.aud-card.kid{background:linear-gradient(135deg,#fff8e8,#f7ead2)}.aud-card.adult{background:linear-gradient(135deg,#eef5f0,#dceae4)}.aud-tag{font-size:11px;font-weight:950;letter-spacing:2px;color:var(--orange)}.aud-card h2{font:700 34px Georgia,serif;margin:9px 0}.aud-card p{line-height:1.65;color:var(--muted);max-width:560px}.delivery-strip a{color:var(--orange)!important}.delivery-strip{margin:18px 5% 0;padding:15px 20px;border-radius:14px;background:#fff;border:1px solid var(--line);display:flex;gap:12px;align-items:center;flex-wrap:wrap}.delivery-strip span{color:var(--muted);font-size:13px}.register-note{margin:25px 6%;padding:26px;border:1px solid var(--line);background:var(--paper);border-radius:18px}.register-note p{color:var(--muted);line-height:1.6}@media(max-width:720px){.audience{grid-template-columns:1fr;margin:20px 5% 0}}
 
 .logo{display:flex;align-items:center;gap:0}.logoWord{color:var(--ink)}
@@ -35,16 +35,16 @@ footer{background:#111;color:#ddd;padding:48px 6%;margin-top:50px}footer b{color
 @media(max-width:480px){nav .iconbtn{padding:8px 10px}.logo{font-size:18px}.hero h1{font-size:41px}.hero{padding:36px 6%}.aud-card h2{font-size:31px}.aud-card p{font-size:15px}.artist-feature img{height:260px}}
 
 /* Responsive marketplace polish */
-.logoMark{display:inline-grid;place-items:center;width:31px;height:31px;border-radius:9px;background:linear-gradient(135deg,var(--orange),var(--gold));color:#fff;font-size:17px;font-weight:950;box-shadow:0 5px 14px #0002;flex:none}
+.logoMark{display:inline-grid;place-items:center;width:31px;height:31px;border-radius:9px;background:linear-gradient(135deg,var(--orange),var(--gold));color:#fff;font-size:17px;font-weight:950;box-shadow:0 5px 14px #0002;flex:none}.logoImage{display:block;width:178px;height:46px;object-fit:contain;object-position:left center}
 .artist-page{display:none;max-width:1200px;margin:0 auto;padding:34px 5% 80px}.artist-page.open{display:block}.artist-page .back{margin-bottom:18px}.artist-hero{display:grid;grid-template-columns:minmax(260px,380px) 1fr;gap:34px;align-items:center;background:var(--paper);border:1px solid var(--line);border-radius:28px;padding:26px;box-shadow:var(--shadow)}.artist-hero>img{width:100%;height:420px;object-fit:cover;border-radius:20px}.artist-hero h1{font:700 clamp(38px,6vw,68px)/.95 Georgia,serif;margin:10px 0}.artist-collection{margin-top:34px}.artist-collection-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}.artist-collection-grid .card img{height:300px}
 @media(max-width:720px){.artist-page{padding:22px 4% 60px}.artist-hero{grid-template-columns:1fr;padding:16px;gap:20px}.artist-hero>img{height:330px}.artist-collection-grid{grid-template-columns:1fr}.artist-collection-grid .card img{height:330px}.aud-card>div:last-child{display:grid;grid-template-columns:1fr;gap:9px}.aud-card .btn{width:100%;margin:0}.delivery-strip{margin-left:4%;margin-right:4%}}
-@media(max-width:480px){nav{gap:7px}.logoMark{width:28px;height:28px}.logo{font-size:17px}.iconbtn{padding:8px 9px}.aud-card{padding:24px 20px}.aud-card h2{font-size:30px;line-height:1.05}}
+@media(max-width:480px){nav{gap:7px}.logoMark{width:28px;height:28px}.logo{font-size:17px}.logoImage{width:145px;height:38px}.iconbtn{padding:8px 9px}.aud-card{padding:24px 20px}.aud-card h2{font-size:30px;line-height:1.05}}
 </style>
 </head>
 <body>
 <div class="top">Original African art • Independent artists • Art materials • Secure order enquiries</div>
 <nav>
-<a class="logo" href="#home" aria-label="AfricanArtistShop home"><span class="logoMark">A</span><span class="logoWord">AfricanArtist</span><span>Shop</span></a>
+<a class="logo" href="#home" aria-label="AfricanArtistShop home"><img class="logoImage" src="/assets/africanartistshop-logo.jpg" alt="AfricanArtistShop"></a>
 <div class="links"><a href="#shop">Kids & Adults</a><a href="#artists">Artists Shops</a><a href="#supplies">Art Materials</a><a href="#become">Sell Your Art</a></div>
 <input id="q" class="navsearch" placeholder="Search..." oninput="syncSearch(this.value)">
 <button class="iconbtn" onclick="openAuth()">Account</button>
