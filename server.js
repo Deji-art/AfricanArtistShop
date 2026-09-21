@@ -38,5 +38,4 @@ app.get('/api/admin/stats',auth,role('admin'),(req,res)=>res.json({users:db.prep
 app.get('/api/admin/pending',auth,role('admin'),(req,res)=>res.json({artists:db.prepare('SELECT * FROM artists WHERE status=\'pending\'').all(),artworks:db.prepare(`SELECT a.*,ar.name artist_name FROM artworks a JOIN artists ar ON ar.id=a.artist_id WHERE a.status='pending'`).all()}));
 app.patch('/api/admin/artists/:id',auth,role('admin'),(req,res)=>{const status=['approved','rejected','pending'].includes(req.body.status)?req.body.status:'pending';db.prepare('UPDATE artists SET status=? WHERE id=?').run(status,req.params.id);res.json({ok:true,status})});
 app.patch('/api/admin/artworks/:id',auth,role('admin'),(req,res)=>{const status=['approved','rejected','pending'].includes(req.body.status)?req.body.status:'pending';db.prepare('UPDATE artworks SET status=? WHERE id=?').run(status,req.params.id);res.json({ok:true,status})});
-app.use('/uploads',express.static(uploadDir)); app.use(express.static(path.join(__dirname,'public'))); app.get('*',(req,res)=>res.sendFile(path.join(__dirname,'public','index.html')));
-app.listen(PORT,()=>console.log(`AfricanArtistShop running on port ${PORT}`));
+app.use('/uploads',express.static(uploadDir)); app.use(express.static(path.join(__dirname,'public'))); app.get('/*splat',(req,res)=>res.sendFile(path.join(__dirname,'public','index.html')));
