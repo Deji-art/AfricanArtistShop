@@ -39,3 +39,4 @@ app.get('/api/admin/pending',auth,role('admin'),(req,res)=>res.json({artists:db.
 app.patch('/api/admin/artists/:id',auth,role('admin'),(req,res)=>{const status=['approved','rejected','pending'].includes(req.body.status)?req.body.status:'pending';db.prepare('UPDATE artists SET status=? WHERE id=?').run(status,req.params.id);res.json({ok:true,status})});
 app.patch('/api/admin/artworks/:id',auth,role('admin'),(req,res)=>{const status=['approved','rejected','pending'].includes(req.body.status)?req.body.status:'pending';db.prepare('UPDATE artworks SET status=? WHERE id=?').run(status,req.params.id);res.json({ok:true,status})});
 app.use('/uploads',express.static(uploadDir)); app.use(express.static(path.join(__dirname,'public'))); app.get('/*splat',(req,res)=>res.sendFile(path.join(__dirname,'public','index.html')));
+app.listen(PORT,()=>console.log(`AfricanArtistShop running on port ${PORT}`));
