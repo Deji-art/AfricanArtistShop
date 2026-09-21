@@ -26,7 +26,7 @@ set('artist_listing_fee','5000'); set('sales_commission_percent','10');
 const admin=db.prepare('SELECT id FROM users WHERE email=?').get('admin@africanartistshop.com');
 if(!admin) db.prepare('INSERT INTO users(name,email,password_hash,role) VALUES(?,?,?,?)').run('AfricanArtistShop Admin','admin@africanartistshop.com',bcrypt.hashSync('demo1234',10),'admin');
 let a=db.prepare('SELECT id FROM users WHERE email=?').get('peace@example.com');
-if(!a){const info=db.prepare('INSERT INTO users(name,email,password_hash,role) VALUES(?,?,?,?)').run('Peace Mojibola','peace@example.com',bcrypt.hashSync('demo1234',10),'artist');const ar=db.prepare('INSERT INTO artists(user_id,name,specialty,bio,image_url,status) VALUES(?,?,?,?,?,?)').run(info.lastInsertRowid,'Peace','Painting','Demo artist account. Replace this content with the artist profile.','https://images.unsplash.com/photo-1577083288073-40892c0860a4?auto=format&fit=crop&w=900&q=80','approved');db.prepare('INSERT INTO artworks(artist_id,title,medium,size,price,description,image_url,availability,status) VALUES(?,?,?,?,?,?,?,?,?)').run(ar.lastInsertRowid,'African Light','Painting','24 x 36 in',85000,'Demo artwork. Replace with licensed/owned work.','https://images.unsplash.com/photo-1549490349-8643362247b5?auto=format&fit=crop&w=900&q=80','Available','approved');}
+if(!a){const info=db.prepare('INSERT INTO users(name,email,password_hash,role) VALUES(?,?,?,?)').run('Peace Mojibola','peace@example.com',bcrypt.hashSync('demo1234',10),'artist');const ar=db.prepare('INSERT INTO artists(user_id,name,specialty,bio,image_url,status) VALUES(?,?,?,?,?,?)').run(info.lastInsertRowid,'Peace Mojibola','Painting','Demo artist account. Replace this content with the artist profile.','https://images.unsplash.com/photo-1577083288073-40892c0860a4?auto=format&fit=crop&w=900&q=80','approved');db.prepare('INSERT INTO artworks(artist_id,title,medium,size,price,description,image_url,availability,status) VALUES(?,?,?,?,?,?,?,?,?)').run(ar.lastInsertRowid,'African Light','Painting','24 x 36 in',85000,'Demo artwork. Replace with licensed/owned work.','https://images.unsplash.com/photo-1549490349-8643362247b5?auto=format&fit=crop&w=900&q=80','Available','approved');}
 if(db.prepare('SELECT COUNT(*) c FROM supplies').get().c===0){
 const ins=db.prepare('INSERT INTO supplies(name,category,description,image_url,price,stock,unit) VALUES(?,?,?,?,?,?,?)');
 [
@@ -38,7 +38,8 @@ const ins=db.prepare('INSERT INTO supplies(name,category,description,image_url,p
 ['Palette Knife Set','Tools','Metal palette knives for texture and impasto techniques.','https://images.unsplash.com/photo-1549490349-8643362247b5?auto=format&fit=crop&w=900&q=80',6500,18,'set']
 ].forEach(x=>ins.run(...x));
 }}
-try{db.exec("ALTER TABLE artworks ADD COLUMN age_group TEXT DEFAULT 'adult'")}catch(e){}\ninit();\nfunction auth(req,res,next){if(!req.session.user)return res.status(401).json({error:'Authentication required'});next()}
+init();
+function auth(req,res,next){if(!req.session.user)return res.status(401).json({error:'Authentication required'});next()}
 function role(r){return (req,res,next)=>{if(!req.session.user||req.session.user.role!==r)return res.status(403).json({error:'Forbidden'});next()}}
 function setting(k){return Number(db.prepare('SELECT value FROM settings WHERE key=?').get(k)?.value||0)}
 app.get('/api/health',(req,res)=>res.json({ok:true}));
