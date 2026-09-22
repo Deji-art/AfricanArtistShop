@@ -9,7 +9,7 @@ const db=new Database(DB_PATH); db.pragma('journal_mode=WAL');
 app.use(express.json({verify:(req,res,buf)=>{req.rawBody=buf}})); app.use(express.urlencoded({extended:true}));
 app.use(session({secret:process.env.SESSION_SECRET||'change-me',resave:false,saveUninitialized:false,cookie:{httpOnly:true,sameSite:'lax',secure:process.env.NODE_ENV==='production'}}));
 const storage=multer.diskStorage({destination:uploadDir,filename:(req,file,cb)=>cb(null,Date.now()+'-'+file.originalname.replace(/[^a-zA-Z0-9._-]/g,'_'))});
-const upload=multer({storage,limits:{fileSize:8*1024*1024}});
+const upload=multer({storage,limits:{fileSize:8*1024*1024},fileFilter:(req,file,cb)=>{const allowed=['image/jpeg','image/png','image/webp','image/gif'];if(!allowed.includes(file.mimetype))return cb(new Error('Only JPG, PNG, WEBP or GIF images are allowed'));cb(null,true)}});
 function init(){
 db.exec(`
 CREATE TABLE IF NOT EXISTS users(id INTEGER PRIMARY KEY AUTOINCREMENT,name TEXT NOT NULL,email TEXT UNIQUE NOT NULL,password_hash TEXT NOT NULL,role TEXT NOT NULL DEFAULT 'customer',created_at TEXT DEFAULT CURRENT_TIMESTAMP);
