@@ -107,6 +107,7 @@
   }
 
   /* Make the fix available before the second marketplace script calls currentUser. */
+  setupMobileNav();
   addStyles();
   if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',setupLayout);
   else setupLayout();
