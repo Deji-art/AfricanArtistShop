@@ -17,8 +17,8 @@
     if(!footer) return;
 
     /* Remove the old early About/Contact blocks from the main flow. */
-    if(about) about.style.display='none';
-    if(contact) contact.style.display='none';
+    if(about) about.remove();
+    if(contact) contact.remove();
 
     /* One coordinated artist-path section: shopping and registration sit together. */
     if(!document.getElementById('artistPaths')){
@@ -32,8 +32,10 @@
           '<article class="artist-path-card pro-path"><div class="path-icon">🖌️</div><span class="pill">ADULT CREATORS</span><h3>Professional Artists</h3><p class="muted">Explore collections from adult and professional artists, or create a professional storefront.</p><div class="path-actions"><a class="btn" href="#proartists">Shop from Professional Artists</a><button class="btn primary" type="button" onclick="openArtistApplyPro()">Register as Professional Artist</button></div></article>'+
           '<article class="artist-path-card signature-path"><div class="path-icon">✦</div><span class="pill">SIGNATURE</span><h3>Signature Artists</h3><p class="muted">Explore invited and approved renowned artists and their dedicated collections.</p><div class="path-actions"><a class="btn" href="#signature">Shop Signature Artists</a><button class="btn primary" type="button" onclick="openArtistApplySignature()">Register as Signature Artist</button></div></article>'+
         '</div>';
+      const shop=document.getElementById('shop');
       const pro=document.getElementById('proartists');
-      if(pro && pro.parentNode) pro.parentNode.insertBefore(section,signature||pro.nextSibling);
+      if(shop && shop.parentNode) shop.parentNode.insertBefore(section,shop);
+      else if(pro && pro.parentNode) pro.parentNode.insertBefore(section,signature||pro.nextSibling);
       else if(footer.previousSibling) footer.parentNode.insertBefore(section,footer);
     }
 
@@ -52,6 +54,10 @@
     if(about) about.remove();
     if(contact) contact.remove();
 
+    /* Remove the redundant general artist listing because Kid/Professional sections are the dedicated storefronts. */
+    const generalArtists=document.getElementById('artists');
+    if(generalArtists) generalArtists.remove();
+
     /* Keep navigation links coordinated with the new footer locations. */
     document.querySelectorAll('a[href="#about"]').forEach(a=>a.href='#footer-about');
     document.querySelectorAll('a[href="#contact"]').forEach(a=>a.href='#footer-contact');
@@ -64,7 +70,8 @@
       if(tiers[0]) tiers[0].style.display='none';
       if(tiers[1]) tiers[1].style.display='none';
       const heading=become.querySelector('.tier-grid');
-      if(heading && !heading.querySelector('.signature-only-note')){
+      if(heading) heading.remove();
+      if(false && heading && !heading.querySelector('.signature-only-note')){
         const note=document.createElement('div');
         note.className='signature-only-note tier-card';
         note.innerHTML='<span class="pill">SIGNATURE</span><h3>Renowned / Signature</h3><div class="fee">FREE</div><ul><li>8–10 works</li><li>For invited or approved artists</li><li>Dedicated signature shop</li></ul><button class="btn primary" type="button" onclick="openArtistApplySignature()">Register as Signature Artist</button>';
@@ -73,12 +80,29 @@
     }
   }
 
+  function setupMobileNav(){
+    const nav=document.querySelector('nav');
+    const links=document.querySelector('.links');
+    if(!nav||!links||document.getElementById('mobileMenuBtn')) return;
+    const btn=document.createElement('button');
+    btn.id='mobileMenuBtn'; btn.className='iconbtn mobile-menu-btn'; btn.type='button';
+    btn.setAttribute('aria-label','Open menu'); btn.setAttribute('aria-expanded','false'); btn.textContent='☰';
+    nav.insertBefore(btn,links);
+    btn.onclick=()=>{
+      const open=links.classList.toggle('mobile-open');
+      btn.setAttribute('aria-expanded',String(open)); btn.textContent=open?'✕':'☰';
+    };
+    links.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>{
+      links.classList.remove('mobile-open'); btn.setAttribute('aria-expanded','false'); btn.textContent='☰';
+    }));
+  }
+
   function addStyles(){
     if(document.getElementById('aasCoordinatedStyles')) return;
     const s=document.createElement('style');
     s.id='aasCoordinatedStyles';
     s.textContent=
-      '.artist-paths{max-width:1240px;margin:20px auto 0;padding:70px 22px 25px}.artist-path-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px}.artist-path-card{background:var(--paper);border:1px solid var(--line);border-radius:22px;padding:26px;box-shadow:var(--shadow);display:flex;flex-direction:column;min-height:290px}.artist-path-card.kid-path{background:linear-gradient(135deg,#fff8e8,#f7ead2)}.artist-path-card.pro-path{background:linear-gradient(135deg,#eef5f0,#dceae4)}.artist-path-card.signature-path{background:linear-gradient(135deg,#f5f0ff,#ebe2f8)}.path-icon{font-size:30px;margin-bottom:14px}.artist-path-card h3{font:700 29px Georgia,serif;margin:9px 0}.artist-path-card p{line-height:1.65}.path-actions{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-top:auto;padding-top:18px}.path-actions .btn{width:100%;text-align:center}.footer-info{display:grid;grid-template-columns:1.2fr 1fr 1fr;gap:28px;margin:0 0 35px;padding-bottom:32px;border-bottom:1px solid #ffffff22}.footer-col{min-width:0}.footer-kicker{font-size:11px;letter-spacing:2px;font-weight:900;color:#e5a23b;margin-bottom:10px}.footer-col h3{font:700 24px Georgia,serif;color:#fff;margin:0 0 12px}.footer-col p{color:#aaa;line-height:1.65;margin:8px 0}.footer-col a{color:#fff}.footer-col a:hover{color:#e5a23b}.footer-note{font-size:13px}@media(max-width:900px){.artist-path-grid{grid-template-columns:1fr 1fr}.footer-info{grid-template-columns:1fr 1fr}}@media(max-width:600px){.artist-paths{padding:50px 14px 10px}.artist-path-grid{grid-template-columns:1fr}.artist-path-card{min-height:0}.path-actions{grid-template-columns:1fr}.footer-info{grid-template-columns:1fr;gap:24px}}';
+      '.artist-paths{max-width:1240px;margin:20px auto 0;padding:70px 22px 25px}.artist-path-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px}.artist-path-card{background:var(--paper);border:1px solid var(--line);border-radius:22px;padding:26px;box-shadow:var(--shadow);display:flex;flex-direction:column;min-height:290px}.artist-path-card.kid-path{background:linear-gradient(135deg,#fff8e8,#f7ead2)}.artist-path-card.pro-path{background:linear-gradient(135deg,#eef5f0,#dceae4)}.artist-path-card.signature-path{background:linear-gradient(135deg,#f5f0ff,#ebe2f8)}.path-icon{font-size:30px;margin-bottom:14px}.artist-path-card h3{font:700 29px Georgia,serif;margin:9px 0}.artist-path-card p{line-height:1.65}.path-actions{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-top:auto;padding-top:18px}.path-actions .btn{width:100%;text-align:center}.footer-info{display:grid;grid-template-columns:1.2fr 1fr 1fr;gap:28px;margin:0 0 35px;padding-bottom:32px;border-bottom:1px solid #ffffff22}.footer-col{min-width:0}.footer-kicker{font-size:11px;letter-spacing:2px;font-weight:900;color:#e5a23b;margin-bottom:10px}.footer-col h3{font:700 24px Georgia,serif;color:#fff;margin:0 0 12px}.footer-col p{color:#aaa;line-height:1.65;margin:8px 0}.footer-col a{color:#fff}.footer-col a:hover{color:#e5a23b}.footer-note{font-size:13px}@media(max-width:900px){.artist-path-grid{grid-template-columns:1fr 1fr}.footer-info{grid-template-columns:1fr 1fr}}@media(max-width:700px){nav{position:sticky;top:0;padding:9px 12px;gap:7px;flex-wrap:nowrap}.mobile-menu-btn{display:inline-flex;align-items:center;justify-content:center;flex:0 0 auto}.links{display:none;position:absolute;left:0;right:0;top:100%;background:var(--paper);border-bottom:1px solid var(--line);box-shadow:0 14px 30px #0002;padding:10px 14px;flex-direction:column;gap:0;z-index:60;max-height:70vh;overflow:auto}.links.mobile-open{display:flex}.links a{padding:14px 8px;border-bottom:1px solid var(--line);font-size:14px}.links a:last-child{border-bottom:0}.navsearch{display:none}.artist-paths{padding:50px 14px 10px}.artist-path-grid{grid-template-columns:1fr}.artist-path-card{min-height:0}.path-actions{grid-template-columns:1fr}.footer-info{grid-template-columns:1fr;gap:24px}main{padding-left:4%;padding-right:4%}.hero{margin:0}.two,.stats{grid-template-columns:1fr}.modal{padding:8px}.box{width:100%;max-height:94vh}.form input,.form select,.form textarea{font-size:16px}}';
     document.head.appendChild(s);
   }
 
