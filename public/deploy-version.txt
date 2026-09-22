@@ -1,0 +1,2 @@
+AfricanArtistShop live deployment refresh — 2026-09-22
+Latest coordinated marketplace, Nike Art Gallery, materials-image and persistent-login changes are included in this deployment trigger.
