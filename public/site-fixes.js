@@ -83,9 +83,9 @@
     /* Add portraits to the existing signature-directory cards. */
     const directoryCards=document.querySelectorAll('#signature .signature-reference .signature-directory-card');
     const portraits=[
-      ['https://images.weserv.nl/?url=back.vantaart.com%2Fuploads%2Fimages%2F3569d17946031a3d5207b1fc31c935fc.webp&w=700&q=82','Mufu Onifade'],
-      ['https://images.weserv.nl/?url=thewheatbakerlagos.com%2Foatchace%2F2024%2F11%2FDuke-Asidere.jpg&w=700&q=82','Duke Asidere'],
-      ['https://images.weserv.nl/?url=npr.brightspotcdn.com%2Fdims3%2Fdefault%2Fstrip%2Ffalse%2Fcrop%2F2857x4000%2B0%2B0%2Fresize%2F2857x4000%2521%2F%3Furl%3Dhttp%253A%252F%252Fnpr-brightspot.s3.amazonaws.com%252F5b%252F27%252Fc2d89f0a49178985bd1f5feeb596%252Fbruce-onobrakpeya-artist-13.jpg&w=700&q=82','Bruce Onobrakpeya']
+      ['https://back.vantaart.com/uploads/images/3569d17946031a3d5207b1fc31c935fc.webp','Mufu Onifade'],
+      ['https://thewheatbakerlagos.com/oatchace/2024/11/Duke-Asidere.jpg','Duke Asidere'],
+      ['https://npr.brightspotcdn.com/dims3/default/strip/false/crop/2857x4000%2B0%2B0/resize/2857x4000%21/?url=http%3A%2F%2Fnpr-brightspot.s3.amazonaws.com%2F5b%2F27%2Fc2d89f0a49178985bd1f5feeb596%2Fbruce-onobrakpeya-artist-13.jpg','Bruce Onobrakpeya']
     ];
     directoryCards.forEach((card,i)=>{
       const p=portraits[i];
@@ -151,13 +151,6 @@
     window.addEventListener('load',fix);
   }
 
-  function addImageSafety(){
-    if(document.getElementById('aasImageSafety')) return;
-    const s=document.createElement('style'); s.id='aasImageSafety';
-    s.textContent='img{max-width:100%;height:auto;box-sizing:border-box}main img,.card img,.grid img,.panel img,.artist-collection-grid img,.professional-artist-card img,.signature-reference img{max-width:100%;height:auto}.card,.panel,.grid,.artist-collection-grid,.professional-artist-card,.signature-directory-card{min-width:0;max-width:100%}.grid .card img,.artist-collection-grid .card img{width:100%;height:auto;object-fit:contain;object-position:center}.professional-artist-card .artist-card-image{width:100%;height:auto;max-height:360px;object-fit:contain;background:#f1eadf}.signature-reference .directory-portrait{width:100%!important;height:250px!important;object-fit:cover!important}@media(max-width:700px){img{max-width:100%!important}.professional-artist-card .artist-card-image{max-height:300px}.signature-reference .directory-portrait{height:210px!important}.artist-collection-grid{grid-template-columns:1fr!important}.artist-collection-grid .card img{max-height:none!important}.card,.panel{overflow:hidden}}';
-    document.head.appendChild(s);
-  }
-
   function setupMobileNav(){
     const nav=document.querySelector('nav');
     const links=document.querySelector('.links');
@@ -187,7 +180,6 @@
   /* Make the fix available before the second marketplace script calls currentUser. */
   setupMobileNav();
   addStyles();
-  addImageSafety();
   fixMarketplaceImages();
   if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',setupLayout);
   else setupLayout();
