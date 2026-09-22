@@ -3,6 +3,7 @@ const path=require('path'); const fs=require('fs'); const crypto=require('crypto
 const express=require('express'); const session=require('express-session');
 const bcrypt=require('bcryptjs'); const multer=require('multer'); const Database=require('better-sqlite3');
 const app=express(); const PORT=process.env.PORT||3000;
+app.set('trust proxy',1);
 const DB_PATH=process.env.DB_PATH||path.join(__dirname,'africanartistshop.db');
 const uploadDir=path.join(__dirname,'public','uploads'); fs.mkdirSync(uploadDir,{recursive:true});
 const db=new Database(DB_PATH); db.pragma('journal_mode=WAL');
@@ -15,12 +16,13 @@ const rateBuckets=new Map();
 function escHtml(v){return String(v??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[m]) )}
 function rateLimit(max=30,windowMs=60000){return (req,res,next)=>{const key=req.ip+':'+req.path;const now=Date.now();let b=rateBuckets.get(key);if(!b||now-b.start>windowMs)b={start:now,count:0};b.count++;rateBuckets.set(key,b);if(b.count>max)return res.status(429).json({error:'Too many requests. Please try again shortly.'});next()}};
 
-app.use(session({secret:process.env.SESSION_SECRET||'change-me',resave:false,saveUninitialized:false,cookie:{httpOnly:true,sameSite:'lax',secure:process.env.NODE_ENV==='production'}}));
+app.use(session({secret:process.env.SESSION_SECRET||'change-me',resave:false,saveUninitialized:false,cookie:{httpOnly:true,sameSite:'lax',secure:process.env.NODE_ENV==='production',maxAge:1000*60*60*24*30}}));
 const storage=multer.diskStorage({destination:uploadDir,filename:(req,file,cb)=>cb(null,Date.now()+'-'+file.originalname.replace(/[^a-zA-Z0-9._-]/g,'_'))});
 const upload=multer({storage,limits:{fileSize:8*1024*1024},fileFilter:(req,file,cb)=>{const allowed=['image/jpeg','image/png','image/webp','image/gif'];if(!allowed.includes(file.mimetype))return cb(new Error('Only JPG, PNG, WEBP or GIF images are allowed'));cb(null,true)}});
 function init(){
 db.exec(`
 CREATE TABLE IF NOT EXISTS users(id INTEGER PRIMARY KEY AUTOINCREMENT,name TEXT NOT NULL,email TEXT UNIQUE NOT NULL,password_hash TEXT NOT NULL,role TEXT NOT NULL DEFAULT 'customer',created_at TEXT DEFAULT CURRENT_TIMESTAMP);
+CREATE TABLE IF NOT EXISTS login_tokens(token_hash TEXT PRIMARY KEY,user_id INTEGER NOT NULL,expires_at INTEGER NOT NULL,created_at TEXT DEFAULT CURRENT_TIMESTAMP,FOREIGN KEY(user_id) REFERENCES users(id));
 CREATE TABLE IF NOT EXISTS artists(id INTEGER PRIMARY KEY AUTOINCREMENT,user_id INTEGER UNIQUE,name TEXT NOT NULL,specialty TEXT,bio TEXT,image_url TEXT,artist_type TEXT DEFAULT 'professional',age_group TEXT DEFAULT 'adult',guardian_name TEXT,guardian_phone TEXT,status TEXT NOT NULL DEFAULT 'pending',created_at TEXT DEFAULT CURRENT_TIMESTAMP,FOREIGN KEY(user_id) REFERENCES users(id));
 CREATE TABLE IF NOT EXISTS artworks(id INTEGER PRIMARY KEY AUTOINCREMENT,artist_id INTEGER NOT NULL,title TEXT NOT NULL,medium TEXT NOT NULL,size TEXT,price REAL NOT NULL,description TEXT,image_url TEXT NOT NULL,availability TEXT DEFAULT 'Available',age_group TEXT DEFAULT 'adult',status TEXT NOT NULL DEFAULT 'pending',created_at TEXT DEFAULT CURRENT_TIMESTAMP,FOREIGN KEY(artist_id) REFERENCES artists(id));
 CREATE TABLE IF NOT EXISTS supplies(id INTEGER PRIMARY KEY AUTOINCREMENT,name TEXT NOT NULL,category TEXT NOT NULL,description TEXT,image_url TEXT NOT NULL,price REAL NOT NULL,stock INTEGER DEFAULT 0,unit TEXT DEFAULT 'piece',active INTEGER DEFAULT 1,created_at TEXT DEFAULT CURRENT_TIMESTAMP);
@@ -55,23 +57,41 @@ if(!a){const info=db.prepare('INSERT INTO users(name,email,password_hash,role) V
 if(db.prepare('SELECT COUNT(*) c FROM supplies').get().c===0){
 const ins=db.prepare('INSERT INTO supplies(name,category,description,image_url,price,stock,unit) VALUES(?,?,?,?,?,?,?)');
 [
-['Acrylic Paint Set','Paints','Rich starter acrylic set for canvas and mixed-media work.','https://images.unsplash.com/photo-1577083288073-40892c0860a4?auto=format&fit=crop&w=900&q=80',18500,20,'set'],
-['Artist Brush Collection','Brushes','Assorted round, flat and detail brushes for artists.','https://images.unsplash.com/photo-1513364776144-60967b0f800f?auto=format&fit=crop&w=900&q=80',9500,30,'pack'],
-['Cotton Canvas 24 × 36 in','Canvas','Primed cotton canvas ready for painting.','https://images.unsplash.com/photo-1547891654-e66ed7ebb968?auto=format&fit=crop&w=900&q=80',12000,25,'piece'],
-['Wooden Tabletop Easel','Easels','Compact wooden easel for studio or tabletop painting.','https://images.unsplash.com/photo-1541961017774-22349e4a1262?auto=format&fit=crop&w=900&q=80',22000,12,'piece'],
-['Watercolour Paper Pad','Paper','Acid-free paper for watercolour and ink studies.','https://images.unsplash.com/photo-1513364776144-60967b0f800f?auto=format&fit=crop&w=900&q=80',7500,35,'pad'],
-['Palette Knife Set','Tools','Metal palette knives for texture and impasto techniques.','https://images.unsplash.com/photo-1549490349-8643362247b5?auto=format&fit=crop&w=900&q=80',6500,18,'set']
+['Acrylic Paint Set','Paints','Rich starter acrylic set for canvas and mixed-media work.','https://www.mgstationeryonline.com.my/images/com_hikashop/upload/mg_apln6594__96-acrylic_paint_set_12__36_colors-06_1547355164.jpg',18500,20,'set'],
+['Artist Brush Collection','Brushes','Assorted round, flat and detail brushes for artists.','https://i5.walmartimages.com/seo/25pcs-Paint-Brush-Set-Acrylic-Paint-Brushes-Professional-Artist-Series-Wide-Flat-Filbert-Fan-Dagger-Cat-Tongue-Round-Angle-Rigger-Oil-Acrylic-Canvas_15d9974f-50ac-4633-83e1-13cd5db579b9.ec32c8898a62ca2709a48ac2588591c2.jpeg',9500,30,'pack'],
+['Cotton Canvas 24 × 36 in','Canvas','Primed cotton canvas ready for painting.','https://i5.walmartimages.com/asr/242f0fc4-cdba-4087-9288-bd083bbde5d1.cab6bbb8c418e65a030ccd72b54578e2.jpeg',12000,25,'piece'],
+['Wooden Tabletop Easel','Easels','Compact wooden easel for studio or tabletop painting.','https://www.arthurdaleys.com.au/content/product/full/MONT_MARTE___SIGNATURE___TRADITIONAL_TABLETOP_EASEL___MEDIUM-2739-1063.jpg',22000,12,'piece'],
+['Watercolour Paper Pad','Paper','Acid-free paper for watercolour and ink studies.','https://www.pictorshop.ro/21604-large_default/bloc-hartie-pictura-acuarela-winsor-newton.jpg',7500,35,'pad'],
+['Palette Knife Set','Tools','Metal palette knives for texture and impasto techniques.','https://cottonwoodinthepark.com/cdn/shop/files/5367c5609408468a6dcef2d93286601e0125f03f1880684131c53f846ec00d09.jpg?v=1721698795&width=1445',6500,18,'set']
 ].forEach(x=>ins.run(...x));
 }}
+/* Keep the catalogue images matched to the actual products even when the database was seeded on an older deployment. */
+function refreshSupplyImages(){
+  const imgs={
+    'Acrylic Paint Set':'https://www.mgstationeryonline.com.my/images/com_hikashop/upload/mg_apln6594__96-acrylic_paint_set_12__36_colors-06_1547355164.jpg',
+    'Artist Brush Collection':'https://i5.walmartimages.com/seo/25pcs-Paint-Brush-Set-Acrylic-Paint-Brushes-Professional-Artist-Series-Wide-Flat-Filbert-Fan-Dagger-Cat-Tongue-Round-Angle-Rigger-Oil-Acrylic-Canvas_15d9974f-50ac-4633-83e1-13cd5db579b9.ec32c8898a62ca2709a48ac2588591c2.jpeg',
+    'Cotton Canvas 24 × 36 in':'https://i5.walmartimages.com/asr/242f0fc4-cdba-4087-9288-bd083bbde5d1.cab6bbb8c418e65a030ccd72b54578e2.jpeg',
+    'Wooden Tabletop Easel':'https://www.arthurdaleys.com.au/content/product/full/MONT_MARTE___SIGNATURE___TRADITIONAL_TABLETOP_EASEL___MEDIUM-2739-1063.jpg',
+    'Watercolour Paper Pad':'https://www.pictorshop.ro/21604-large_default/bloc-hartie-pictura-acuarela-winsor-newton.jpg',
+    'Palette Knife Set':'https://cottonwoodinthepark.com/cdn/shop/files/5367c5609408468a6dcef2d93286601e0125f03f1880684131c53f846ec00d09.jpg?v=1721698795&width=1445'
+  };
+  const q=db.prepare('UPDATE supplies SET image_url=? WHERE name=?');
+  Object.entries(imgs).forEach(([name,url])=>q.run(url,name));
+}
+refreshSupplyImages();
 init();
+function cookieValue(req,name){const raw=req.headers.cookie||'';const part=raw.split(';').map(x=>x.trim()).find(x=>x.startsWith(name+'='));return part?decodeURIComponent(part.slice(name.length+1)):''}
+function issueRememberToken(res,userId){const raw=crypto.randomBytes(32).toString('hex');const hash=crypto.createHash('sha256').update(raw).digest('hex');const expires=Date.now()+1000*60*60*24*30;db.prepare('INSERT INTO login_tokens(token_hash,user_id,expires_at) VALUES(?,?,?)').run(hash,userId,expires);res.cookie('aas_remember',raw,{httpOnly:true,sameSite:'lax',secure:process.env.NODE_ENV==='production',maxAge:1000*60*60*24*30,path:'/'});return raw}
+function forgetRememberToken(req,res){const raw=cookieValue(req,'aas_remember');if(raw){const hash=crypto.createHash('sha256').update(raw).digest('hex');db.prepare('DELETE FROM login_tokens WHERE token_hash=?').run(hash)}res.clearCookie('aas_remember',{httpOnly:true,sameSite:'lax',secure:process.env.NODE_ENV==='production',path:'/'})}
+app.use((req,res,next)=>{if(req.session.user)return next();const raw=cookieValue(req,'aas_remember');if(!raw)return next();try{const hash=crypto.createHash('sha256').update(raw).digest('hex');const row=db.prepare('SELECT lt.user_id,u.id,u.name,u.email,u.role FROM login_tokens lt JOIN users u ON u.id=lt.user_id WHERE lt.token_hash=? AND lt.expires_at>?').get(hash,Date.now());if(row){req.session.user={id:row.id,name:row.name,email:row.email,role:row.role};req.session.save(()=>next());return}db.prepare('DELETE FROM login_tokens WHERE token_hash=?').run(hash)}catch(e){}next()}
 function auth(req,res,next){if(!req.session.user)return res.status(401).json({error:'Authentication required'});next()}
 function role(r){return (req,res,next)=>{if(!req.session.user||req.session.user.role!==r)return res.status(403).json({error:'Forbidden'});next()}}
 function setting(k){return Number(db.prepare('SELECT value FROM settings WHERE key=?').get(k)?.value||0)}
 app.get('/api/health',(req,res)=>res.json({ok:true}));
 app.get('/api/me',(req,res)=>res.json({user:req.session.user||null}));
-app.post('/api/register',rateLimit(8,60000),(req,res)=>{try{const {name,email,password}=req.body;if(!name||!email||!password)return res.status(400).json({error:'Name, email and password are required'});const exists=db.prepare('SELECT id FROM users WHERE email=?').get(email.toLowerCase());if(exists)return res.status(409).json({error:'Email already registered'});const info=db.prepare('INSERT INTO users(name,email,password_hash,role) VALUES(?,?,?,?)').run(name,email.toLowerCase(),bcrypt.hashSync(password,10),'customer');const user={id:info.lastInsertRowid,name,email:email.toLowerCase(),role:'customer'};req.session.user=user;res.json(user)}catch(e){res.status(500).json({error:e.message})}});
-app.post('/api/login',rateLimit(12,60000),(req,res)=>{const {email,password}=req.body;const u=db.prepare('SELECT * FROM users WHERE email=?').get((email||'').toLowerCase());if(!u||!bcrypt.compareSync(password||'',u.password_hash))return res.status(401).json({error:'Invalid email or password'});const user={id:u.id,name:u.name,email:u.email,role:u.role};req.session.user=user;res.json(user)});
-app.post('/api/logout',(req,res)=>req.session.destroy(()=>res.json({ok:true})));
+app.post('/api/register',rateLimit(8,60000),(req,res)=>{try{const {name,email,password}=req.body;if(!name||!email||!password)return res.status(400).json({error:'Name, email and password are required'});const exists=db.prepare('SELECT id FROM users WHERE email=?').get(email.toLowerCase());if(exists)return res.status(409).json({error:'Email already registered'});const info=db.prepare('INSERT INTO users(name,email,password_hash,role) VALUES(?,?,?,?)').run(name,email.toLowerCase(),bcrypt.hashSync(password,10),'customer');const user={id:info.lastInsertRowid,name,email:email.toLowerCase(),role:'customer'};req.session.user=user;issueRememberToken(res,user.id);res.json(user)}catch(e){res.status(500).json({error:e.message})}});
+app.post('/api/login',rateLimit(12,60000),(req,res)=>{const {email,password}=req.body;const u=db.prepare('SELECT * FROM users WHERE email=?').get((email||'').toLowerCase());if(!u||!bcrypt.compareSync(password||'',u.password_hash))return res.status(401).json({error:'Invalid email or password'});const user={id:u.id,name:u.name,email:u.email,role:u.role};req.session.user=user;issueRememberToken(res,user.id);res.json(user)});
+app.post('/api/logout',(req,res)=>{forgetRememberToken(req,res);req.session.destroy(()=>res.json({ok:true}))});
 app.get('/api/artworks',(req,res)=>{const q='%'+(req.query.q||'')+'%';const m=req.query.medium||'';let sql=`SELECT a.*,ar.name artist_name FROM artworks a JOIN artists ar ON ar.id=a.artist_id WHERE a.status='approved' AND ar.status='approved' AND (a.title LIKE ? OR a.medium LIKE ? OR ar.name LIKE ?)`;let params=[q,q,q];if(m){sql+=' AND a.medium=?';params.push(m)}if(req.query.age){sql+=' AND a.age_group=?';params.push(req.query.age)}sql+=' ORDER BY a.created_at DESC';res.json(db.prepare(sql).all(...params))});
 app.get('/api/artworks/:id',(req,res)=>{const x=db.prepare(`SELECT a.*,ar.name artist_name,ar.artist_type FROM artworks a JOIN artists ar ON ar.id=a.artist_id WHERE a.id=? AND a.status='approved' AND ar.status='approved'`).get(req.params.id);if(!x)return res.status(404).json({error:'Artwork not found'});recordArtistStat(x.artist_id,'views');res.json(x)});
 app.get('/api/artists',(req,res)=>{const type=req.query.type||'';const age=req.query.age_group||'';let sql=`SELECT id,name,specialty,bio,image_url,artist_type,age_group,registration_paid FROM artists WHERE status='approved'`;const p=[];if(type){sql+=' AND artist_type=?';p.push(type)}if(age){sql+=' AND age_group=?';p.push(age)}sql+=' ORDER BY name';res.json(db.prepare(sql).all(...p))});
