@@ -74,43 +74,6 @@
     /* Remove the redundant general artist listing because Kid/Professional sections are the dedicated storefronts. */
     const generalArtists=document.getElementById('artists');
     if(generalArtists) generalArtists.remove();
-    /* The directory already contains approved/reference artists, so do not show an empty-state message above it. */
-    const signatureGrid=document.getElementById('signatureGrid');
-    if(signatureGrid){
-      signatureGrid.innerHTML='';
-      signatureGrid.style.display='none';
-    }
-    const sigIntro=document.querySelector('#signature .sectionhead:first-child .sub');
-    if(sigIntro) sigIntro.textContent='Approved and invited signature artists are presented below, with profiles and links to their official or gallery pages.';
-
-    /* Add portraits to the three existing signature-directory cards. */
-    const directoryCards=document.querySelectorAll('#signature .signature-reference .signature-directory-card');
-    const portraits=[
-      ['https://back.vantaart.com/uploads/images/5b99be3e191f60c420084af5b098899b.jpg','Mufu Onifade'],
-      ['https://thewheatbakerlagos.com/oatchace/2024/11/Duke-Asidere.jpg','Duke Asidere'],
-      ['https://eu-images.contentstack.com/v3/assets/bltacf39601912ccb86/bltd34b4ecf4ae42318/633ff5ab60364e0f6d9ffe5d/Bruce_Onobrakpeya.jpg?auto=webp','Bruce Onobrakpeya']
-    ];
-    directoryCards.forEach((card,i)=>{
-      const item=portraits[i];
-      if(!item||card.querySelector('.directory-portrait')) return;
-      const img=document.createElement('img');
-      img.className='directory-portrait'; img.src=item[0]; img.alt=item[1]+' portrait'; img.loading='lazy';
-      card.insertBefore(img,card.firstChild);
-    });
-
-    /* Make the contact email open Gmail compose as well as normal mail clients. */
-    document.querySelectorAll('#footer-contact a[href^="mailto:"]').forEach(a=>{
-      const email=a.getAttribute('href').slice(7);
-      a.href='https://mail.google.com/mail/?view=cm&fs=1&to='+encodeURIComponent(email);
-      a.target='_blank'; a.rel='noopener'; a.textContent=email+' · Open Gmail';
-    });
-
-    /* Logo fallback: never leave a broken-image icon in the mobile header. */
-    document.querySelectorAll('.logoImage').forEach(img=>{
-      const fix=()=>{if(!img.naturalWidth){const span=document.createElement('span');span.className='logoTextFallback';span.textContent='AfricanArtistShop';img.replaceWith(span)}};
-      if(img.complete) fix(); else img.addEventListener('error',fix,{once:true});
-    });
-
     /* Approved signature profile: Nike Art Gallery / Chief Nike Okundaye. */
     const ref=document.querySelector('#signature .signature-reference');
     if(ref && !document.getElementById('nikeSignatureCard')){
@@ -165,7 +128,7 @@
     const s=document.createElement('style');
     s.id='aasCoordinatedStyles';
     s.textContent=
-      '.artist-paths{max-width:1240px;margin:20px auto 0;padding:70px 22px 25px}.artist-path-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px}.artist-path-card{background:var(--paper);border:1px solid var(--line);border-radius:22px;padding:26px;box-shadow:var(--shadow);display:flex;flex-direction:column;min-height:290px}.artist-path-card.kid-path{background:linear-gradient(135deg,#fff8e8,#f7ead2)}.artist-path-card.pro-path{background:linear-gradient(135deg,#eef5f0,#dceae4)}.artist-path-card.signature-path{background:linear-gradient(135deg,#f5f0ff,#ebe2f8)}.path-icon{font-size:30px;margin-bottom:14px}.artist-path-card h3{font:700 29px Georgia,serif;margin:9px 0}.artist-path-card p{line-height:1.65}.path-actions{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-top:auto;padding-top:18px}.path-actions .btn{width:100%;text-align:center}.footer-info{display:grid;grid-template-columns:1.2fr 1fr 1fr;gap:28px;margin:0 0 35px;padding-bottom:32px;border-bottom:1px solid #ffffff22}.footer-col{min-width:0}.footer-kicker{font-size:11px;letter-spacing:2px;font-weight:900;color:#e5a23b;margin-bottom:10px}.footer-col h3{font:700 24px Georgia,serif;color:#fff;margin:0 0 12px}.footer-col p{color:#aaa;line-height:1.65;margin:8px 0}.footer-col a{color:#fff}.footer-col a:hover{color:#e5a23b}.footer-note{font-size:13px}.nike-card img{height:260px;width:100%;object-fit:cover}.directory-portrait{height:250px!important;width:100%!important;object-fit:cover!important;display:block}.logoTextFallback{display:inline-flex;align-items:center;font:900 22px Arial,sans-serif;letter-spacing:-1.2px;white-space:nowrap;color:#111;max-width:210px}.logoTextFallback:before{content:'✦';display:inline-flex;margin-right:7px;font-size:22px;color:#b75d36}@media(max-width:600px){.directory-portrait{height:210px!important}.logoTextFallback{font-size:18px;max-width:180px}.logoTextFallback:before{font-size:18px;margin-right:5px}}.nike-profile{display:grid;grid-template-columns:280px 1fr;gap:22px;align-items:start}.nike-profile-main{width:100%;height:360px;object-fit:cover;border-radius:16px}.nike-work-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:16px 0}.nike-work-grid img{width:100%;height:150px;object-fit:cover;border-radius:12px}.nike-profile .actions{display:flex;gap:10px;flex-wrap:wrap}@media(max-width:700px){.nike-profile{grid-template-columns:1fr}.nike-profile-main{height:280px}.nike-work-grid{grid-template-columns:1fr 1fr}.nike-work-grid img{height:130px}}@media(max-width:900px){.artist-path-grid{grid-template-columns:1fr 1fr}.footer-info{grid-template-columns:1fr 1fr}}@media(max-width:700px){nav{position:sticky;top:0;padding:9px 12px;gap:7px;flex-wrap:nowrap}.mobile-menu-btn{display:inline-flex;align-items:center;justify-content:center;flex:0 0 auto}.links{display:none;position:absolute;left:0;right:0;top:100%;background:var(--paper);border-bottom:1px solid var(--line);box-shadow:0 14px 30px #0002;padding:10px 14px;flex-direction:column;gap:0;z-index:60;max-height:70vh;overflow:auto}.links.mobile-open{display:flex}.links a{padding:14px 8px;border-bottom:1px solid var(--line);font-size:14px}.links a:last-child{border-bottom:0}.navsearch{display:none}.artist-paths{padding:50px 14px 10px}.artist-path-grid{grid-template-columns:1fr}.artist-path-card{min-height:0}.path-actions{grid-template-columns:1fr}.footer-info{grid-template-columns:1fr;gap:24px}main{padding-left:4%;padding-right:4%}.hero{margin:0}.two,.stats{grid-template-columns:1fr}.modal{padding:8px}.box{width:100%;max-height:94vh}.form input,.form select,.form textarea{font-size:16px}}';
+      '.artist-paths{max-width:1240px;margin:20px auto 0;padding:70px 22px 25px}.artist-path-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px}.artist-path-card{background:var(--paper);border:1px solid var(--line);border-radius:22px;padding:26px;box-shadow:var(--shadow);display:flex;flex-direction:column;min-height:290px}.artist-path-card.kid-path{background:linear-gradient(135deg,#fff8e8,#f7ead2)}.artist-path-card.pro-path{background:linear-gradient(135deg,#eef5f0,#dceae4)}.artist-path-card.signature-path{background:linear-gradient(135deg,#f5f0ff,#ebe2f8)}.path-icon{font-size:30px;margin-bottom:14px}.artist-path-card h3{font:700 29px Georgia,serif;margin:9px 0}.artist-path-card p{line-height:1.65}.path-actions{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-top:auto;padding-top:18px}.path-actions .btn{width:100%;text-align:center}.footer-info{display:grid;grid-template-columns:1.2fr 1fr 1fr;gap:28px;margin:0 0 35px;padding-bottom:32px;border-bottom:1px solid #ffffff22}.footer-col{min-width:0}.footer-kicker{font-size:11px;letter-spacing:2px;font-weight:900;color:#e5a23b;margin-bottom:10px}.footer-col h3{font:700 24px Georgia,serif;color:#fff;margin:0 0 12px}.footer-col p{color:#aaa;line-height:1.65;margin:8px 0}.footer-col a{color:#fff}.footer-col a:hover{color:#e5a23b}.footer-note{font-size:13px}.nike-card img{height:260px;width:100%;object-fit:cover}.nike-profile{display:grid;grid-template-columns:280px 1fr;gap:22px;align-items:start}.nike-profile-main{width:100%;height:360px;object-fit:cover;border-radius:16px}.nike-work-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:16px 0}.nike-work-grid img{width:100%;height:150px;object-fit:cover;border-radius:12px}.nike-profile .actions{display:flex;gap:10px;flex-wrap:wrap}@media(max-width:700px){.nike-profile{grid-template-columns:1fr}.nike-profile-main{height:280px}.nike-work-grid{grid-template-columns:1fr 1fr}.nike-work-grid img{height:130px}}@media(max-width:900px){.artist-path-grid{grid-template-columns:1fr 1fr}.footer-info{grid-template-columns:1fr 1fr}}@media(max-width:700px){nav{position:sticky;top:0;padding:9px 12px;gap:7px;flex-wrap:nowrap}.mobile-menu-btn{display:inline-flex;align-items:center;justify-content:center;flex:0 0 auto}.links{display:none;position:absolute;left:0;right:0;top:100%;background:var(--paper);border-bottom:1px solid var(--line);box-shadow:0 14px 30px #0002;padding:10px 14px;flex-direction:column;gap:0;z-index:60;max-height:70vh;overflow:auto}.links.mobile-open{display:flex}.links a{padding:14px 8px;border-bottom:1px solid var(--line);font-size:14px}.links a:last-child{border-bottom:0}.navsearch{display:none}.artist-paths{padding:50px 14px 10px}.artist-path-grid{grid-template-columns:1fr}.artist-path-card{min-height:0}.path-actions{grid-template-columns:1fr}.footer-info{grid-template-columns:1fr;gap:24px}main{padding-left:4%;padding-right:4%}.hero{margin:0}.two,.stats{grid-template-columns:1fr}.modal{padding:8px}.box{width:100%;max-height:94vh}.form input,.form select,.form textarea{font-size:16px}}';
     document.head.appendChild(s);
   }
 
