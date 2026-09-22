@@ -1,6 +1,14 @@
 require('dotenv').config();
 const path=require('path'); const fs=require('fs'); const crypto=require('crypto');
 const express=require('express'); const session=require('express-session');
+const {Client}=require('pg');
+async function testSupabaseConnection(){
+  if(!process.env.SUPABASE_DB_URL){console.log('Supabase DB: SUPABASE_DB_URL not set; continuing with current database.');return}
+  const client=new Client({connectionString:process.env.SUPABASE_DB_URL,ssl:{rejectUnauthorized:false},connectionTimeoutMillis:10000});
+  try{await client.connect();const r=await client.query('select current_database() as database, now() as server_time');console.log('Supabase DB connection OK:',r.rows[0]);}
+  catch(e){console.error('Supabase DB connection failed:',e.message)}
+  finally{await client.end().catch(()=>{})}
+}
 const bcrypt=require('bcryptjs'); const multer=require('multer'); const Database=require('better-sqlite3');
 const app=express(); const PORT=process.env.PORT||3000;
 app.set('trust proxy',1);
@@ -80,6 +88,7 @@ function refreshSupplyImages(){
 }
 init();
 refreshSupplyImages();
+testSupabaseConnection();
 function cookieValue(req,name){const raw=req.headers.cookie||'';const part=raw.split(';').map(x=>x.trim()).find(x=>x.startsWith(name+'='));return part?decodeURIComponent(part.slice(name.length+1)):''}
 function issueRememberToken(res,userId){const raw=crypto.randomBytes(32).toString('hex');const hash=crypto.createHash('sha256').update(raw).digest('hex');const expires=Date.now()+1000*60*60*24*30;db.prepare('INSERT INTO login_tokens(token_hash,user_id,expires_at) VALUES(?,?,?)').run(hash,userId,expires);res.append('Set-Cookie',`aas_remember=${encodeURIComponent(raw)}; Max-Age=${60*60*24*30}; Path=/; HttpOnly; SameSite=Lax${process.env.NODE_ENV==='production'?'; Secure':''}`);return raw}
 function forgetRememberToken(req,res){const raw=cookieValue(req,'aas_remember');if(raw){const hash=crypto.createHash('sha256').update(raw).digest('hex');db.prepare('DELETE FROM login_tokens WHERE token_hash=?').run(hash)}res.clearCookie('aas_remember',{httpOnly:true,sameSite:'lax',secure:process.env.NODE_ENV==='production',path:'/'})}
