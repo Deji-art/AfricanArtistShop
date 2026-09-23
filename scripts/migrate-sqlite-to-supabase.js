@@ -50,6 +50,27 @@ const schema=[
       const placeholders=cols.map((_,i)=>'$'+(i+1)).join(',');
       const sql='INSERT INTO "'+table+'" ('+cols.map(c=>'"'+c+'"').join(',')+') VALUES ('+placeholders+') ON CONFLICT DO NOTHING';
       for(const row of rows) await client.query(sql,cols.map(c=>row[c]===undefined?null:row[c]));
+    for(const [table,cols] of tables){
+      const rows=sqlite.prepare('SELECT '+cols.map(c=>'"'+c+'"').join(',')+' FROM "'+table+'"').all();
+      console.log(table+': '+rows.length+' rows');
+      if(!rows.length) continue;
+      const placeholders=cols.map((_,i)=>'
+    console.log('Migration completed successfully.');
+  }catch(e){
+    await client.query('ROLLBACK').catch(()=>{});
+    console.error('Migration failed:',e.message);
+    process.exitCode=1;
+  }finally{
+    sqlite.close();
+    await client.end().catch(()=>{});
+  }
+})();
++(i+1)).join(',');
+      const sql='INSERT INTO "'+table+'" ('+cols.map(c=>'"'+c+'"').join(',')+') VALUES ('+placeholders+') ON CONFLICT DO NOTHING';
+      for(const row of rows) await client.query(sql,cols.map(c=>row[c]===undefined?null:row[c]));
+    }
+    for(const table of ['users','artists','artworks','supplies','orders','order_items','transactions','training_requests','artist_daily_stats']){
+      await client.query("SELECT setval(pg_get_serial_sequence('"+table+"','id'),COALESCE((SELECT MAX(id) FROM \""+table+"\"),1),true)");
     }
     await client.query('COMMIT');
     console.log('Migration completed successfully.');
