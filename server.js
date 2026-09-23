@@ -2,8 +2,14 @@ require('dotenv').config();
 const path=require('path'); const fs=require('fs'); const crypto=require('crypto');
 const express=require('express'); const session=require('express-session');
 const {Client,Pool}=require('pg');
-const PgSession=require('connect-pg-simple')(session);
 const pgPool=process.env.SUPABASE_DB_URL?new Pool({connectionString:process.env.SUPABASE_DB_URL,ssl:{rejectUnauthorized:false},max:3,idleTimeoutMillis:30000}):null;
+class PostgresSessionStore extends session.Store{
+  constructor(pool){super();this.pool=pool;this.ready=pool?pool.query("CREATE TABLE IF NOT EXISTS user_sessions (sid TEXT PRIMARY KEY, sess JSONB NOT NULL, expire TIMESTAMPTZ NOT NULL)"):Promise.resolve();}
+  get(sid,cb){this.ready.then(()=>this.pool.query("SELECT sess FROM user_sessions WHERE sid=$1 AND expire>NOW()",[sid])).then(r=>cb(null,r.rows[0]?r.rows[0].sess:null)).catch(cb)}
+  set(sid,sess,cb){const expire=sess.cookie&&sess.cookie.expires?new Date(sess.cookie.expires):new Date(Date.now()+86400000);this.ready.then(()=>this.pool.query("INSERT INTO user_sessions(sid,sess,expire) VALUES($1,$2,$3) ON CONFLICT(sid) DO UPDATE SET sess=EXCLUDED.sess,expire=EXCLUDED.expire",[sid,JSON.stringify(sess),expire])).then(()=>cb&&cb()).catch(e=>cb&&cb(e))}
+  destroy(sid,cb){this.ready.then(()=>this.pool.query("DELETE FROM user_sessions WHERE sid=$1",[sid])).then(()=>cb&&cb()).catch(e=>cb&&cb(e))}
+  touch(sid,sess,cb){const expire=sess.cookie&&sess.cookie.expires?new Date(sess.cookie.expires):new Date(Date.now()+86400000);this.ready.then(()=>this.pool.query("UPDATE user_sessions SET expire=$2,sess=$3 WHERE sid=$1",[sid,expire,JSON.stringify(sess)])).then(()=>cb&&cb()).catch(e=>cb&&cb(e))}
+}
 async function testSupabaseConnection(){
   const url=process.env.SUPABASE_DB_URL;
   if(!url){console.log('Supabase DB: SUPABASE_DB_URL not set; continuing with current database.');return}
@@ -32,7 +38,7 @@ const rateBuckets=new Map();
 function escHtml(v){return String(v??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[m]) )}
 function rateLimit(max=30,windowMs=60000){return (req,res,next)=>{const key=req.ip+':'+req.path;const now=Date.now();let b=rateBuckets.get(key);if(!b||now-b.start>windowMs)b={start:now,count:0};b.count++;rateBuckets.set(key,b);if(b.count>max)return res.status(429).json({error:'Too many requests. Please try again shortly.'});next()}};
 
-app.use(session({secret:process.env.SESSION_SECRET||'change-me',resave:false,saveUninitialized:false,store:pgPool?new PgSession({pool:pgPool,tableName:'user_sessions',createTableIfMissing:true}):undefined,cookie:{httpOnly:true,sameSite:'lax',secure:process.env.NODE_ENV==='production',maxAge:1000*60*60*24*30}}));
+app.use(session({secret:process.env.SESSION_SECRET||'change-me',resave:false,saveUninitialized:false,store:pgPool?new PostgresSessionStore(pgPool):undefined,cookie:{httpOnly:true,sameSite:'lax',secure:process.env.NODE_ENV==='production',maxAge:1000*60*60*24*30}}));
 const storage=multer.diskStorage({destination:uploadDir,filename:(req,file,cb)=>cb(null,Date.now()+'-'+file.originalname.replace(/[^a-zA-Z0-9._-]/g,'_'))});
 const upload=multer({storage,limits:{fileSize:8*1024*1024},fileFilter:(req,file,cb)=>{const allowed=['image/jpeg','image/png','image/webp','image/gif'];if(!allowed.includes(file.mimetype))return cb(new Error('Only JPG, PNG, WEBP or GIF images are allowed'));cb(null,true)}});
 function init(){
