@@ -7,7 +7,7 @@ async function testSupabaseConnection(){
   if(!url){console.log('Supabase DB: SUPABASE_DB_URL not set; continuing with current database.');return}
   try{
     const u=new URL(url);
-    console.log('Supabase DB target:',{host:u.hostname,port:u.port||'5432',user:u.username,database:(u.pathname||'').replace(/^\\//,'')});
+    console.log('Supabase DB target:',{host:u.hostname,port:u.port||'5432',user:u.username,database:u.pathname.replace(/^\\//,'')});
     if(u.hostname.includes('pooler.supabase.com')&&u.username==='postgres') console.warn('Supabase DB warning: this looks like a Supabase pooler host using the direct postgres username. Re-copy the Session Pooler URI from Supabase; it normally includes the project reference in the username.');
   }catch(e){console.error('Supabase DB URL could not be parsed:',e.message)}
   const client=new Client({connectionString:url,ssl:{rejectUnauthorized:false},connectionTimeoutMillis:10000});
