@@ -3,17 +3,19 @@ const path=require('path'); const fs=require('fs'); const crypto=require('crypto
 const express=require('express'); const session=require('express-session');
 const {Client}=require('pg');
 async function testSupabaseConnection(){
-  if(!process.env.SUPABASE_DB_URL){console.log('Supabase DB: SUPABASE_DB_URL not set; continuing with current database.');return}
-  const client=new Client({connectionString:process.env.SUPABASE_DB_URL,ssl:{rejectUnauthorized:false},connectionTimeoutMillis:10000});
-  try{await client.connect();const r=await client.query('select current_database() as database, now() as server_time');console.log('Supabase DB connection OK:',r.rows[0]);}
+  const url=process.env.SUPABASE_DB_URL;
+  if(!url){console.log('Supabase DB: SUPABASE_DB_URL not set; continuing with current database.');return}
+  try{
+    const u=new URL(url);
+    console.log('Supabase DB target:',{host:u.hostname,port:u.port||'5432',user:u.username,database:(u.pathname||'').replace(/^\\//,'')});
+    if(u.hostname.includes('pooler.supabase.com')&&u.username==='postgres') console.warn('Supabase DB warning: this looks like a Supabase pooler host using the direct postgres username. Re-copy the Session Pooler URI from Supabase; it normally includes the project reference in the username.');
+  }catch(e){console.error('Supabase DB URL could not be parsed:',e.message)}
+  const client=new Client({connectionString:url,ssl:{rejectUnauthorized:false},connectionTimeoutMillis:10000});
+  try{await client.connect();const r=await client.query('select current_database() as database, current_user as user, now() as server_time');console.log('Supabase DB connection OK:',r.rows[0]);}
   catch(e){console.error('Supabase DB connection failed:',e.message)}
   finally{await client.end().catch(()=>{})}
 }
 const bcrypt=require('bcryptjs'); const multer=require('multer'); const Database=require('better-sqlite3');
-const app=express(); const PORT=process.env.PORT||3000;
-app.set('trust proxy',1);
-const DB_PATH=process.env.DB_PATH||path.join(__dirname,'africanartistshop.db');
-const uploadDir=path.join(__dirname,'public','uploads'); fs.mkdirSync(uploadDir,{recursive:true});
 const db=new Database(DB_PATH); db.pragma('journal_mode=WAL');
 app.use(express.json({verify:(req,res,buf)=>{req.rawBody=buf}})); app.use(express.urlencoded({extended:true,limit:'1mb'}));
 app.use((req,res,next)=>{res.setHeader('X-Content-Type-Options','nosniff');res.setHeader('X-Frame-Options','SAMEORIGIN');res.setHeader('Referrer-Policy','strict-origin-when-cross-origin');res.setHeader('Permissions-Policy','camera=(),microphone=(),geolocation=()');next()});
