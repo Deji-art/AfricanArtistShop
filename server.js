@@ -1,7 +1,9 @@
 require('dotenv').config();
 const path=require('path'); const fs=require('fs'); const crypto=require('crypto');
 const express=require('express'); const session=require('express-session');
-const {Client}=require('pg');
+const {Client,Pool}=require('pg');
+const PgSession=require('connect-pg-simple')(session);
+const pgPool=process.env.SUPABASE_DB_URL?new Pool({connectionString:process.env.SUPABASE_DB_URL,ssl:{rejectUnauthorized:false},max:3,idleTimeoutMillis:30000}):null;
 async function testSupabaseConnection(){
   const url=process.env.SUPABASE_DB_URL;
   if(!url){console.log('Supabase DB: SUPABASE_DB_URL not set; continuing with current database.');return}
@@ -30,7 +32,7 @@ const rateBuckets=new Map();
 function escHtml(v){return String(v??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[m]) )}
 function rateLimit(max=30,windowMs=60000){return (req,res,next)=>{const key=req.ip+':'+req.path;const now=Date.now();let b=rateBuckets.get(key);if(!b||now-b.start>windowMs)b={start:now,count:0};b.count++;rateBuckets.set(key,b);if(b.count>max)return res.status(429).json({error:'Too many requests. Please try again shortly.'});next()}};
 
-app.use(session({secret:process.env.SESSION_SECRET||'change-me',resave:false,saveUninitialized:false,cookie:{httpOnly:true,sameSite:'lax',secure:process.env.NODE_ENV==='production',maxAge:1000*60*60*24*30}}));
+app.use(session({secret:process.env.SESSION_SECRET||'change-me',resave:false,saveUninitialized:false,store:pgPool?new PgSession({pool:pgPool,tableName:'user_sessions',createTableIfMissing:true}):undefined,cookie:{httpOnly:true,sameSite:'lax',secure:process.env.NODE_ENV==='production',maxAge:1000*60*60*24*30}}));
 const storage=multer.diskStorage({destination:uploadDir,filename:(req,file,cb)=>cb(null,Date.now()+'-'+file.originalname.replace(/[^a-zA-Z0-9._-]/g,'_'))});
 const upload=multer({storage,limits:{fileSize:8*1024*1024},fileFilter:(req,file,cb)=>{const allowed=['image/jpeg','image/png','image/webp','image/gif'];if(!allowed.includes(file.mimetype))return cb(new Error('Only JPG, PNG, WEBP or GIF images are allowed'));cb(null,true)}});
 function init(){
