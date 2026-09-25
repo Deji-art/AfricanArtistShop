@@ -210,7 +210,15 @@ async function refreshExpandedSupplyImages(){
     'Drawing Compass':'https://www.papelstore.es/media/catalog/product/cache/4/image/1800x/040ec09b1e35df139433887a97daa66f/1/8/186129-1.jpg',
     'Masking Tape':'https://www.alabamaart.com/cdn/shop/files/masking-tape-34-inch-x-60-yards-315488_600x_e3cec1bb-bc80-42ee-b5d0-f0424f7909df_1400x.webp?v=1700260391',
     'Fixative Spray':'https://www.gordonharris.co.nz/cdn/shop/files/SC50402040_grande.jpg?v=1759854434',
-    'Gesso':'https://www.paperpencil.pk/cdn/shop/files/9404-9405_0a0b3ccd-13d5-42f1-a2ee-5bd2a8408825.png?v=1777526390&width=1946'
+    'Gesso':'https://www.paperpencil.pk/cdn/shop/files/9404-9405_0a0b3ccd-13d5-42f1-a2ee-5bd2a8408825.png?v=1777526390&width=1946',
+    'Willow / Vine Charcoal':'https://zartart.com.au/cdn/shop/files/CRZ611_1.jpg?v=1728951145&width=2000',
+    'Chalk Pastels':'https://i.ebayimg.com/images/g/jqEAAOSwf9NnDLxh/s-l400.jpg',
+    'Watercolor Paints':'https://mes.net.au/cdn/shop/files/N131606.._Watercolour_Tin_of_24_Half_Pans.png?v=1741655004',
+    'Tempera Paints':'https://www.barbabook.it/files/barbabook_Files/Foto/330362.PNG',
+    'Ink':'https://wowartsupplies.co.uk/cdn/shop/files/164029028-SimplyBlackIndiaInk295ml_grande.jpg?v=1720797333',
+    'Palette':'https://media.bauhaus.cz/media/catalog/product/2/5/258336_p_img.jpg',
+    'Drawing Erasers':'https://www.mangostationery.com/cdn/shop/files/Mont-Marte-Artist-Erasers-Signature-4pc-MAXX0005-V03-F_1200x1200.jpg?v=1733479360',
+    'Pencil Sharpeners':'https://artspices.eu/cdn/shop/files/RX-9095000110PK.jpg?v=1713862950'
   };
 
   const q=db.prepare('UPDATE supplies SET image_url=? WHERE id=?');
