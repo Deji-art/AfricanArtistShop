@@ -48,7 +48,8 @@ const rateBuckets=new Map();
 function escHtml(v){return String(v??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[m]) )}
 function rateLimit(max=30,windowMs=60000){return (req,res,next)=>{const key=req.ip+':'+req.path;const now=Date.now();let b=rateBuckets.get(key);if(!b||now-b.start>windowMs)b={start:now,count:0};b.count++;rateBuckets.set(key,b);if(b.count>max)return res.status(429).json({error:'Too many requests. Please try again shortly.'});next()}};
 
-app.use(session({secret:process.env.SESSION_SECRET||'change-me',resave:false,saveUninitialized:false,store:pgPool?new PostgresSessionStore(pgPool):undefined,cookie:{httpOnly:true,sameSite:'lax',secure:process.env.NODE_ENV==='production',maxAge:1000*60*60*24*30}}));
+if(process.env.NODE_ENV==='production'&&!process.env.SESSION_SECRET) throw new Error('SESSION_SECRET is required in production.');
+app.use(session({secret:process.env.SESSION_SECRET||'development-only-session-secret',resave:false,saveUninitialized:false,store:pgPool?new PostgresSessionStore(pgPool):undefined,cookie:{httpOnly:true,sameSite:'lax',secure:process.env.NODE_ENV==='production',maxAge:1000*60*60*24*30}}));
 const storage=multer.memoryStorage();
 const upload=multer({storage,limits:{fileSize:8*1024*1024},fileFilter:(req,file,cb)=>{const allowed=['image/jpeg','image/png','image/webp','image/gif'];if(!allowed.includes(file.mimetype))return cb(new Error('Only JPG, PNG, WEBP or GIF images are allowed'));cb(null,true)}});
 function init(){
@@ -80,7 +81,7 @@ const TIER_RULES={kid:{label:'Young / Kid Artist',min:3,max:5,fee:{NGN:4000,USD:
 function tierRule(type){return TIER_RULES[type]||TIER_RULES.professional}
 function currentDay(){return new Date().toISOString().slice(0,10)}
 function recordArtistStat(artistId,field,amount=1){const d=currentDay();db.prepare('INSERT INTO artist_daily_stats(artist_id,day,views,sales) VALUES(?,?,0,0) ON CONFLICT(artist_id,day) DO NOTHING').run(artistId,d);db.prepare(`UPDATE artist_daily_stats SET ${field}=${field}+? WHERE artist_id=? AND day=?`).run(amount,artistId,d)}
-async function paystack(pathname,options={}){if(!process.env.PAYSTACK_SECRET_KEY)throw new Error('Paystack is not configured. Add PAYSTACK_SECRET_KEY in Render environment variables.');const r=await fetch('https://api.paystack.co'+pathname,{...options,headers:{Authorization:'Bearer '+process.env.PAYSTACK_SECRET_KEY,'Content-Type':'application/json',...(options.headers||{})}});const data=await r.json();if(!r.ok||!data.status)throw new Error(data.message||'Paystack request failed');return data}
+async function paystack(pathname,options={}){if(!process.env.PAYSTACK_SECRET_KEY)throw new Error('Paystack is not configured. Add PAYSTACK_SECRET_KEY in your production environment variables.');const r=await fetch('https://api.paystack.co'+pathname,{...options,headers:{Authorization:'Bearer '+process.env.PAYSTACK_SECRET_KEY,'Content-Type':'application/json',...(options.headers||{})}});const data=await r.json();if(!r.ok||!data.status)throw new Error(data.message||'Paystack request failed');return data}
 set('artist_listing_fee','5000'); set('sales_commission_percent','10');
 const admin=db.prepare('SELECT id FROM users WHERE email=?').get('admin@africanartistshop.com');
 if(!admin) db.prepare('INSERT INTO users(name,email,password_hash,role) VALUES(?,?,?,?)').run('AfricanArtistShop Admin','admin@africanartistshop.com',bcrypt.hashSync('demo1234',10),'admin');
@@ -112,6 +113,7 @@ function refreshSupplyImages(){
 }
 init();
 refreshSupplyImages();
+testSupabaseConnection().catch(()=>{});
 
 function seedExpandedSupplies(){
   const items=[
