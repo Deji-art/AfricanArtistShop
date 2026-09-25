@@ -50,7 +50,7 @@
           '<article class="artist-path-card signature-path"><div class="path-icon">✦</div><span class="pill">SIGNATURE</span><h3>Signature Artists</h3><p class="muted">Explore invited and approved renowned artists and their dedicated collections.</p><div class="path-actions"><a class="btn" href="#signature">Shop Signature Artists</a><button class="btn primary" type="button" onclick="openArtistApplySignature()">Register as Signature Artist</button></div></article>'+
         '</div>';
       const hero=document.getElementById('home');
-      if(hero && !document.getElementById('adSlotHero')){ const ad=document.createElement('div'); ad.id='adSlotHero'; ad.className='ad-slot'; ad.innerHTML='<span>ADVERTISEMENT · MUST BUY</span><div class="ad-content"><img src="https://loremflickr.com/700/500/acrylic,paint,set?lock=1122" alt="Acrylic Paint Set"><div><strong>Acrylic Paint Set</strong><p>Build your studio with a versatile acrylic paint set.</p><button class="btn primary" type="button" onclick="document.getElementById(\'supplies\').scrollIntoView({behavior:\'smooth\'});setTimeout(()=>{const q=document.getElementById(\'supplyQ\');if(q){q.value=\'Acrylic Paint Set\';loadSupplies()}},150)">Shop now</button></div></div>'; hero.parentNode.insertBefore(ad,hero.nextSibling); }
+      if(hero && !document.getElementById('adSlotHero')){ const ad=document.createElement('div'); ad.id='adSlotHero'; ad.className='ad-slot'; ad.innerHTML='<span>ADVERTISEMENT · MUST BUY</span><div class="ad-content"><img src="https://commons.wikimedia.org/wiki/Special:FilePath/Acrylfarbset.jpg?width=900" alt="Acrylic Paint Set"><div><strong>Acrylic Paint Set</strong><p>Build your studio with a versatile acrylic paint set.</p><button class="btn primary" type="button" onclick="document.getElementById(\'supplies\').scrollIntoView({behavior:\'smooth\'});setTimeout(()=>{const q=document.getElementById(\'supplyQ\');if(q){q.value=\'Acrylic Paint Set\';loadSupplies()}},150)">Shop now</button></div></div>'; hero.parentNode.insertBefore(ad,hero.nextSibling); }
       const sig=document.getElementById('signature');
       if(sig && !document.getElementById('adSlotSignature')){ const ad=document.createElement('div'); ad.id='adSlotSignature'; ad.className='ad-slot'; ad.innerHTML='<span>FEATURED ARTWORK</span><div class="ad-content"><img src="/face-of-time.svg" alt="Face of Time"><div><strong>Face of Time</strong><p>Featured artwork by Peace Ayodeji.</p><button class="btn primary" type="button" onclick="openPeaceFeature()">View artwork</button></div></div>'; sig.parentNode.insertBefore(ad,sig); }
       const footerEl=document.querySelector('footer');
@@ -71,7 +71,7 @@
       info.className='footer-info';
       info.innerHTML=
         '<div class="footer-col" id="footer-about"><div class="footer-kicker">ABOUT US</div><h3>A marketplace for African creativity.</h3><p>AfricanArtistShop brings original artwork, artists and art materials together, helping collectors discover creators while giving artists a place to present their work.</p></div>'+
-        '<div class="footer-col" id="footer-contact"><div class="footer-kicker">CONTACT US</div><h3>We are here to help.</h3><p>Orders, artist applications, training enquiries and delivery questions can be sent to us.</p><p><b>Phone:</b><br><a href="tel:+2349075452255">+234 907 545 2255</a></p><p><b>WhatsApp:</b><br><a href="https://wa.me/2347031484486" target="_blank" rel="noopener">+234 703 148 4486</a></p><p><b>Gmail:</b><br><a href="mailto:africanartistshop@gmail.com">africanartistshop@gmail.com</a></p></div>'+
+        '<div class="footer-col" id="footer-contact"><div class="footer-kicker">CONTACT US</div><h3>We are here to help.</h3><p>Orders, artist applications, training enquiries and delivery questions can be sent to us.</p><p><b>Phone & WhatsApp:</b><br><span class="contact-number"><a href="tel:+2349075452255">+234 907 545 2255</a> · <a href="https://wa.me/2349075452255" target="_blank" rel="noopener">WhatsApp</a></span><br><span class="contact-number"><a href="tel:+2347031484486">+234 703 148 4486</a> · <a href="https://wa.me/2347031484486" target="_blank" rel="noopener">WhatsApp</a></span></p><p><b>Gmail:</b><br><a href="mailto:africanartistshop@gmail.com">africanartistshop@gmail.com</a></p></div>'+
         '<div class="footer-col" id="footer-social"><div class="footer-kicker">SOCIAL MEDIA</div><h3>Follow AfricanArtistShop</h3><div class="social-grid"><a href="https://youtube.com/@africanartistsshop" target="_blank" rel="noopener">YouTube · @africanartistsshop</a><a href="https://www.tiktok.com/@africanartistshop" target="_blank" rel="noopener">TikTok · @africanartistshop</a><a href="https://www.instagram.com/africanartistshop" target="_blank" rel="noopener">Instagram · @africanartistshop</a><a href="https://www.linkedin.com/in/africanartistshop" target="_blank" rel="noopener">LinkedIn · @africanartistshop</a><a href="https://www.facebook.com/africanartistshop" target="_blank" rel="noopener">Facebook · africanartistshop</a><a href="https://x.com/africanartistshop" target="_blank" rel="noopener">X · @africanartistshop</a></div><p class="footer-note">Connect with us for new artwork, artist stories, materials and marketplace updates.</p></div>';
       footer.insertBefore(info,footer.firstChild);
     }
@@ -113,7 +113,7 @@
 
     /* Approved signature profile: Nike Art Gallery / Chief Nike Okundaye. */
     const ref=document.querySelector('#signature .signature-reference');
-    if(ref && !document.getElementById('nikeSignatureCard')){
+    if(false && ref && !document.getElementById('nikeSignatureCard')){
       const card=document.createElement('article');
       card.id='nikeSignatureCard';
       card.className='card signature-directory-card nike-card';
@@ -143,6 +143,16 @@
     }
   }
 
+  function removeDuplicatePeaceListings(){
+    const removeFrom=(selector)=>{
+      document.querySelectorAll(selector+' .card').forEach(card=>{
+        const h=card.querySelector('h3');
+        if(h && /Peace Ayodeji/i.test(h.textContent.trim())) card.remove();
+      });
+    };
+    removeFrom('#adultGrid');
+    removeFrom('#artistGrid');
+  }
   function fixMarketplaceImages(){
     const fix=()=>{
       document.querySelectorAll('img').forEach(img=>{
@@ -187,6 +197,9 @@
   setupMobileNav();
   addStyles();
   fixMarketplaceImages();
+  removeDuplicatePeaceListings();
+  const peaceObserver=new MutationObserver(removeDuplicatePeaceListings);
+  peaceObserver.observe(document.body,{childList:true,subtree:true});
   if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',setupLayout);
   else setupLayout();
   /* Expanded signature discovery + mixed Top 10. These are informational external profiles, not AfricanArtistShop sellers unless separately approved. */
@@ -244,9 +257,9 @@
     {name:'Bruce Onobrakpeya',specialty:'Nigerian printmaker · painter & sculptor',image:'https://commons.wikimedia.org/wiki/Special:FilePath/Bruce%20Onobrakpeya%20The%20Pride%20of%20all%20nigerians.jpg',url:'https://arttwentyone.ng/artists/79-bruce-onobrakpeya/biography/'},
     {name:'Mufu Onifade',specialty:'Nigerian painter · Araism',image:'https://i2.wp.com/www.johfrimartanddesign.com/wp-content/uploads/2018/09/Artist-Mufu-1.jpg?resize=600%2C600&ssl=1',url:'https://www.johfrimartanddesign.com/artists/'},
     {name:'Duke Asidere',specialty:'Nigerian contemporary painter',image:'https://thewheatbakerlagos.com/oatchace/2024/11/Duke-Asidere.jpg',url:'https://dukeasidere.com/'},
-    {name:'Chief Nike Davies-Okundaye',specialty:'Nigerian textile artist · painter · founder of Nike Art Gallery',image:'https://static.wixstatic.com/media/4bf3c6_86287c8864954058ae891282071e54c0~mv2.jpg/v1/fill/w_900%2Ch_790%2Cal_c%2Clg_1%2Cq_85/4bf3c6_86287c8864954058ae891282071e54c0~mv2.jpg',url:'https://nikeartgallery.ng/'},
     {name:'Peju Alatise',specialty:'Nigerian interdisciplinary artist',image:'https://static-assets.artlogic.net/c_limit%2Cf_auto%2Cfl_lossy%2Cq_auto/ws-koartspace/usr/library/main/images/peju-alatise_photo-1.jpg',url:'https://www.aicon.art/artists/peju-alatise'},
-    {name:'Sokari Douglas Camp',specialty:'Nigerian-born sculptor · steel artist',image:'https://cdn.sanity.io/images/cxgd3urn/production/fe2ec2993b88eb487bcf2c19e84f6fc4564c758b-629x945.jpg?auto=format&fit=crop&h=1803&q=85&w=1200',url:'https://sokari.co.uk/'}
+    {name:'Sokari Douglas Camp',specialty:'Nigerian-born sculptor · steel artist',image:'https://cdn.sanity.io/images/cxgd3urn/production/fe2ec2993b88eb487bcf2c19e84f6fc4564c758b-629x945.jpg?auto=format&fit=crop&h=1803&q=85&w=1200',url:'https://sokari.co.uk/'},
+    {name:'Toyin Ojih Odutola',specialty:'Nigerian-born contemporary artist · drawing & works on paper',image:'https://commons.wikimedia.org/wiki/Special:FilePath/Toyin%20Ojih%20Odutola.jpg',url:'https://toyinojihodutola.com/'}
   ];
   function renderFixedTop10(){
     const grid=document.getElementById('topArtistsGrid'); if(!grid)return;
