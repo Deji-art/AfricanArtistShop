@@ -189,4 +189,51 @@
   fixMarketplaceImages();
   if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',setupLayout);
   else setupLayout();
+  /* Expanded signature discovery + mixed Top 10. These are informational external profiles, not AfricanArtistShop sellers unless separately approved. */
+  const AAS_SIGNATURES=[
+    {name:'Ben Enwonwu',specialty:'Nigerian modernist · painter & sculptor',bio:'Pioneer of modern Nigerian art; documented by the Ben Enwonwu Foundation.',image:'https://commons.wikimedia.org/wiki/Special:FilePath/Ben%20Enwonwu.jpg',url:'https://benenwonwufoundation.org/about/'},
+    {name:'El Anatsui',specialty:'Ghanaian sculptor · Nigeria-based',bio:'Ghanaian sculptor whose long practice in Nigeria includes large-scale works made from reused materials.',image:'https://commons.wikimedia.org/wiki/Special:FilePath/Artempo%20ElAnatsui.jpg',url:'https://elanatsui.art/biography'},
+    {name:'Yinka Shonibare',specialty:'British-Nigerian contemporary artist',bio:'Artist born in London to Nigerian parents whose work explores Africa-Europe relationships.',image:'https://commons.wikimedia.org/wiki/Special:FilePath/YinkaShonibare2012.jpg',url:'https://www.npg.org.uk/schools-hub/yinka-shonibare-cbe-ra-by-sal-idriss'},
+    {name:'Njideka Akunyili Crosby',specialty:'Nigerian-born contemporary artist',bio:'Los Angeles-based artist known for layered painting, drawing, photography and collage.',image:'https://commons.wikimedia.org/wiki/Special:FilePath/Njideka%20Akunyili%20ed.jpg',url:'https://www.njidekaakunyilicrosby.com/about'},
+    {name:'Bruce Onobrakpeya',specialty:'Nigerian printmaker · painter & sculptor',bio:'Nigerian artist known for experimental printmaking, painting and sculpture.',image:'https://commons.wikimedia.org/wiki/Special:FilePath/Bruce%20Onobrakpeya%20The%20Pride%20of%20all%20nigerians.jpg',url:'https://arttwentyone.ng/artists/79-bruce-onobrakpeya/biography/'},
+    {name:'Mufu Onifade',specialty:'Nigerian painter · Araism',bio:'Nigerian artist and originator of the Araism painting technique.',image:'https://i2.wp.com/www.johfrimartanddesign.com/wp-content/uploads/2018/09/Artist-Mufu-1.jpg?resize=600%2C600&ssl=1',url:'https://www.johfrimartanddesign.com/artists/'},
+    {name:'Duke Asidere',specialty:'Nigerian contemporary painter',bio:'Nigerian contemporary artist known for figurative, landscape and contemporary painting.',image:'https://thewheatbakerlagos.com/oatchace/2024/11/Duke-Asidere.jpg',url:'https://dukeasidere.com/'},
+    {name:'Chief Nike Okundaye',specialty:'Artist · textile artist · founder of Nike Art Gallery',bio:'Nigerian artist and founder of Nike Art Gallery.',image:'https://static.wixstatic.com/media/4bf3c6_86287c8864954058ae891282071e54c0~mv2.jpg/v1/fill/w_900%2Ch_790%2Cal_c%2Clg_1%2Cq_85/4bf3c6_86287c8864954058ae891282071e54c0~mv2.jpg',url:'https://nikeartgallery.ng/'}
+  ];
+  function addExpandedSignatureDirectory(){
+    const ref=document.querySelector('#signature .signature-reference');
+    if(!ref) return;
+    const names=[...ref.querySelectorAll('h3')].map(x=>x.textContent.trim());
+    AAS_SIGNATURES.forEach(x=>{
+      if(names.includes(x.name)) return;
+      const card=document.createElement('article');
+      card.className='card signature-directory-card discovery-signature-card';
+      card.innerHTML='<img class="directory-portrait" src="'+x.image+'" alt="'+x.name+'" loading="lazy"><div class="body"><span class="pill">SIGNATURE ARTIST</span><h3>'+x.name+'</h3><p class="muted">'+x.bio+'</p><a class="btn primary" href="'+x.url+'" target="_blank" rel="noopener">Profile / works</a></div>';
+      const img=card.querySelector('img');
+      img.onerror=function(){this.onerror=null;this.src='https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=700&q=80';};
+      ref.appendChild(card);
+    });
+  }
+  const originalTopArtists=window.loadTopArtists;
+  window.loadTopArtists=async function(){
+    try{
+      const a=await fetch('/api/top-artists',{credentials:'same-origin'}).then(r=>r.json());
+      const market=a.map(x=>({kind:'market',...x}));
+      const sig=AAS_SIGNATURES.slice(0,5).map(x=>({kind:'signature',...x,views:0,sales:0}));
+      const out=[]; let m=0,s=0;
+      while(out.length<10 && (m<market.length || s<sig.length)){
+        if(s<sig.length) out.push(sig[s++]);
+        if(out.length<10 && m<market.length) out.push(market[m++]);
+      }
+      while(out.length<10 && m<market.length) out.push(market[m++]);
+      const grid=document.getElementById('topArtistsGrid');
+      if(!grid) return;
+      grid.innerHTML=out.slice(0,10).map((x,i)=>{
+        if(x.kind==='signature') return '<article class="card toprank"><span class="rank">#'+(i+1)+'</span><img src="'+x.image+'" alt="'+x.name+'" loading="lazy"><div class="body"><span class="pill">Signature Artist</span><h3>'+x.name+'</h3><p class="muted">'+x.specialty+'</p><a class="btn primary" href="'+x.url+'" target="_blank" rel="noopener">Profile / works</a></div></article>';
+        return '<article class="card toprank"><span class="rank">#'+(i+1)+'</span><img src="'+(x.image_url||'https://images.unsplash.com/photo-1577083288073-40892c0860a4?auto=format&fit=crop&w=900&q=80')+'" alt="'+x.name+'" loading="lazy"><div class="body"><span class="pill">'+(x.artist_type==='kid'?'Kid Artist':x.artist_type==='signature'?'Signature Artist':'Professional Artist')+'</span><h3>'+x.name+'</h3><p class="muted">'+(x.specialty||'African artist')+'</p><p class="mini-note">Today: '+x.views+' artwork views · '+x.sales+' sold</p><button class="btn primary" onclick="showArtistPage('+x.id+')">View artist & artworks</button></div></article>';
+      }).join('');
+    }catch(e){if(typeof originalTopArtists==='function') return originalTopArtists();}
+  };
+  setTimeout(()=>{addExpandedSignatureDirectory();window.loadTopArtists();},400);
+
 })();
