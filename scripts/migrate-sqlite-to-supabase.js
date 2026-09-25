@@ -1,5 +1,6 @@
 require('dotenv').config();
 const path=require('path');
+const fs=require('fs');
 const Database=require('better-sqlite3');
 const {Client}=require('pg');
 
@@ -7,6 +8,10 @@ async function migrate(){
   const sqlitePath=process.env.DB_PATH||path.join(__dirname,'..','africanartistshop.db');
   const url=process.env.SUPABASE_DB_URL;
   if(!url) throw new Error('SUPABASE_DB_URL is required.');
+  if(!fs.existsSync(sqlitePath)){
+    console.log('No local SQLite database found yet; migration skipped. The app will initialize its database on startup.');
+    return {ok:true,skipped:true};
+  }
 
   const tables=[
     ['users',['id','name','email','password_hash','role','created_at']],
