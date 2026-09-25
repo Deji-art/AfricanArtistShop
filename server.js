@@ -164,6 +164,18 @@ function seedExpandedSupplies(){
 }
 
 seedExpandedSupplies();
+/* Each catalogue item gets a material-specific image query instead of a rotating generic art photo. */
+function refreshExpandedSupplyImages(){
+  const rows=db.prepare('SELECT id,name FROM supplies').all();
+  const lock=n=>{let h=0;for(let i=0;i<n.length;i++)h=((h<<5)-h)+n.charCodeAt(i)|0;return Math.abs(h)%10000};
+  const q=db.prepare('UPDATE supplies SET image_url=? WHERE id=?');
+  rows.forEach(x=>{
+    const tags=encodeURIComponent((x.name+' art supply').toLowerCase().replace(/\\/g,' ')).replace(/%20/g,',');
+    const url='https://loremflickr.com/900/700/'+tags+'?lock='+lock(x.name);
+    q.run(url,x.id);
+  });
+}
+refreshExpandedSupplyImages();
 testSupabaseConnection();
 function cookieValue(req,name){const raw=req.headers.cookie||'';const part=raw.split(';').map(x=>x.trim()).find(x=>x.startsWith(name+'='));return part?decodeURIComponent(part.slice(name.length+1)):''}
 function issueRememberToken(res,userId){const raw=crypto.randomBytes(32).toString('hex');const hash=crypto.createHash('sha256').update(raw).digest('hex');const expires=Date.now()+1000*60*60*24*30;db.prepare('INSERT INTO login_tokens(token_hash,user_id,expires_at) VALUES(?,?,?)').run(hash,userId,expires);res.append('Set-Cookie',`aas_remember=${encodeURIComponent(raw)}; Max-Age=${60*60*24*30}; Path=/; HttpOnly; SameSite=Lax${process.env.NODE_ENV==='production'?'; Secure':''}`);return raw}
