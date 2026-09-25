@@ -153,7 +153,7 @@
       });
     };
     fix();
-    const mo=new MutationObserver(fix);
+    const mo=new MutationObserver(()=>{fix(); if(typeof fixSupplyImages==='function') fixSupplyImages();});
     mo.observe(document.body,{childList:true,subtree:true});
     window.addEventListener('load',fix);
   }
@@ -250,6 +250,7 @@
   ];
   function renderFixedTop10(){
     const grid=document.getElementById('topArtistsGrid'); if(!grid)return;
+    const sub=document.querySelector('#top10 .sectionhead .sub'); if(sub) sub.textContent='Ten selected featured artists, with profile and works links for discovery.';
     grid.innerHTML=AAS_TOP10.map((x,i)=>'<article class="card toprank"><span class="rank">#'+(i+1)+'</span><img src="'+x.image+'" alt="'+x.name+'" loading="lazy"><div class="body"><span class="pill">FEATURED ARTIST</span><h3>'+x.name+'</h3><p class="muted">'+x.specialty+'</p><a class="btn primary" href="'+x.url+'" target="_blank" rel="noopener">Profile / works</a></div></article>').join('');
     grid.querySelectorAll('img').forEach((img,i)=>{img.onerror=function(){this.onerror=null;this.src='https://images.unsplash.com/photo-1577083288073-40892c0860a4?auto=format&fit=crop&w=900&q=80';};});
   }
