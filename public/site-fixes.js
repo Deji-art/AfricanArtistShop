@@ -246,7 +246,7 @@
     {name:'Duke Asidere',specialty:'Nigerian contemporary painter',image:'https://thewheatbakerlagos.com/oatchace/2024/11/Duke-Asidere.jpg',url:'https://dukeasidere.com/'},
     {name:'Chief Nike Davies-Okundaye',specialty:'Nigerian textile artist · painter · founder of Nike Art Gallery',image:'https://static.wixstatic.com/media/4bf3c6_86287c8864954058ae891282071e54c0~mv2.jpg/v1/fill/w_900%2Ch_790%2Cal_c%2Clg_1%2Cq_85/4bf3c6_86287c8864954058ae891282071e54c0~mv2.jpg',url:'https://nikeartgallery.ng/'},
     {name:'Peju Alatise',specialty:'Nigerian interdisciplinary artist',image:'https://static-assets.artlogic.net/c_limit%2Cf_auto%2Cfl_lossy%2Cq_auto/ws-koartspace/usr/library/main/images/peju-alatise_photo-1.jpg',url:'https://www.aicon.art/artists/peju-alatise'},
-    {name:'Sokari Douglas Camp',specialty:'Nigerian-born sculptor · steel artist',image:'https://www.npg.org.uk/collections/search/portrait/mw117559/Sokari-Douglas-Camp',url:'https://sokari.co.uk/'}
+    {name:'Sokari Douglas Camp',specialty:'Nigerian-born sculptor · steel artist',image:'https://cdn.sanity.io/images/cxgd3urn/production/fe2ec2993b88eb487bcf2c19e84f6fc4564c758b-629x945.jpg?auto=format&fit=crop&h=1803&q=85&w=1200',url:'https://sokari.co.uk/'}
   ];
   function renderFixedTop10(){
     const grid=document.getElementById('topArtistsGrid'); if(!grid)return;
