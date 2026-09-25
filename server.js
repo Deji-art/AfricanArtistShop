@@ -167,6 +167,52 @@ seedExpandedSupplies();
 /* Each catalogue item gets a material-specific image query instead of a rotating generic art photo. */
 async function refreshExpandedSupplyImages(){
   const rows=db.prepare('SELECT id,name FROM supplies').all();
+
+  const curated={
+    'Acrylic Paint Set':'https://goodsstores.com/cdn/shop/files/paints_set_on_canvas.jpg?v=1776876090&width=900',
+    'Artist Brush Collection':'https://i.ebayimg.com/images/g/tRUAAeSwmnZpMK9t/s-l1200.webp',
+    'Cotton Canvas 24 × 36 in':'https://i5.walmartimages.com/asr/242f0fc4-cdba-4087-9288-bd083bbde5d1.cab6bbb8c418e65a030ccd72b54578e2.jpeg',
+    'Wooden Tabletop Easel':'https://tcpglobal.com/cdn/shop/files/USAE-003_v1_1200x1200.jpg?v=1784961847',
+    'Watercolour Paper Pad':'https://cdn.artezapaint.com/cdn/10194/2026/03/06/Arteza-Acrylic-Paint-Set-of-24-Colors-and-Watercolor-Paper-9x12-Inch-Pack-of-2-Painting-Art-Supplies-for-Artist-Hobby-Painters-amp-Beginners-7598837-6647.jpg',
+    'Palette Knife Set':'https://productimages.withfloats.com/actual/696f313668009967b460a4f0.jpeg',
+    'Graphite Pencils':'https://media.accobrands.com/media/560-560/566520.jpg',
+    'Charcoal Pencils':'https://cdn.schoolspecialty.com/f57caaeb-7673-4a59-9e82-b2a400a5a693/373778_JPG%20Output.jpg?bg-color=ffffff&canvas=700%2C700&fit=bounds&height=700&width=700',
+    'Compressed Charcoal':'https://zartart.com.au/cdn/shop/files/CRZ611_1.jpg?v=1728951145&width=2000',
+    'Colored Pencils':'https://img.everymarket.uk/1c4dhmez65sj009ksneebfowezvj?format=jpg&height=800&width=800',
+    'Pastel Pencils':'https://www.faber-castell.com.br/-/media/Products/Product-Repository/PITT-pastel-pencils/24-25-03-Colored-pencil/112112-Colour-pencil-PITT-PASTEL-tin-of-12/Images/112112_10_PM3.ashx?as=0&bc=ffffff&h=900&hash=FABE653E7E837584C5C19E702FA2758E&sc_lang=pt-BR&w=900',
+    'Soft Pastels':'https://i.ebayimg.com/images/g/3FQAAOSwGOpjV1Hg/s-l1200.jpg',
+    'Oil Pastels':'https://commons.wikimedia.org/wiki/Special:FilePath/Oilpastel.JPG?width=900',
+    'Watercolor Pencils':'https://alwan.com.eg/cache/thumbnails/uploads__products__131-photo__878__0__0__0__1488977621.jpg',
+    'Gouache':'https://wafuu.com/cdn/shop/files/holbein-opaque-watercolors-gouache-g713-15ml-18-colors-set-03713-924078_1200x1200.jpg?v=1739166726',
+    'Oil Paints':'https://www.gordonharris.co.nz/cdn/shop/files/WN0172259.jpg?v=1759862464',
+    'Poster Colors':'https://paperquirks.in/cdn/shop/files/PosterColour12.jpg?v=1704704288&width=1024',
+    'India Ink':'https://cdn.webshopapp.com/shops/292744/files/372984069/winsor-newton-black-indian-ink.jpg',
+    'Acrylic Markers':'https://www.bumbleberrys.co.uk/cdn/shop/files/art-materials-acrylic-marker-24-color-set-vol-1-31367730987111_540x_ea9a4104-d4d3-4343-a2c5-180fc49e7778_1024x1024.webp?v=1704885203',
+    'Paint Markers':'https://www.ryman.co.uk/media/catalog/product/0/8/0845391069_1_1.jpg?bg-color=255%2C255%2C255&canvas=550%3A550&fit=bounds&height=550&quality=80&width=550',
+    'Permanent Markers':'https://www.viroux.com/web/image/product.template/105755/image_1024?unique=b058e89',
+    'Fineliners':'https://cld-assets.dick-blick.com/image/upload/c_limit%2Cw_1920/f_auto/q_auto/v1/21061-2025-M-4ww?_a=BAVAZGB00',
+    'Technical Drawing Pens':'https://www.starboxretail.com/Images/products/PRDT2020112502833.jpg',
+    'Brush Pens':'https://www.montmarte.com/cdn/shop/products/mont-marte-real-brush-pens-premium-36pc-mmpm0048_v02-f.jpg?v=1662959976',
+    'Sketchbooks':'https://static.booktopia.com.au/internals/9788883701153-1.jpg',
+    'Drawing Paper':'https://i5.walmartimages.com/seo/Drawing-Pad-by-Artist-s-Loft-9-x-12_a417a825-2bd4-463d-b095-f74f6be68000.9b54513ad7b7dbb144e29370a7c8b7ef.jpeg',
+    'Canvas Boards':'https://uniquestrokes.com/cdn/shop/files/1_a9faaf60-1a92-44a8-95fe-e2ae0a11ec95.jpg?v=1721755136',
+    'Illustration Boards':'https://www.jerrysartarama.com/media/catalog/product/cache/ecb49a32eeb5603594b082bd5fe65733/c/r/crescent-cold_press-illustration-board-no-size.jpg',
+    'Bristol Board':'https://www.jacksonsart.com/cdn-cgi/image/quality%3D80%2Cbackground%3D%23ffffff%2Cfit%3Dscale-down/media/catalog/product/p/s/psm342-114.jpg',
+    'Pastel Paper':'https://www.jerrysartarama.com/media/catalog/product/cache/1ed84fc5c90a0b69e5179e47db6d0739/c/a/canson-mi-teintes-9x12-assorted-sw-70629.jpg',
+    'Craft Paper':'https://www.montmarte.com/cdn/shop/files/Mont-Marte-A4-Kraft-Paper-Pad-50-Sheets-115gsm-MSB0096_V03-F_1024x.jpg?v=1706511325',
+    'Watercolor Brushes':'https://shop.emilylex.com/cdn/shop/files/paintbrush-set-wood_dd68410c-9164-45b0-ac7f-636d6fc2fb28.jpg?v=1763446396&width=1445',
+    'Fan Brushes':'https://isomarsshop.in/cdn/shop/products/artist-brush-fan-set-of-7-3038068.jpg?crop=center&height=1200&v=1782729012&width=1200',
+    'Flat Brushes':'https://isomarsshop.in/cdn/shop/files/Isomars_Flat_Paint_Brush_Set_of_7_Professional_Synthetic_Artist_Brushes.jpg?v=1777700321&width=1500',
+    'Round Brushes':'https://artios.in/cdn/shop/products/81TJSxwa_DL._SL1500_749bbc66-e949-4a34-8b6e-7dfebc1c4ce1.jpg?v=1672228796&width=1445',
+    'Kneaded Erasers':'https://i.ebayimg.com/images/g/p1QAAeSwFFRoGg~k/s-l1200.jpg',
+    'Rulers':'https://www.schooldepot.co.nz/cdn/shop/files/StaedtlerMarsAluminumRuler56340withInkingEdge40cmPic2.jpg?v=1709189583&width=1445',
+    'French Curves':'https://onton.com/images/webp/1024/539fc5ec-6be7-5219-8c5d-f613e22eb3d2',
+    'Drawing Compass':'https://www.papelstore.es/media/catalog/product/cache/4/image/1800x/040ec09b1e35df139433887a97daa66f/1/8/186129-1.jpg',
+    'Masking Tape':'https://www.alabamaart.com/cdn/shop/files/masking-tape-34-inch-x-60-yards-315488_600x_e3cec1bb-bc80-42ee-b5d0-f0424f7909df_1400x.webp?v=1700260391',
+    'Fixative Spray':'https://www.gordonharris.co.nz/cdn/shop/files/SC50402040_grande.jpg?v=1759854434',
+    'Gesso':'https://www.paperpencil.pk/cdn/shop/files/9404-9405_0a0b3ccd-13d5-42f1-a2ee-5bd2a8408825.png?v=1777526390&width=1946'
+  };
+
   const q=db.prepare('UPDATE supplies SET image_url=? WHERE id=?');
   const fallback='https://commons.wikimedia.org/wiki/Special:FilePath/Art%20supplies%20clutter%20%28Unsplash%29.jpg?width=900';
   const searchTerm=name=>encodeURIComponent(
@@ -190,7 +236,7 @@ async function refreshExpandedSupplyImages(){
   for(let i=0;i<rows.length;i+=concurrency){
     const batch=rows.slice(i,i+concurrency);
     const images=await Promise.all(batch.map(x=>getCommonsImage(x.name)));
-    images.forEach((url,j)=>q.run(url||fallback,batch[j].id));
+    images.forEach((url,j)=>{ const name=batch[j].name; q.run(curated[name]||url||fallback,batch[j].id); });
   }
 }
 refreshExpandedSupplyImages().catch(e=>console.error('Supply image refresh failed:',e.message));
