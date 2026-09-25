@@ -3,7 +3,7 @@
   "version": "4.0.0",
   "private": true,
   "scripts": {
-    "start": "node scripts/migrate-sqlite-to-supabase.js || echo \"Supabase migration did not complete; starting app so logs can show the exact cause.\" && node server.js",
+    "start": "node server.js",
     "dev": "node server.js",
     "migrate:supabase": "node scripts/migrate-sqlite-to-supabase.js"
   },
