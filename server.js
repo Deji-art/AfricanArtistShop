@@ -102,6 +102,68 @@ function refreshSupplyImages(){
 }
 init();
 refreshSupplyImages();
+
+function seedExpandedSupplies(){
+  const items=[
+    ['Graphite Pencils','Tools','Graphite drawing pencils in assorted grades for sketching and shading.',1850,60,'set'],
+    ['Charcoal Pencils','Tools','Charcoal pencils for controlled dark drawing and portrait work.',2200,50,'set'],
+    ['Compressed Charcoal','Tools','Dense charcoal sticks for rich dark marks and tonal studies.',1800,45,'pack'],
+    ['Willow / Vine Charcoal','Tools','Soft natural charcoal sticks for loose drawing and underdrawing.',1800,45,'pack'],
+    ['Colored Pencils','Tools','Artist colored pencils for detailed layered drawing.',6500,40,'set'],
+    ['Pastel Pencils','Tools','Hard pastel pencils for precise pastel drawing.',7200,35,'set'],
+    ['Soft Pastels','Paints','Soft pastel sticks for expressive dry-media work.',6500,35,'set'],
+    ['Oil Pastels','Paints','Creamy oil pastel sticks for bold colour and texture.',5000,40,'set'],
+    ['Chalk Pastels','Paints','Chalk pastel sticks for soft matte colour studies.',4200,35,'set'],
+    ['Watercolor Pencils','Paints','Water-soluble colored pencils for wet and dry techniques.',6500,35,'set'],
+    ['Watercolor Paints','Paints','Artist watercolor paints for transparent washes and studies.',8500,35,'set'],
+    ['Gouache','Paints','Opaque water-based paint for illustration and expressive studies.',7500,30,'set'],
+    ['Oil Paints','Paints','Artist oil colours for traditional painting.',12000,25,'set'],
+    ['Tempera Paints','Paints','Water-based tempera paints for studies and young artists.',5000,35,'set'],
+    ['Poster Colors','Paints','Bright poster colours for illustration, school and craft work.',4500,40,'set'],
+    ['Ink','Paints','Drawing and illustration ink for expressive line work.',3500,35,'bottle'],
+    ['India Ink','Paints','Permanent black India ink for drawing and technical work.',3200,35,'bottle'],
+    ['Acrylic Markers','Tools','Opaque acrylic markers for canvas, paper and mixed media.',6500,30,'set'],
+    ['Paint Markers','Tools','Paint markers for bold lettering and mixed-media surfaces.',5000,30,'set'],
+    ['Permanent Markers','Tools','Permanent markers for bold lines, labelling and illustration.',3000,40,'set'],
+    ['Fineliners','Tools','Fine-tip drawing pens for line art and technical sketching.',3500,40,'set'],
+    ['Technical Drawing Pens','Tools','Technical pens for controlled architectural and design lines.',6000,25,'set'],
+    ['Brush Pens','Tools','Flexible brush pens for lettering, illustration and line variation.',4500,35,'set'],
+    ['Sketchbooks','Paper','Portable sketchbooks for practice, ideas and studies.',4500,45,'book'],
+    ['Drawing Paper','Paper','Smooth heavyweight drawing paper for graphite and charcoal.',3500,50,'pad'],
+    ['Canvas Boards','Canvas','Rigid primed canvas boards for painting studies.',6500,30,'pack'],
+    ['Illustration Boards','Paper','Smooth rigid boards for illustration and presentation.',5000,30,'pack'],
+    ['Bristol Board','Paper','Very smooth heavyweight board for ink, marker and pencil work.',4500,30,'pack'],
+    ['Pastel Paper','Paper','Textured paper designed to hold pastel pigments.',4500,35,'pad'],
+    ['Craft Paper','Paper','Versatile brown craft paper for drawing, wrapping and mixed media.',2500,50,'pack'],
+    ['Palette','Tools','Mixing palette for acrylic, oil and other paints.',2500,40,'piece'],
+    ['Watercolor Brushes','Brushes','Soft brushes designed to hold water and pigment.',5500,35,'set'],
+    ['Fan Brushes','Brushes','Fan-shaped brushes for texture, foliage and blending effects.',3500,30,'set'],
+    ['Flat Brushes','Brushes','Flat brushes for blocks of colour, edges and washes.',4500,35,'set'],
+    ['Round Brushes','Brushes','Round brushes for details, lines and controlled painting.',4500,35,'set'],
+    ['Drawing Erasers','Tools','Standard drawing erasers for clean corrections.',1200,60,'pack'],
+    ['Kneaded Erasers','Tools','Malleable erasers for lifting graphite and charcoal selectively.',1800,50,'pack'],
+    ['Pencil Sharpeners','Tools','Artist pencil sharpeners for graphite and colored pencils.',1500,60,'piece'],
+    ['Rulers','Tools','Straight rulers for drawing, measuring and layout.',1200,50,'piece'],
+    ['French Curves','Tools','Curved templates for smooth technical and design lines.',2500,30,'set'],
+    ['Drawing Compass','Tools','Compass for circles, geometry and technical drawing.',2800,30,'piece'],
+    ['Masking Tape','Tools','Low-tack masking tape for clean edges and paper mounting.',1800,50,'roll'],
+    ['Fixative Spray','Tools','Workable fixative for protecting charcoal, pastel and graphite studies.',5500,25,'can'],
+    ['Gesso','Paints','Surface primer for preparing canvas, board and mixed-media supports.',6000,25,'bottle']
+  ];
+  const imgs=[
+    'https://images.unsplash.com/photo-1513364776144-60967b0f800f?auto=format&fit=crop&w=900&q=80',
+    'https://images.unsplash.com/photo-1541961017774-22349e4a1262?auto=format&fit=crop&w=900&q=80',
+    'https://images.unsplash.com/photo-1579783902614-a3fb3927b6a5?auto=format&fit=crop&w=900&q=80',
+    'https://images.unsplash.com/photo-1513475382585-d06e58bcb0e0?auto=format&fit=crop&w=900&q=80',
+    'https://images.unsplash.com/photo-1561214115-f2f134cc4912?auto=format&fit=crop&w=900&q=80',
+    'https://images.unsplash.com/photo-1547891654-e66ed7ebb968?auto=format&fit=crop&w=900&q=80'
+  ];
+  const ins=db.prepare('INSERT INTO supplies(name,category,description,image_url,price,stock,unit) VALUES(?,?,?,?,?,?,?)');
+  const exists=db.prepare('SELECT id FROM supplies WHERE name=?');
+  items.forEach((x,i)=>{if(!exists.get(x[0]))ins.run(x[0],x[1],x[2],imgs[i%imgs.length],x[3],x[4],x[5]);});
+}
+
+seedExpandedSupplies();
 testSupabaseConnection();
 function cookieValue(req,name){const raw=req.headers.cookie||'';const part=raw.split(';').map(x=>x.trim()).find(x=>x.startsWith(name+'='));return part?decodeURIComponent(part.slice(name.length+1)):''}
 function issueRememberToken(res,userId){const raw=crypto.randomBytes(32).toString('hex');const hash=crypto.createHash('sha256').update(raw).digest('hex');const expires=Date.now()+1000*60*60*24*30;db.prepare('INSERT INTO login_tokens(token_hash,user_id,expires_at) VALUES(?,?,?)').run(hash,userId,expires);res.append('Set-Cookie',`aas_remember=${encodeURIComponent(raw)}; Max-Age=${60*60*24*30}; Path=/; HttpOnly; SameSite=Lax${process.env.NODE_ENV==='production'?'; Secure':''}`);return raw}
