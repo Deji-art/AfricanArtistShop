@@ -79,23 +79,23 @@ if(!a){const info=db.prepare('INSERT INTO users(name,email,password_hash,role) V
 if(db.prepare('SELECT COUNT(*) c FROM supplies').get().c===0){
 const ins=db.prepare('INSERT INTO supplies(name,category,description,image_url,price,stock,unit) VALUES(?,?,?,?,?,?,?)');
 [
-['Acrylic Paint Set','Paints','Rich starter acrylic set for canvas and mixed-media work.','https://www.mgstationeryonline.com.my/images/com_hikashop/upload/mg_apln6594__96-acrylic_paint_set_12__36_colors-06_1547355164.jpg',18500,20,'set'],
-['Artist Brush Collection','Brushes','Assorted round, flat and detail brushes for artists.','https://i5.walmartimages.com/seo/25pcs-Paint-Brush-Set-Acrylic-Paint-Brushes-Professional-Artist-Series-Wide-Flat-Filbert-Fan-Dagger-Cat-Tongue-Round-Angle-Rigger-Oil-Acrylic-Canvas_15d9974f-50ac-4633-83e1-13cd5db579b9.ec32c8898a62ca2709a48ac2588591c2.jpeg',9500,30,'pack'],
-['Cotton Canvas 24 × 36 in','Canvas','Primed cotton canvas ready for painting.','https://i5.walmartimages.com/asr/242f0fc4-cdba-4087-9288-bd083bbde5d1.cab6bbb8c418e65a030ccd72b54578e2.jpeg',12000,25,'piece'],
-['Wooden Tabletop Easel','Easels','Compact wooden easel for studio or tabletop painting.','https://www.arthurdaleys.com.au/content/product/full/MONT_MARTE___SIGNATURE___TRADITIONAL_TABLETOP_EASEL___MEDIUM-2739-1063.jpg',22000,12,'piece'],
-['Watercolour Paper Pad','Paper','Acid-free paper for watercolour and ink studies.','https://www.pictorshop.ro/21604-large_default/bloc-hartie-pictura-acuarela-winsor-newton.jpg',7500,35,'pad'],
-['Palette Knife Set','Tools','Metal palette knives for texture and impasto techniques.','https://cottonwoodinthepark.com/cdn/shop/files/5367c5609408468a6dcef2d93286601e0125f03f1880684131c53f846ec00d09.jpg?v=1721698795&width=1445',6500,18,'set']
+['Acrylic Paint Set','Paints','Rich starter acrylic set for canvas and mixed-media work.','https://images.unsplash.com/photo-1513364776144-60967b0f800f?auto=format&fit=crop&w=900&q=80',18500,20,'set'],
+['Artist Brush Collection','Brushes','Assorted round, flat and detail brushes for artists.','https://images.unsplash.com/photo-1579783902614-a3fb3927b6a5?auto=format&fit=crop&w=900&q=80',9500,30,'pack'],
+['Cotton Canvas 24 × 36 in','Canvas','Primed cotton canvas ready for painting.','https://images.unsplash.com/photo-1541961017774-22349e4a1262?auto=format&fit=crop&w=900&q=80',12000,25,'piece'],
+['Wooden Tabletop Easel','Easels','Compact wooden easel for studio or tabletop painting.','https://images.unsplash.com/photo-1513475382585-d06e58bcb0e0?auto=format&fit=crop&w=900&q=80',22000,12,'piece'],
+['Watercolour Paper Pad','Paper','Acid-free paper for watercolour and ink studies.','https://images.unsplash.com/photo-1561214115-f2f134cc4912?auto=format&fit=crop&w=900&q=80',7500,35,'pad'],
+['Palette Knife Set','Tools','Metal palette knives for texture and impasto techniques.','https://images.unsplash.com/photo-1547891654-e66ed7ebb968?auto=format&fit=crop&w=900&q=80',6500,18,'set']
 ].forEach(x=>ins.run(...x));
 }}
 /* Keep the catalogue images matched to the actual products even when the database was seeded on an older deployment. */
 function refreshSupplyImages(){
   const imgs={
-    'Acrylic Paint Set':'https://www.mgstationeryonline.com.my/images/com_hikashop/upload/mg_apln6594__96-acrylic_paint_set_12__36_colors-06_1547355164.jpg',
-    'Artist Brush Collection':'https://i5.walmartimages.com/seo/25pcs-Paint-Brush-Set-Acrylic-Paint-Brushes-Professional-Artist-Series-Wide-Flat-Filbert-Fan-Dagger-Cat-Tongue-Round-Angle-Rigger-Oil-Acrylic-Canvas_15d9974f-50ac-4633-83e1-13cd5db579b9.ec32c8898a62ca2709a48ac2588591c2.jpeg',
-    'Cotton Canvas 24 × 36 in':'https://i5.walmartimages.com/asr/242f0fc4-cdba-4087-9288-bd083bbde5d1.cab6bbb8c418e65a030ccd72b54578e2.jpeg',
-    'Wooden Tabletop Easel':'https://www.arthurdaleys.com.au/content/product/full/MONT_MARTE___SIGNATURE___TRADITIONAL_TABLETOP_EASEL___MEDIUM-2739-1063.jpg',
-    'Watercolour Paper Pad':'https://www.pictorshop.ro/21604-large_default/bloc-hartie-pictura-acuarela-winsor-newton.jpg',
-    'Palette Knife Set':'https://cottonwoodinthepark.com/cdn/shop/files/5367c5609408468a6dcef2d93286601e0125f03f1880684131c53f846ec00d09.jpg?v=1721698795&width=1445'
+    'Acrylic Paint Set':'https://images.unsplash.com/photo-1513364776144-60967b0f800f?auto=format&fit=crop&w=900&q=80',
+    'Artist Brush Collection':'https://images.unsplash.com/photo-1579783902614-a3fb3927b6a5?auto=format&fit=crop&w=900&q=80',
+    'Cotton Canvas 24 × 36 in':'https://images.unsplash.com/photo-1541961017774-22349e4a1262?auto=format&fit=crop&w=900&q=80',
+    'Wooden Tabletop Easel':'https://images.unsplash.com/photo-1513475382585-d06e58bcb0e0?auto=format&fit=crop&w=900&q=80',
+    'Watercolour Paper Pad':'https://images.unsplash.com/photo-1561214115-f2f134cc4912?auto=format&fit=crop&w=900&q=80',
+    'Palette Knife Set':'https://images.unsplash.com/photo-1547891654-e66ed7ebb968?auto=format&fit=crop&w=900&q=80'
   };
   const q=db.prepare('UPDATE supplies SET image_url=? WHERE name=?');
   Object.entries(imgs).forEach(([name,url])=>q.run(url,name));
