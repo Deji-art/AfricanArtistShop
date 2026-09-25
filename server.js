@@ -165,17 +165,35 @@ function seedExpandedSupplies(){
 
 seedExpandedSupplies();
 /* Each catalogue item gets a material-specific image query instead of a rotating generic art photo. */
-function refreshExpandedSupplyImages(){
+async function refreshExpandedSupplyImages(){
   const rows=db.prepare('SELECT id,name FROM supplies').all();
-  const lock=n=>{let h=0;for(let i=0;i<n.length;i++)h=((h<<5)-h)+n.charCodeAt(i)|0;return Math.abs(h)%10000};
   const q=db.prepare('UPDATE supplies SET image_url=? WHERE id=?');
-  rows.forEach(x=>{
-    const tags=encodeURIComponent((x.name+' art supply').toLowerCase().replace(/\\/g,' ')).replace(/%20/g,',');
-    const url='https://loremflickr.com/900/700/'+tags+'?lock='+lock(x.name);
-    q.run(url,x.id);
-  });
+  const fallback='https://commons.wikimedia.org/wiki/Special:FilePath/Art%20supplies%20clutter%20%28Unsplash%29.jpg?width=900';
+  const searchTerm=name=>encodeURIComponent(
+    name
+      .replace(/\\s*\\d+\\s*[×x]\\s*\\d+[^ ]*/gi,'')
+      .replace(/\\b(set|collection|pad|pack|piece|roll|book|bottle|can)\\b/gi,'')
+      .trim()+' artist art supply'
+  );
+  const getCommonsImage=async(name)=>{
+    try{
+      const url='https://commons.wikimedia.org/w/api.php?action=query&generator=search&gsrsearch='+searchTerm(name)+'&gsrnamespace=6&gsrlimit=5&prop=imageinfo&iiprop=url&iiurlwidth=900&format=json&origin=*';
+      const r=await fetch(url);
+      if(!r.ok)return null;
+      const data=await r.json();
+      const pages=Object.values(data.query?.pages||{});
+      const usable=pages.find(p=>p.imageinfo?.[0]?.thumburl||p.imageinfo?.[0]?.url);
+      return usable?.imageinfo?.[0]?.thumburl||usable?.imageinfo?.[0]?.url||null;
+    }catch(e){return null}
+  };
+  const concurrency=6;
+  for(let i=0;i<rows.length;i+=concurrency){
+    const batch=rows.slice(i,i+concurrency);
+    const images=await Promise.all(batch.map(x=>getCommonsImage(x.name)));
+    images.forEach((url,j)=>q.run(url||fallback,batch[j].id));
+  }
 }
-refreshExpandedSupplyImages();
+refreshExpandedSupplyImages().catch(e=>console.error('Supply image refresh failed:',e.message));
 testSupabaseConnection();
 function cookieValue(req,name){const raw=req.headers.cookie||'';const part=raw.split(';').map(x=>x.trim()).find(x=>x.startsWith(name+'='));return part?decodeURIComponent(part.slice(name.length+1)):''}
 function issueRememberToken(res,userId){const raw=crypto.randomBytes(32).toString('hex');const hash=crypto.createHash('sha256').update(raw).digest('hex');const expires=Date.now()+1000*60*60*24*30;db.prepare('INSERT INTO login_tokens(token_hash,user_id,expires_at) VALUES(?,?,?)').run(hash,userId,expires);res.append('Set-Cookie',`aas_remember=${encodeURIComponent(raw)}; Max-Age=${60*60*24*30}; Path=/; HttpOnly; SameSite=Lax${process.env.NODE_ENV==='production'?'; Secure':''}`);return raw}
