@@ -1,30 +1,118 @@
-<!doctype html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>AfricanArtistShop</title>
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>AfricanArtistShop</title>
 <style>
-:root{--g:#173c35;--o:#c85b2b;--c:#f5efe4;--p:#fffaf2;--i:#171613;--l:#e4d9c8}*{box-sizing:border-box}body{margin:0;background:var(--c);color:var(--i);font-family:Arial,sans-serif}nav{position:sticky;top:0;z-index:10;background:#fffaf2ed;backdrop-filter:blur(10px);border-bottom:1px solid var(--l);padding:15px 5%;display:flex;align-items:center;justify-content:space-between;gap:15px}.logo{font-weight:900;font-size:23px}.logo span{color:var(--o)}nav a{color:inherit;text-decoration:none;font-weight:700}.links{display:flex;gap:18px}.search{width:220px;border:1px solid var(--l);border-radius:25px;padding:10px;background:#fff}.btn{border:1px solid var(--i);border-radius:25px;padding:10px 15px;background:#fff;font-weight:800;cursor:pointer}.primary{background:var(--o);border-color:var(--o);color:#fff}.dark{background:var(--i);color:#fff}.hero{margin:0 4%;min-height:500px;border-radius:0 0 32px 32px;padding:65px 8%;display:flex;align-items:center;color:#fff;background:linear-gradient(110deg,#173c35ef,#173c3560),url("https://images.unsplash.com/photo-1579783902614-a3fb3927b6a5?auto=format&fit=crop&w=1800&q=85") center/cover}.hero h1{font:700 clamp(45px,7vw,82px)/.92 Georgia,serif;max-width:800px;margin:15px 0}.hero p{max-width:580px;line-height:1.7}main{padding:60px 6%}.head{display:flex;justify-content:space-between;align-items:end;margin-bottom:22px}.head h2{font:700 40px Georgia,serif;margin:5px 0}.filters{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:22px}.filters input,.filters select,.form input,.form textarea{padding:11px;border:1px solid var(--l);border-radius:10px;background:#fff}.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:18px}.card{background:var(--p);border:1px solid var(--l);border-radius:18px;overflow:hidden}.card img{width:100%;height:235px;object-fit:cover}.body{padding:16px}.price{font-weight:900;font-size:18px;margin:8px 0}.muted{color:#756e64}.pill{display:inline-block;background:#efe3cf;padding:5px 8px;border-radius:20px;font-size:11px;font-weight:800}.actions{display:flex;gap:7px;flex-wrap:wrap}.form{display:grid;gap:12px;max-width:650px}.form textarea{min-height:110px}.panel{background:var(--p);border:1px solid var(--l);border-radius:18px;padding:20px}.modal{display:none;position:fixed;inset:0;background:#0008;z-index:50;align-items:center;justify-content:center;padding:15px}.modal.open{display:flex}.box{background:var(--p);max-width:900px;width:100%;max-height:90vh;overflow:auto;border-radius:22px;padding:25px;position:relative}.close{position:absolute;right:15px;top:12px;border:0;border-radius:50%;width:34px;height:34px}.two{display:grid;grid-template-columns:1fr 1fr;gap:25px}.two img{width:100%;height:430px;object-fit:cover;border-radius:15px}footer{background:#111;color:#ddd;padding:40px 6%;margin-top:30px}@media(max-width:900px){.links{display:none}.grid{grid-template-columns:repeat(2,1fr)}.two{grid-template-columns:1fr}}@media(max-width:600px){.grid{grid-template-columns:1fr}.hero{margin:0 2%;padding:50px 7%}.hero h1{font-size:50px}.search{width:130px}main{padding:50px 5%}}
-</style></head><body>
-<nav><a class="logo" href="/">AfricanArtist<span>Shop</span></a><div class="links"><a href="#market">Marketplace</a><a href="#artists">Artists</a><a href="#dashboard">Dashboard</a></div><input id="q" class="search" placeholder="Search art..." oninput="loadArt()"><button class="btn dark" onclick="openAuth()">Account</button><button class="btn" onclick="cart()">🛒 <span id="cc">0</span></button></nav>
-<section class="hero"><div><small>THE AFRICAN ART MARKETPLACE</small><h1>Art created in Africa. A storefront for every artist.</h1><p>Buy original art, discover independent African artists, and build a real artist business on one marketplace.</p><a class="btn primary" href="#market">Explore artworks</a> <a class="btn" href="#dashboard">Artist dashboard</a></div></section>
-<main id="market"><div class="head"><div><div class="muted">MARKETPLACE</div><h2>Featured artworks</h2></div></div><div class="filters"><select id="m" onchange="loadArt()"><option value="">All mediums</option><option>Painting</option><option>Drawing</option><option>Mixed Media</option><option>Contemporary</option></select></div><div class="grid" id="arts"></div></main>
-<main id="artists"><div class="head"><div><div class="muted">CREATORS</div><h2>Artists</h2></div></div><div class="grid" id="artistGrid"></div></main>
-<main id="dashboard"><div class="head"><div><div class="muted">FOR CREATORS</div><h2>Artist dashboard</h2></div><button class="btn" onclick="openAuth()">Login / Register</button></div><div id="dash" class="panel">Log in as an artist to access your storefront tools.</div></main>
+:root{--g:#173c35;--o:#c85b2b;--c:#f5efe4;--p:#fffaf2;--i:#171613;--l:#e4d9c8}
+*{box-sizing:border-box}body{margin:0;background:var(--c);color:var(--i);font-family:Arial,sans-serif}
+nav{position:sticky;top:0;z-index:20;background:#fffaf2f2;backdrop-filter:blur(10px);border-bottom:1px solid var(--l);padding:14px 5%;display:flex;align-items:center;justify-content:space-between;gap:12px}
+.logo{font-weight:900;font-size:21px}.logo span{color:var(--o)}nav a{color:inherit;text-decoration:none;font-weight:700}.links{display:flex;gap:18px}.search{width:190px;border:1px solid var(--l);border-radius:25px;padding:10px;background:#fff}
+.btn{border:1px solid var(--i);border-radius:25px;padding:10px 15px;background:#fff;font-weight:800;cursor:pointer;text-decoration:none;display:inline-block}.primary{background:var(--o);border-color:var(--o);color:#fff}.dark{background:var(--i);color:#fff}
+.hero{margin:0 4%;min-height:470px;border-radius:0 0 32px 32px;padding:55px 8%;display:flex;align-items:center;color:#fff;background:linear-gradient(110deg,#173c35ef,#173c3560),url("https://images.unsplash.com/photo-1579783902614-a3fb3927b6a5?auto=format&fit=crop&w=1800&q=85") center/cover}
+.hero h1{font:700 clamp(44px,7vw,78px)/.94 Georgia,serif;max-width:800px;margin:15px 0}.hero p{max-width:570px;line-height:1.7}
+main{padding:55px 6%}.head{display:flex;justify-content:space-between;align-items:end;margin-bottom:22px}.head h2{font:700 39px Georgia,serif;margin:5px 0}.muted{color:#756e64}
+.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:18px}.card{background:var(--p);border:1px solid var(--l);border-radius:18px;overflow:hidden}.card img{width:100%;height:230px;object-fit:cover;display:block}.body{padding:16px}.price{font-weight:900;font-size:18px;margin:8px 0}.pill{display:inline-block;background:#efe3cf;padding:5px 8px;border-radius:20px;font-size:11px;font-weight:800}
+.artist-hub,.training-box{background:var(--p);border:1px solid var(--l);border-radius:24px;padding:22px}.choice-grid,.training-options{display:grid;grid-template-columns:repeat(3,1fr);gap:15px}.choice,.training-option{border:1px solid var(--l);background:#f7f0e4;border-radius:18px;padding:22px;text-align:left;cursor:pointer;font:inherit}.choice h3,.training-option h3{font:700 26px Georgia,serif;margin:5px 0 8px}.choice p,.training-option p{color:#756e64;line-height:1.5;margin:0}.panel{display:none;margin-top:16px;padding:20px;border-radius:18px;background:#fff;border:1px solid var(--l)}.panel.open{display:block}.mini-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px}.mini{background:#f7f0e4;border-radius:15px;padding:15px}.back{display:inline-block;margin-top:15px;color:var(--o);font-weight:800;cursor:pointer}
+.training-options{grid-template-columns:repeat(2,1fr)}.training-detail{display:none;margin-top:14px;padding:20px;background:#fff;border:1px solid var(--l);border-radius:18px}.training-detail.open{display:block}.step{background:#f7f0e4;border-radius:14px;padding:15px;margin:10px 0}.step strong{display:block;margin-bottom:5px}
+footer{background:#111;color:#ddd;padding:40px 6%;margin-top:30px}
+.modal{display:none;position:fixed;inset:0;background:#0008;z-index:50;align-items:center;justify-content:center;padding:15px}.modal.open{display:flex}.box{background:var(--p);max-width:760px;width:100%;max-height:90vh;overflow:auto;border-radius:22px;padding:25px}.form{display:grid;gap:12px}.form input,.form textarea{padding:11px;border:1px solid var(--l);border-radius:10px;background:#fff}.actions{display:flex;gap:7px;flex-wrap:wrap}
+@media(max-width:900px){.links{display:none}.grid{grid-template-columns:repeat(2,1fr)}.choice-grid{grid-template-columns:1fr}.training-options{grid-template-columns:1fr}.search{width:130px}}
+@media(max-width:600px){.grid{grid-template-columns:1fr}.hero{margin:0 2%;padding:48px 7%}.hero h1{font-size:49px}main{padding:48px 5%}.mini-grid{grid-template-columns:1fr}.actions .btn{display:none}}
+</style>
+</head>
+<body>
+<nav>
+<a class="logo" href="/">AfricanArtist<span>Shop</span></a>
+<div class="links"><a href="#market">Shop</a><a href="#artists">Explore Artists</a><a href="#supplies">Materials</a><a href="#training">Train Young Artists</a></div>
+<input id="q" class="search" placeholder="Search art..." oninput="loadArt()">
+<button class="btn dark" onclick="openAuth()">Account</button>
+<button class="btn" onclick="cart()">🛒 <span id="cc">0</span></button>
+</nav>
+
+<section class="hero"><div>
+<small>THE AFRICAN ART MARKETPLACE</small>
+<h1>Art created in Africa. A storefront for every artist.</h1>
+<p>Discover original artworks, meet independent artists and shop the materials that bring ideas to life.</p>
+<a class="btn primary" href="#market">Explore artworks</a>
+<a class="btn" href="#artists">Explore Artists</a>
+</div></section>
+
+<main id="market">
+<div class="head"><div><div class="muted">MARKETPLACE</div><h2>Featured artworks</h2></div></div>
+<div class="grid" id="arts"></div>
+</main>
+
+<main id="artists">
+<div class="head"><div><div class="muted">DISCOVER CREATORS</div><h2>Explore Artists</h2><p class="muted">Choose a category first. The detailed collection opens only after you select it.</p></div></div>
+<div class="artist-hub">
+<div class="choice-grid">
+<button class="choice" onclick="showArtistPanel('kid')"><span class="pill">AGES 4–18</span><h3>Kid Artists</h3><p>Discover young creators with parent/guardian involvement.</p></button>
+<button class="choice" onclick="showArtistPanel('pro')"><span class="pill">ADULT CREATORS</span><h3>Pro Artists</h3><p>Browse professional and independent African artists.</p></button>
+<button class="choice" onclick="showArtistPanel('signature')"><span class="pill">CURATED</span><h3>Signature</h3><p>Explore selected collections and standout works.</p></button>
+</div>
+<div id="artistPanel" class="panel"></div>
+<div id="artistDirectory" class="panel"></div>
+</div>
+</main>
+
+<main id="supplies">
+<div class="head"><div><div class="muted">CREATE WITH CONFIDENCE</div><h2>Art Materials</h2></div></div>
+<div class="grid">
+<div class="card"><div class="body"><span class="pill">MATERIAL</span><h3>Graphite Pencils</h3><p class="muted">Shop quality supplies for your next artwork.</p><button class="btn primary">Shop now</button></div></div><div class="card"><div class="body"><span class="pill">MATERIAL</span><h3>Charcoal Pencils</h3><p class="muted">Shop quality supplies for your next artwork.</p><button class="btn primary">Shop now</button></div></div><div class="card"><div class="body"><span class="pill">MATERIAL</span><h3>Colored Pencils</h3><p class="muted">Shop quality supplies for your next artwork.</p><button class="btn primary">Shop now</button></div></div><div class="card"><div class="body"><span class="pill">MATERIAL</span><h3>Pastel Pencils</h3><p class="muted">Shop quality supplies for your next artwork.</p><button class="btn primary">Shop now</button></div></div><div class="card"><div class="body"><span class="pill">MATERIAL</span><h3>Soft Pastels</h3><p class="muted">Shop quality supplies for your next artwork.</p><button class="btn primary">Shop now</button></div></div><div class="card"><div class="body"><span class="pill">MATERIAL</span><h3>Oil Pastels</h3><p class="muted">Shop quality supplies for your next artwork.</p><button class="btn primary">Shop now</button></div></div><div class="card"><div class="body"><span class="pill">MATERIAL</span><h3>Watercolor Paints</h3><p class="muted">Shop quality supplies for your next artwork.</p><button class="btn primary">Shop now</button></div></div><div class="card"><div class="body"><span class="pill">MATERIAL</span><h3>Acrylic Paints</h3><p class="muted">Shop quality supplies for your next artwork.</p><button class="btn primary">Shop now</button></div></div>
+</div>
+</main>
+
+<main id="training">
+<div class="head"><div><div class="muted">YOUNG CREATORS</div><h2>Train Young Artists</h2></div></div>
+<div class="training-box">
+<div class="training-options">
+<button class="training-option" onclick="toggleTraining('faq')"><span class="pill">HELP</span><h3>FAQ</h3><p>Questions about young artist training.</p></button>
+<button class="training-option" onclick="toggleTraining('enquiry')"><span class="pill">CONTACT</span><h3>Training Enquiry</h3><p>Ask about training options for a young artist.</p></button>
+</div>
+<div id="faq" class="training-detail"><h3>FAQ</h3><p>Parent/guardian involvement is required for young artist registration. Training availability depends on the request and available options.</p></div>
+<div id="enquiry" class="training-detail"><h3>Training Enquiry</h3>
+<div class="step"><strong>1. Fill the form</strong>Tell us the young artist's age, location and needs.</div>
+<div class="step"><strong>2. We review</strong>We match the request with available training options.</div>
+<div class="step"><strong>3. Connect</strong>A guardian receives the next-step details.</div>
+<button class="btn primary" onclick="openTrainingForm()">Make an enquiry</button>
+</div>
+</div>
+</main>
+
 <footer>AfricanArtistShop — connecting African artists, collectors and creators.<br><small>Founded by Deji Arts</small></footer>
-<div class="modal" id="modal"><div class="box"><button class="close" onclick="closeM()">×</button><div id="mb"></div></div></div>
+
+<div class="modal" id="modal"><div class="box"><div id="mb"></div></div></div>
 <script>
-let C=JSON.parse(localStorage.getItem("aas4_cart")||"[]");const $=id=>document.getElementById(id),money=n=>"₦"+Number(n).toLocaleString("en-NG");
+let C=JSON.parse(localStorage.getItem("aas4_cart")||"[]");
+const $=id=>document.getElementById(id),money=n=>"₦"+Number(n||0).toLocaleString("en-NG");
 async function api(p,o={}){let r=await fetch("/api"+p,o);if(!r.ok)throw Error(await r.text());return r.json()}
-async function loadArt(){let a=await api("/artworks?q="+encodeURIComponent($("q").value)+"&medium="+encodeURIComponent($("m").value));$("arts").innerHTML=a.map(x=>`<article class="card"><img src="${x.image_url}"><div class="body"><span class="pill">${x.medium}</span><h3>${x.title}</h3><p class="muted">${x.artist_name} · ${x.size}</p><div class="price">${money(x.price)}</div><div class="actions"><button class="btn" onclick="product(${x.id})">View</button><button class="btn primary" onclick='add(${JSON.stringify(x)})'>Add</button></div></div></article>`).join("")||"<p>No artworks found.</p>"}
-async function loadArtists(){let a=await api("/artists");$("artistGrid").innerHTML=a.map(x=>`<article class="card"><img src="${x.image_url}"><div class="body"><h3>${x.name}</h3><p class="muted">${x.specialty}</p><button class="btn" onclick="artist(${x.id})">Storefront</button></div></article>`).join("")}
-async function product(id){let x=await api("/artworks/"+id);$("mb").innerHTML=`<div class="two"><img src="${x.image_url}"><div><span class="pill">${x.medium}</span><h2>${x.title}</h2><p class="muted">by ${x.artist_name}</p><h2>${money(x.price)}</h2><p>${x.description||""}</p><p><b>Size:</b> ${x.size}<br><b>Availability:</b> ${x.availability}</p><button class="btn primary" onclick='add(${JSON.stringify(x)});closeM()'>Add to cart</button></div></div>`;openM()}
-async function artist(id){let x=await api("/artists/"+id);$("mb").innerHTML=`<h2>${x.name}</h2><p>${x.bio||""}</p><div class="grid">${x.artworks.map(a=>`<div class="card"><img src="${a.image_url}"><div class="body"><b>${a.title}</b><p>${money(a.price)}</p></div></div>`).join("")}</div>`;openM()}
+function openM(){ $("modal").classList.add("open") } function closeM(){ $("modal").classList.remove("open") }
+$("modal").onclick=e=>{if(e.target===$("modal"))closeM()}
+async function loadArt(){try{let a=await api("/artworks?q="+encodeURIComponent($("q").value));$("arts").innerHTML=a.map(x=>`<article class="card"><img src="${x.image_url}" alt=""><div class="body"><span class="pill">${x.medium}</span><h3>${x.title}</h3><p class="muted">${x.artist_name||"African artist"} · ${x.size||""}</p><div class="price">${money(x.price)}</div><div class="actions"><button class="btn" onclick="product(${x.id})">View</button><button class="btn primary" onclick='add(${JSON.stringify(x)})'>Add</button></div></div></article>`).join("")||"<p>No artworks found.</p>"}catch(e){$("arts").innerHTML='<div class="card"><div class="body"><h3>Featured artworks</h3><p class="muted">Artwork listings will appear here as the marketplace database is connected.</p></div></div>'}}
 function add(x){C.push(x);localStorage.setItem("aas4_cart",JSON.stringify(C));$("cc").textContent=C.length}
-function cart(){$("mb").innerHTML="<h2>Your cart</h2>"+(C.length?C.map((x,i)=>`<p>${x.title} — ${money(x.price)} <button class='btn' onclick='C.splice(${i},1);localStorage.setItem("aas4_cart",JSON.stringify(C));cart()'>Remove</button></p>`).join("")+"<button class='btn primary' onclick='checkout()'>Create order</button>":"<p>Cart empty.</p>");openM()}
-async function checkout(){let n=prompt("Your name"),e=prompt("Your email"),w=prompt("WhatsApp number");if(!n||!e)return;let o=await api("/orders",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({customer_name:n,customer_email:e,whatsapp:w,items:C.map(x=>({id:x.id,quantity:1}))})});let msg="Hello AfricanArtistShop, order #"+o.order_id+" total "+money(o.total)+". Please confirm payment and delivery.";window.open("https://wa.me/?text="+encodeURIComponent(msg),"_blank");C=[];localStorage.setItem("aas4_cart","[]");$("cc").textContent=0;closeM()}
-async function openAuth(){ $("mb").innerHTML=`<h2>Account</h2><div class="form"><input id="an" placeholder="Name (registration only)"><input id="ae" type="email" placeholder="Email"><input id="ap" type="password" placeholder="Password"><button class="btn primary" onclick="reg()">Create account</button><button class="btn" onclick="login()">Login</button></div>`;openM()}
-async function reg(){let u=await api("/register",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({name:an.value,email:ae.value,password:ap.value})});closeM();refreshDash(u)}
-async function login(){let u=await api("/login",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({email:ae.value,password:ap.value})});closeM();refreshDash(u)}
-async function refreshDash(u){if(u.role==="artist"){let d=await api("/artist/dashboard");$("dash").innerHTML=`<h3>Welcome, ${u.name}</h3><p>Status: ${d.artist?.status||"No artist application"}</p><form class="form" onsubmit="uploadArt(event)"><input id="at" required placeholder="Artwork title"><input id="am" required placeholder="Medium"><input id="as" placeholder="Size"><input id="aprice" required type="number" placeholder="Price in NGN"><textarea id="ad" placeholder="Description"></textarea><input id="ai" required type="file" accept="image/*"><button class="btn primary">Upload artwork for review</button></form><hr><h3>Your listings</h3>${d.artworks.map(a=>`<p>${a.title} — ${a.status} — ${money(a.price)}</p>`).join("")}` }else $("dash").innerHTML=`<h3>Welcome, ${u.name}</h3><p>Customer account ready. Your orders can be viewed from your account once expanded.</p>`}
-async function uploadArt(e){e.preventDefault();let f=new FormData();f.append("title",at.value);f.append("medium",am.value);f.append("size",as.value);f.append("price",aprice.value);f.append("description",ad.value);f.append("image",ai.files[0]);let r=await fetch("/api/artist/artworks",{method:"POST",body:f});if(!r.ok)return alert(await r.text());alert("Artwork submitted for admin review.");refresh()}
-async function refresh(){let u=(await api("/me")).user;if(u)refreshDash(u)}
-function openM(){$("modal").classList.add("open")}function closeM(){$("modal").classList.remove("open")}
-loadArt();loadArtists();$("cc").textContent=C.length;refresh();
-</script></body></html>
+function cart(){$("mb").innerHTML="<h2>Your cart</h2>"+(C.length?C.map((x,i)=>`<p><b>${x.title}</b> — ${money(x.price)} <button class="btn" onclick='C.splice(${i},1);localStorage.setItem("aas4_cart",JSON.stringify(C));cart()'>Remove</button></p>`).join("")+"<button class='btn primary' onclick='checkout()'>Create order</button>":"<p>Cart empty.</p>");openM()}
+async function checkout(){let n=prompt("Your name"),e=prompt("Your email"),w=prompt("WhatsApp number");if(!n||!e)return;try{let o=await api("/orders",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({customer_name:n,customer_email:e,whatsapp:w,items:C.map(x=>({id:x.id,quantity:1}))})});window.open("https://wa.me/?text="+encodeURIComponent("Hello AfricanArtistShop, order #"+o.order_id+" total "+money(o.total)),"_blank");C=[];localStorage.setItem("aas4_cart","[]");$("cc").textContent=0;closeM()}catch(e){alert("Order could not be created yet.")}}
+function showArtistPanel(type){
+let title=type==="kid"?"Kid Artists":type==="pro"?"Pro Artists":"Signature";
+let text=type==="kid"?"Young creators aged 4–18. Parent/guardian involvement is required.":type==="pro"?"Browse professional and independent artists.":"A curated collection of selected artists and standout works.";
+$("artistPanel").innerHTML=`<h3>${title}</h3><p class="muted">${text}</p><div id="categoryResults" class="mini-grid"></div><span class="back" onclick="hideArtistPanel()">← Back to categories</span>`;
+$("artistPanel").classList.add("open");
+$("artistDirectory").classList.remove("open");
+if(type==="kid")$("categoryResults").innerHTML='<div class="mini"><strong>No kid artists yet.</strong><span class="muted">Young artist listings will appear here after approved registration.</span></div>';
+else if(type==="pro")loadCategoryArtists();
+else $("categoryResults").innerHTML='<div class="mini"><strong>Signature collections</strong><span class="muted">Selected collections will appear here.</span></div>';
+}
+function hideArtistPanel(){$("artistPanel").classList.remove("open");$("artistDirectory").classList.remove("open")}
+async function loadCategoryArtists(){try{let a=await api("/artists");$("categoryResults").innerHTML=a.map(x=>`<div class="mini"><strong>${x.name}</strong><span class="muted">${x.specialty||"Artist"}</span><br><button class="btn" onclick="artist(${x.id})">View collection</button></div>`).join("")||'<div class="mini">No professional artists yet.</div>'}catch(e){$("categoryResults").innerHTML='<div class="mini">Professional artist collections will appear here.</div>'}}
+async function artist(id){let x=await api("/artists/"+id);$("mb").innerHTML=`<h2>${x.name}</h2><p>${x.bio||""}</p><div class="grid">${(x.artworks||[]).map(a=>`<div class="card"><img src="${a.image_url}"><div class="body"><b>${a.title}</b><p>${money(a.price)}</p></div></div>`).join("")}</div>`;openM()}
+async function product(id){let x=await api("/artworks/"+id);$("mb").innerHTML=`<h2>${x.title}</h2><img src="${x.image_url}" style="width:100%;max-height:420px;object-fit:cover;border-radius:15px"><p class="muted">by ${x.artist_name||"African artist"}</p><h2>${money(x.price)}</h2><p>${x.description||""}</p><button class="btn primary" onclick='add(${JSON.stringify(x)});closeM()'>Add to cart</button>`;openM()}
+function toggleTraining(id){["faq","enquiry"].forEach(x=>{if(x!==id)$(x).classList.remove("open")});$(id).classList.toggle("open")}
+function openTrainingForm(){$("mb").innerHTML=`<h2>Training Enquiry</h2><div class="form"><input id="tn" placeholder="Guardian name"><input id="te" type="email" placeholder="Email"><input id="ta" placeholder="Young artist's age"><input id="tl" placeholder="Location"><textarea id="td" placeholder="Tell us about the training needed"></textarea><button class="btn primary" onclick="alert('Enquiry form ready. We will connect it to the marketplace backend next.');closeM()">Submit enquiry</button></div>`;openM()}
+async function openAuth(){$("mb").innerHTML=`<h2>Account</h2><div class="form"><input id="an" placeholder="Name (registration only)"><input id="ae" type="email" placeholder="Email"><input id="ap" type="password" placeholder="Password"><button class="btn primary" onclick="reg()">Create account</button><button class="btn" onclick="login()">Login</button></div>`;openM()}
+async function reg(){try{let u=await api("/register",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({name:an.value,email:ae.value,password:ap.value})});closeM();alert("Account created.");}catch(e){alert("Registration could not be completed yet.")}}
+async function login(){try{await api("/login",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({email:ae.value,password:ap.value})});closeM();alert("Logged in.");}catch(e){alert("Login could not be completed yet.")}}
+$("cc").textContent=C.length;loadArt();
+</script>
+</body></html>
