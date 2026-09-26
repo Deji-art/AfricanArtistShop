@@ -253,10 +253,21 @@ async function refreshExpandedSupplyImages(){
     }catch(e){return null}
   };
   const concurrency=6;
+  const reachable=async(url)=>{
+    if(!url)return false;
+    try{
+      const r=await fetch(url,{method:'GET',headers:{Range:'bytes=0-32'}});
+      return r.ok;
+    }catch(e){return false}
+  };
   for(let i=0;i<rows.length;i+=concurrency){
     const batch=rows.slice(i,i+concurrency);
-    const images=await Promise.all(batch.map(x=>getCommonsImage(x.name)));
-    images.forEach((url,j)=>{ const name=batch[j].name; q.run(curated[name]||url||fallback,batch[j].id); });
+    const images=await Promise.all(batch.map(async x=>{
+      const preferred=curated[x.name];
+      if(preferred && await reachable(preferred)) return preferred;
+      return await getCommonsImage(x.name);
+    }));
+    images.forEach((url,j)=>q.run(url||curated[batch[j].name]||fallback,batch[j].id));
   }
 }
 refreshExpandedSupplyImages().catch(e=>console.error('Supply image refresh failed:',e.message));
