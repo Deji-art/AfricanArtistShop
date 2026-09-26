@@ -139,11 +139,22 @@ body{background:var(--cream);color:var(--ink)}
   .hero-actions .clean-btn:last-child{grid-column:auto}
   .clean-info{padding:0 14px 22px}
 }
+</style><style id="brand-logo-style">
+.brand-logo{display:inline-flex!important;align-items:center!important;gap:8px!important;padding:7px 11px!important;font-weight:950!important}
+.brand-mark{width:31px;height:31px;border-radius:8px;display:grid;place-items:center;background:linear-gradient(135deg,#f4b62a 0 32%,#ed2b2b 32% 62%,#10a95b 62%);box-shadow:inset 0 0 0 2px #111;transform:rotate(-3deg);flex:0 0 auto}
+.brand-mark span{font:900 19px Arial,sans-serif;color:#fff;transform:rotate(3deg);text-shadow:1px 1px 0 #111}
+.logoWord{font-size:20px!important;font-weight:950!important;letter-spacing:-1px!important;color:var(--ink)!important;white-space:nowrap}
+.logoWord span{color:var(--orange)!important}
+@media(max-width:600px){.brand-logo{padding:6px 8px!important}.brand-mark{width:27px;height:27px}.brand-mark span{font-size:17px}.logoWord{font-size:16px!important}}
+</style><style id="social-links-style">
+.social-row{display:grid!important;grid-template-columns:1fr 1fr!important;gap:7px!important;margin-top:12px!important}
+.social-row a{padding:8px 9px!important;border:1px solid var(--line)!important;border-radius:10px!important;background:#fff!important;font-size:11px!important;font-weight:800!important;line-height:1.3!important}
+@media(max-width:480px){.social-row{grid-template-columns:1fr!important}}
 </style></head>
 <body>
 <div class="top">AfricanArtistShop • Original African art • Artist storefronts • Art materials</div>
 <nav class="clean-nav">
-  <button class="clean-btn" onclick="goHome()">AfricanArtist<span style="color:var(--orange)">Shop</span></button>
+  <button class="clean-btn brand-logo" onclick="goHome()" aria-label="AfricanArtistShop home"><span class="brand-mark"><span>A</span></span><span class="logoWord">AfricanArtist<span>Shop</span></span></button>
   <input id="globalSearch" class="clean-search" placeholder="Search artist or artwork..." oninput="globalSearch(this.value)">
   <button class="clean-btn dark" onclick="openAccount()">Account</button>
   <button class="clean-btn" onclick="openCart()">🛒 <span id="cartCount">0</span></button>
@@ -195,16 +206,18 @@ body{background:var(--cream);color:var(--ink)}
       <h2>We are here to help.</h2>
       <p>Orders, artist applications, training enquiries and delivery questions can be sent to us.</p>
       <p><b>Phone / WhatsApp:</b> <a href="https://wa.me/2347031484486" target="_blank" rel="noopener">07031484486</a></p>
-      <p><b>Email:</b> <a href="mailto:mojibolapeace@gmail.com">mojibolapeace@gmail.com</a></p>
+      <p><b>Gmail:</b> <a href="mailto:africanartistshop@gmail.com">africanartistshop@gmail.com</a></p>
     </article>
     <article class="info-card">
       <div class="kicker">SOCIAL MEDIA</div>
       <h2>Follow AfricanArtistShop</h2>
-      <p>Follow our pages for new artwork, artist stories and materials.</p>
+      <p>Connect with us for new artwork, artist stories, materials and marketplace updates.</p>
       <div class="social-row">
-        <a href="https://instagram.com/Africanartist_shop" target="_blank" rel="noopener">Instagram</a>
-        <a href="https://facebook.com/Africanartistshop" target="_blank" rel="noopener">Facebook</a>
-        <a href="https://x.com/Africanartistshop" target="_blank" rel="noopener">X</a>
+        <a href="https://youtube.com/@africanartistsshop" target="_blank" rel="noopener">YouTube · africanartistsshop</a>
+        <a href="https://www.tiktok.com/@africanartistshop" target="_blank" rel="noopener">TikTok · africanartistshop</a>
+        <a href="https://www.instagram.com/africanartistshop" target="_blank" rel="noopener">Instagram · africanartistshop</a>
+        <a href="https://www.linkedin.com/in/africanartistshop" target="_blank" rel="noopener">LinkedIn · africanartistshop</a>
+        <a href="https://www.facebook.com/africanartistshop" target="_blank" rel="noopener">Facebook · africanartistshop</a>
       </div>
     </article>
   </div>
