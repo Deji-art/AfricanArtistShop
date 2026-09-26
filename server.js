@@ -77,7 +77,7 @@ addColumn('transactions','currency',"TEXT");
 addColumn('transactions','purpose',"TEXT");
 addColumn('transactions','artist_type',"TEXT");
 addColumn('transactions','metadata',"TEXT");
-const TIER_RULES={kid:{label:'Young / Kid Artist',min:3,max:5,fee:{NGN:4000,USD:3},age:'4-18'},professional:{label:'Professional Artist',min:5,max:7,fee:{NGN:13000,USD:10}},signature:{label:'Signature Artist',min:8,max:10,fee:{NGN:0,USD:0}}};
+const TIER_RULES={kid:{label:'Young / Kid Artist',min:3,max:5,fee:{NGN:4000,USD:4},age:'4-18'},professional:{label:'Professional Artist',min:5,max:7,fee:{NGN:13000,USD:10}},signature:{label:'Signature Artist',min:8,max:10,fee:{NGN:0,USD:0}}};
 function tierRule(type){return TIER_RULES[type]||TIER_RULES.professional}
 function currentDay(){return new Date().toISOString().slice(0,10)}
 function recordArtistStat(artistId,field,amount=1){const d=currentDay();db.prepare('INSERT INTO artist_daily_stats(artist_id,day,views,sales) VALUES(?,?,0,0) ON CONFLICT(artist_id,day) DO NOTHING').run(artistId,d);db.prepare(`UPDATE artist_daily_stats SET ${field}=${field}+? WHERE artist_id=? AND day=?`).run(amount,artistId,d)}
