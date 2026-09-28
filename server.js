@@ -52,6 +52,9 @@ if(process.env.NODE_ENV==='production'&&!process.env.SESSION_SECRET) throw new E
 app.use(session({secret:process.env.SESSION_SECRET||'development-only-session-secret',resave:false,saveUninitialized:false,store:pgPool?new PostgresSessionStore(pgPool):undefined,cookie:{httpOnly:true,sameSite:'lax',secure:process.env.NODE_ENV==='production',maxAge:1000*60*60*24*30}}));
 const storage=multer.memoryStorage();
 const upload=multer({storage,limits:{fileSize:8*1024*1024},fileFilter:(req,file,cb)=>{const allowed=['image/jpeg','image/png','image/webp','image/gif'];if(!allowed.includes(file.mimetype))return cb(new Error('Only JPG, PNG, WEBP or GIF images are allowed'));cb(null,true)}});
+const TIER_RULES={kid:{label:'Young / Kid Artist',min:3,max:5,fee:{NGN:4000,USD:4},age:'4-18'},professional:{label:'Professional Artist',min:5,max:7,fee:{NGN:13000,USD:10}},signature:{label:'Signature Artist',min:8,max:10,fee:{NGN:0,USD:0}}};
+function tierRule(type){return TIER_RULES[type]||TIER_RULES.professional}
+
 function init(){
 db.exec(`
 CREATE TABLE IF NOT EXISTS users(id INTEGER PRIMARY KEY AUTOINCREMENT,name TEXT NOT NULL,email TEXT UNIQUE NOT NULL,password_hash TEXT NOT NULL,role TEXT NOT NULL DEFAULT 'customer',created_at TEXT DEFAULT CURRENT_TIMESTAMP);
