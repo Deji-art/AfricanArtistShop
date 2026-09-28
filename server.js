@@ -41,7 +41,7 @@ const uploadDir=path.join(__dirname,'public','uploads'); fs.mkdirSync(uploadDir,
 const db=new Database(DB_PATH); db.pragma('journal_mode=WAL');
 app.use(express.json({verify:(req,res,buf)=>{req.rawBody=buf}})); app.use(express.urlencoded({extended:true,limit:'1mb'}));
 app.use((req,res,next)=>{res.setHeader('X-Content-Type-Options','nosniff');res.setHeader('X-Frame-Options','SAMEORIGIN');res.setHeader('Referrer-Policy','strict-origin-when-cross-origin');res.setHeader('Permissions-Policy','camera=(),microphone=(),geolocation=()');next()});
-const OWNER_EMAIL=process.env.OWNER_EMAIL||'africanartistshop@gmail.com';
+const OWNER_EMAIL='africanartistshop@gmail.com';
 const EMAIL_FROM=process.env.EMAIL_FROM||'onboarding@resend.dev';
 async function sendEmail({to,subject,html}){if(!process.env.RESEND_API_KEY)return false;try{const r=await fetch('https://api.resend.com/emails',{method:'POST',headers:{Authorization:'Bearer '+process.env.RESEND_API_KEY,'Content-Type':'application/json'},body:JSON.stringify({from:EMAIL_FROM,to:Array.isArray(to)?to:[to],subject,html})});if(!r.ok){console.error('Email send failed',await r.text());return false}return true}catch(e){console.error('Email error',e.message);return false}}
 const rateBuckets=new Map();
