@@ -113,6 +113,9 @@ function refreshSupplyImages(){
   Object.entries(imgs).forEach(([name,url])=>q.run(url,name));
 }
 init();
+// Global helper used by public artwork routes.
+function recordArtistStat(artistId,field,amount=1){const d=new Date().toISOString().slice(0,10);db.prepare('INSERT INTO artist_daily_stats(artist_id,day,views,sales) VALUES(?,?,0,0) ON CONFLICT(artist_id,day) DO NOTHING').run(artistId,d);db.prepare(`UPDATE artist_daily_stats SET ${field}=${field}+? WHERE artist_id=? AND day=?`).run(amount,artistId,d)}
+
 refreshSupplyImages();
 testSupabaseConnection().catch(()=>{});
 
