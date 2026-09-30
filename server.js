@@ -41,10 +41,9 @@ const uploadDir=path.join(__dirname,'public','uploads'); fs.mkdirSync(uploadDir,
 const db=new Database(DB_PATH); db.pragma('journal_mode=WAL');
 app.use(express.json({verify:(req,res,buf)=>{req.rawBody=buf}})); app.use(express.urlencoded({extended:true,limit:'1mb'}));
 const FRONTEND_URL=(process.env.FRONTEND_URL||'').replace(/\/$/,'');
-const API_CUSTOM_DOMAIN=process.env.API_CUSTOM_DOMAIN||'https://api.africanartistshop.com';
 app.use((req,res,next)=>{
   const origin=req.headers.origin;
-  if(origin && (!FRONTEND_URL || origin===FRONTEND_URL)){
+  if(origin && FRONTEND_URL && origin===FRONTEND_URL){
     res.setHeader('Access-Control-Allow-Origin',origin);
     res.setHeader('Vary','Origin');
     res.setHeader('Access-Control-Allow-Credentials','true');
