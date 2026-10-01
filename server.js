@@ -130,7 +130,21 @@ init();
 // Global helper used by public artwork routes.
 function recordArtistStat(artistId,field,amount=1){const d=new Date().toISOString().slice(0,10);db.prepare('INSERT INTO artist_daily_stats(artist_id,day,views,sales) VALUES(?,?,0,0) ON CONFLICT(artist_id,day) DO NOTHING').run(artistId,d);db.prepare(`UPDATE artist_daily_stats SET ${field}=${field}+? WHERE artist_id=? AND day=?`).run(amount,artistId,d)}
 
+function refreshBrandMerch(){
+  const items=[
+    ['AfricanArtistShop T-Shirt','Brand Merchandise','Official AfricanArtistShop T-Shirt. All colours are available.','/uploads/africanartistshop-shirt.jpg',10000,100,'piece'],
+    ['AfricanArtistShop Cap','Brand Merchandise','Official AfricanArtistShop cap. All colours are available.','/uploads/africanartistshop-cap.jpg',6000,100,'piece']
+  ];
+  const ins=db.prepare('INSERT INTO supplies(name,category,description,image_url,price,stock,unit) VALUES(?,?,?,?,?,?,?)');
+  const upd=db.prepare('UPDATE supplies SET category=?,description=?,image_url=?,price=?,stock=?,unit=?,active=1 WHERE name=?');
+  items.forEach(x=>{
+    const existing=db.prepare('SELECT id FROM supplies WHERE name=?').get(x[0]);
+    if(existing) upd.run(x[1],x[2],x[3],x[4],x[5],x[6],x[0]);
+    else ins.run(...x);
+  });
+}
 refreshSupplyImages();
+refreshBrandMerch();
 testSupabaseConnection().catch(()=>{});
 
 function seedExpandedSupplies(){
