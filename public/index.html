@@ -227,6 +227,7 @@ html,body{overflow-x:hidden!important}
 <button class="option-card" onclick="showView('trainingView')"><span class="option-no">5</span><h2>Train as a Young Artist</h2><p>Open the FAQ or start a training enquiry for a young artist aged 4–18.</p></button>
 <button class="option-card" onclick="showView('topView');loadTopArtists()"><span class="option-no">6</span><h2>Top Artists of the Day</h2><p>See the selected artists of the day and click through to their profiles.</p></button>
 <button class="option-card" onclick="showView('dealsView');loadDeals()"><span class="option-no">7</span><h2>Best Art Materials Deals of the Day</h2><p>See selected art materials and their current catalogue prices.</p></button>
+<button class="option-card" onclick="showView('renewView')"><span class="option-no">8</span><h2>Renew / Reframe Your Artwork</h2><p>Need an old artwork refreshed, repaired or reframed? Send us a short enquiry and we’ll get in touch.</p></button>
 </div></section>
 
 <section id="artistRegistrationView" class="view">
@@ -300,6 +301,28 @@ html,body{overflow-x:hidden!important}
 <section id="topView" class="view"><div class="view-head"><div><button class="back" onclick="goHome()">← Back to homepage</button><h2>Top Artists of the Day</h2><p>Artists returned by the marketplace's daily activity data.</p></div></div><div id="topGrid" class="top-grid"></div></section>
 
 <section id="dealsView" class="view"><div class="view-head"><div><button class="back" onclick="goHome()">← Back to homepage</button><h2>Best Art Materials Deals of the Day</h2><p>Selected materials highlighted for today. Prices shown are the current catalogue prices.</p></div></div><div id="dealsGrid" class="product-grid"></div></section>
+
+<section id="renewView" class="view">
+ <div class="view-head"><div><button class="back" onclick="goHome()">← Back to homepage</button><h2>Renew / Reframe Your Artwork</h2><p>Tell us briefly what you need done to your artwork. We’ll review the request and get back to you through WhatsApp.</p></div></div>
+ <div class="training-panel" style="max-width:820px;margin:0 auto">
+  <div class="kicker">ARTWORK CARE & FRAMING</div>
+  <h3 style="font:700 32px Georgia,serif;margin:7px 0 10px">Let’s give your artwork a fresh presentation.</h3>
+  <p class="muted" style="line-height:1.65">Use this short form for reframing, frame replacement, artwork refresh/renewal, minor restoration enquiries or general advice. We’ll use the WhatsApp number you provide to continue the conversation.</p>
+  <form onsubmit="submitRenewalEnquiry(event)" style="margin-top:20px">
+   <div class="form-grid">
+    <input id="rrName" required placeholder="Your name">
+    <input id="rrPhone" required placeholder="Phone / WhatsApp number">
+    <select id="rrService"><option>Reframe my artwork</option><option>Replace / repair an old frame</option><option>Renew / refresh an artwork</option><option>Minor restoration enquiry</option><option>General artwork care advice</option></select>
+    <input id="rrArtwork" placeholder="Artwork type / title (optional)">
+    <input id="rrSize" placeholder="Approx. artwork size (optional)">
+    <input id="rrLocation" placeholder="Your location / city">
+   </div>
+   <textarea id="rrNotes" class="single-input" placeholder="Briefly describe what you want us to do"></textarea>
+   <button class="clean-btn primary" type="submit">Send enquiry on WhatsApp →</button>
+  </form>
+  <p class="mini-note" style="margin-top:12px">After you submit, WhatsApp will open with your enquiry already prepared for AfricanArtistShop.</p>
+ </div>
+</section>
 </main>
 
 
@@ -374,6 +397,12 @@ async function loadTopArtists(){const g=$('topGrid');g.innerHTML='<div class="em
 function toggleTraining(which){$('trainingFaq').classList.toggle('open',which==='faq');$('trainingEnquiry').classList.toggle('open',which==='enquiry');if(which==='enquiry')$('trainingEnquiry').scrollIntoView({behavior:'smooth',block:'nearest'})}
 async function submitTraining(e){e.preventDefault();const body={child_name:$('tc').value,child_age:Number($('ta').value),guardian_name:$('tg').value,guardian_phone:$('tp').value,email:$('te').value,location:$('tl').value,training_type:$('tt').value,notes:$('tn').value};try{const r=await apiFetch('/api/training-requests',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)});const d=await r.json();if(!r.ok)throw Error(d.error||'Could not submit enquiry');alert('Training enquiry submitted. Reference #'+d.id+'.');e.target.reset()}catch(err){alert(err.message)}}
 function globalSearch(q){if(!q.trim())return;showView('materialsView');loadMaterials().then(()=>{const m=allMaterials.filter(x=>x.name.toLowerCase().includes(q.toLowerCase()));if(m.length){renderMaterials(m);return}showView('artShopView')})}
+function submitRenewalEnquiry(e){
+  e.preventDefault();
+  const name=$('rrName').value.trim(),phone=$('rrPhone').value.trim(),service=$('rrService').value,artwork=$('rrArtwork').value.trim(),size=$('rrSize').value.trim(),location=$('rrLocation').value.trim(),notes=$('rrNotes').value.trim();
+  const textMsg='Hello AfricanArtistShop 👋\n\nI would like to enquire about artwork renewal / reframing.\n\nNAME: '+name+'\nPHONE/WHATSAPP: '+phone+'\nSERVICE: '+service+'\nARTWORK: '+(artwork||'Not supplied')+'\nSIZE: '+(size||'Not supplied')+'\nLOCATION: '+(location||'Not supplied')+'\nDETAILS: '+(notes||'Not supplied')+'\n\nPlease let me know the next steps, estimated cost and how I can send/show the artwork.\n\nThank you.\nAfricanArtistShop';
+  window.open('https://wa.me/2347031484486?text='+encodeURIComponent(textMsg),'_blank');
+}
 function openModal(html){$('modalContent').innerHTML=html;$('cleanModal').classList.add('open')}function closeModal(){$('cleanModal').classList.remove('open')}
 function addCart(item){const found=cart.find(x=>x.type===item.type&&x.id===item.id);if(found)found.quantity++;else{item.quantity=1;cart.push(item)}saveCart();closeModal();alert(item.title+' added to cart.')}
 function saveCart(){localStorage.setItem('aas_cart_v2',JSON.stringify(cart));$('cartCount').textContent=cart.reduce((n,x)=>n+x.quantity,0)}
