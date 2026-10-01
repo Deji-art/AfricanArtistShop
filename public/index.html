@@ -205,6 +205,24 @@ html,body{overflow-x:hidden!important}
 @media(max-width:720px){.reg-steps,.tier-grid{grid-template-columns:1fr}.artist-reg-intro h2{font-size:34px}.reg-form-grid{grid-template-columns:1fr}.reg-form-grid .full{grid-column:auto}.reg-form-panel{padding:18px}.tier-card{padding:20px}}
 
 .artist-studio{display:none;margin-top:22px;background:var(--paper);border:1px solid var(--line);border-radius:22px;padding:24px}.artist-studio.open{display:block}.studio-head{display:flex;justify-content:space-between;gap:15px;align-items:start;margin-bottom:18px}.studio-head h3{font:700 30px Georgia,serif;margin:5px 0}.studio-status{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:20px}.studio-stat{background:#fff;border:1px solid var(--line);border-radius:14px;padding:14px}.studio-stat b{display:block;font-size:20px;margin-bottom:4px}.studio-stat span{font-size:12px;color:var(--muted)}.studio-form{border-top:1px solid var(--line);padding-top:20px}.studio-form h4{font:700 24px Georgia,serif;margin:0 0 8px}.studio-form-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}.studio-form-grid input,.studio-form-grid textarea{width:100%;padding:13px 14px;border:1px solid var(--line);border-radius:12px;background:#fff;box-sizing:border-box}.studio-form-grid textarea{min-height:105px;resize:vertical}.studio-form-grid .full{grid-column:1/-1}.studio-works{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:20px}.studio-work{border:1px solid var(--line);border-radius:15px;background:#fff;overflow:hidden}.studio-work img{width:100%;height:170px;object-fit:cover}.studio-work .pad{padding:12px}.studio-work h5{font-size:16px;margin:0 0 5px}.studio-work p{font-size:12px;color:var(--muted);margin:4px 0}.studio-note{color:var(--muted);font-size:12px;line-height:1.55;margin-top:12px}@media(max-width:720px){.studio-status,.studio-form-grid,.studio-works{grid-template-columns:1fr}.studio-form-grid .full{grid-column:auto}.artist-studio{padding:18px}}
+</style><style id="materials-only-mobile-format">
+/* Keep the improved compact format ONLY for material/product cards. */
+@media(max-width:620px){
+  #materialsView .product-grid,#dealsView .product-grid{
+    grid-template-columns:repeat(2,minmax(0,1fr));
+    gap:10px;
+  }
+  #materialsView .product-card img,#dealsView .product-card img{
+    height:155px;
+    object-fit:contain;
+    background:#fff;
+  }
+  #materialsView .product-card .pad,#dealsView .product-card .pad{padding:10px}
+  #materialsView .product-card h3,#dealsView .product-card h3{font-size:15px;line-height:1.2}
+  #materialsView .product-card p,#dealsView .product-card p{font-size:12px;line-height:1.35}
+  #materialsView .product-card .price,#dealsView .product-card .price{font-size:17px}
+  #materialsView .product-card .clean-btn,#dealsView .product-card .clean-btn{width:100%;padding:9px 6px;font-size:12px}
+}
 </style></head>
 <body>
 <div class="top">AfricanArtistShop • Original African art • Artist storefronts • Art materials</div>
