@@ -132,8 +132,8 @@ function recordArtistStat(artistId,field,amount=1){const d=new Date().toISOStrin
 
 function refreshBrandMerch(){
   const items=[
-    ['AfricanArtistShop T-Shirt','Brand Merchandise','Official AfricanArtistShop T-Shirt. All colours are available.','/uploads/africanartistshop-shirt.jpg',10000,100,'piece'],
-    ['AfricanArtistShop Cap','Brand Merchandise','Official AfricanArtistShop cap. All colours are available.','/uploads/africanartistshop-cap.jpg',6000,100,'piece']
+    ['AfricanArtistShop T-Shirt','Brand Merchandise','Official AfricanArtistShop T-Shirt. All colours are available.','/uploads/africanartistshop-shirt.webp',10000,100,'piece'],
+    ['AfricanArtistShop Cap','Brand Merchandise','Official AfricanArtistShop cap. All colours are available.','/uploads/africanartistshop-cap.webp',6000,100,'piece']
   ];
   const ins=db.prepare('INSERT INTO supplies(name,category,description,image_url,price,stock,unit) VALUES(?,?,?,?,?,?,?)');
   const upd=db.prepare('UPDATE supplies SET category=?,description=?,image_url=?,price=?,stock=?,unit=?,active=1 WHERE name=?');
