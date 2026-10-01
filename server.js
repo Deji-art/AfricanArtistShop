@@ -294,12 +294,12 @@ async function refreshExpandedSupplyImages(){
   };
   for(let i=0;i<rows.length;i+=concurrency){
     const batch=rows.slice(i,i+concurrency);
-    const images=await Promise.all(batch.map(async x=>{
+    /* Never replace a curated real product image with a generic/Commons image just
+       because Render cannot reach the supplier while the server is starting. */
+    batch.forEach(x=>{
       const preferred=curated[x.name];
-      if(preferred && await reachable(preferred)) return preferred;
-      return await getCommonsImage(x.name);
-    }));
-    images.forEach((url,j)=>q.run(url||curated[batch[j].name]||fallback,batch[j].id));
+      if(preferred) q.run(preferred,x.id);
+    });
   }
 }
 refreshExpandedSupplyImages().catch(e=>console.error('Supply image refresh failed:',e.message));
