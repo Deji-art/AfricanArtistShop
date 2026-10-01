@@ -205,6 +205,62 @@ html,body{overflow-x:hidden!important}
 @media(max-width:720px){.reg-steps,.tier-grid{grid-template-columns:1fr}.artist-reg-intro h2{font-size:34px}.reg-form-grid{grid-template-columns:1fr}.reg-form-grid .full{grid-column:auto}.reg-form-panel{padding:18px}.tier-card{padding:20px}}
 
 .artist-studio{display:none;margin-top:22px;background:var(--paper);border:1px solid var(--line);border-radius:22px;padding:24px}.artist-studio.open{display:block}.studio-head{display:flex;justify-content:space-between;gap:15px;align-items:start;margin-bottom:18px}.studio-head h3{font:700 30px Georgia,serif;margin:5px 0}.studio-status{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:20px}.studio-stat{background:#fff;border:1px solid var(--line);border-radius:14px;padding:14px}.studio-stat b{display:block;font-size:20px;margin-bottom:4px}.studio-stat span{font-size:12px;color:var(--muted)}.studio-form{border-top:1px solid var(--line);padding-top:20px}.studio-form h4{font:700 24px Georgia,serif;margin:0 0 8px}.studio-form-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}.studio-form-grid input,.studio-form-grid textarea{width:100%;padding:13px 14px;border:1px solid var(--line);border-radius:12px;background:#fff;box-sizing:border-box}.studio-form-grid textarea{min-height:105px;resize:vertical}.studio-form-grid .full{grid-column:1/-1}.studio-works{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:20px}.studio-work{border:1px solid var(--line);border-radius:15px;background:#fff;overflow:hidden}.studio-work img{width:100%;height:170px;object-fit:cover}.studio-work .pad{padding:12px}.studio-work h5{font-size:16px;margin:0 0 5px}.studio-work p{font-size:12px;color:var(--muted);margin:4px 0}.studio-note{color:var(--muted);font-size:12px;line-height:1.55;margin-top:12px}@media(max-width:720px){.studio-status,.studio-form-grid,.studio-works{grid-template-columns:1fr}.studio-form-grid .full{grid-column:auto}.artist-studio{padding:18px}}
+</style><style id="final-responsive-polish">
+/* Final mobile-first marketplace polish */
+html,body{max-width:100%;overflow-x:hidden}
+img{max-width:100%}
+button,input,select,textarea{max-width:100%}
+.product-grid{grid-template-columns:repeat(auto-fit,minmax(220px,1fr));align-items:stretch}
+.product-card{min-width:0}
+.product-card img{display:block;width:100%;height:220px;object-fit:cover;background:#fff}
+.product-card .pad{min-width:0}
+.product-card h3,.product-card p{overflow-wrap:anywhere}
+.form-grid{min-width:0}
+@media(max-width:760px){
+  .clean-main{padding-left:12px!important;padding-right:12px!important}
+  .hero-carousel{min-height:500px!important}
+  .hero-carousel .hero-slide{padding:34px 8% 58px!important}
+  .hero-carousel .hero-premium-inner{width:100%!important}
+  .hero-carousel .hero-kicker{font-size:10px!important;letter-spacing:1.8px!important}
+  .hero-carousel .hero-slide h1{font-size:clamp(34px,9.5vw,48px)!important;line-height:.98!important;letter-spacing:-1.5px!important}
+  .hero-carousel .hero-slide p{font-size:14px!important;line-height:1.5!important;max-width:100%!important}
+  .hero-actions{display:grid!important;grid-template-columns:1fr!important;width:100%!important}
+  .hero-actions .clean-btn{width:100%!important}
+  .hero-arrow{top:auto!important;bottom:15px!important;transform:none!important}
+  .hero-prev{left:12px!important}.hero-next{right:12px!important}
+  .hero-dots{bottom:25px!important}
+  .option-grid,.category-grid,.artist-grid-clean,.top-grid,.work-grid{grid-template-columns:1fr!important}
+  .product-grid{grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:10px!important}
+  .product-card img{height:170px!important}
+  .product-card .pad{padding:11px!important}
+  .product-card h3{font-size:16px!important;line-height:1.2!important}
+  .product-card p{font-size:12px!important}
+  .product-card .price{font-size:18px!important}
+  .product-card .clean-btn{width:100%!important;padding:9px 8px!important;font-size:12px!important}
+  .view-head h2{font-size:30px!important;line-height:1.08!important}
+  .view-head p{font-size:13px!important}
+  .directory-tools{width:100%!important}
+  .directory-tools input{min-width:0!important;width:100%!important}
+  .training-panel,.profile,.reg-form-panel{padding:16px!important}
+  .form-grid,.reg-form-grid{grid-template-columns:1fr!important}
+  .clean-box{width:calc(100vw - 20px)!important;max-height:90vh!important;padding:18px!important}
+  .cart-line{align-items:flex-start!important;flex-wrap:wrap!important}
+  .cart-line .cart-grow{min-width:calc(100% - 80px)!important}
+  .clean-footer{padding:24px 14px!important}
+}
+@media(max-width:430px){
+  .clean-nav{padding:6px 7px!important}
+  .clean-nav .site-logo{width:96px!important;height:43px!important}
+  .clean-nav>.clean-btn.dark{font-size:0!important;width:40px!important}
+  .clean-nav>.clean-btn.dark:before{content:"♙";font-size:18px!important}
+  .clean-nav>.clean-btn:last-child{width:40px!important;min-width:40px!important}
+  .clean-main{padding-left:10px!important;padding-right:10px!important}
+  .product-grid{grid-template-columns:1fr 1fr!important;gap:8px!important}
+  .product-card img{height:145px!important}
+  .product-card .pad{padding:9px!important}
+  .product-card h3{font-size:14px!important}
+  .product-card .price{font-size:16px!important}
+}
 </style></head>
 <body>
 <div class="top">AfricanArtistShop • Original African art • Artist storefronts • Art materials</div>
@@ -387,12 +443,12 @@ function openFaceOfTime(){openModal('<h2>Face of Time</h2><div style="display:gr
 async function artDetails(id){try{const r=await apiFetch('/api/artworks/'+id);const a=await r.json();openModal('<h2>'+esc(a.title)+'</h2><img style="width:100%;max-height:480px;object-fit:contain;border-radius:16px;background:#fff" src="'+esc(a.image_url||fallbackArtwork())+'" onerror="this.src=\''+fallbackArtwork()+'\'"><p><b>Artist:</b> '+esc(a.artist_name)+'</p><p><b>Medium:</b> '+esc(a.medium)+' &nbsp; <b>Size:</b> '+esc(a.size||'Not supplied')+'</p><p>'+esc(a.description||'Original African artwork.')+'</p><p class="price">'+money(a.price)+'</p><p><b>Availability:</b> '+esc(a.availability||'Available')+'</p><button class="clean-btn primary" onclick="addCart({type:\'art\',id:'+a.id+',title:\''+jsq(a.title)+'\',price:'+Number(a.price)+',image:\''+jsq(a.image_url||fallbackArtwork())+'\'})">Add to cart</button>')}catch(e){openFaceOfTime()}}
 function jsq(s){return String(s??'').replace(/\\/g,'\\\\').replace(/'/g,"\\'")}
 async function loadMaterials(){if(allMaterials.length){renderMaterials(allMaterials);return}$('materialsGrid').innerHTML='<div class="empty">Loading materials…</div>';try{const r=await apiFetch('/api/supplies');allMaterials=await r.json();renderMaterials(allMaterials)}catch(e){$('materialsGrid').innerHTML='<div class="empty">Materials could not be loaded.</div>'}}
-function renderMaterials(list){if(!list.length){$('materialsGrid').innerHTML='<div class="empty">No materials are currently available.</div>';return}const fallback='https://commons.wikimedia.org/wiki/Special:FilePath/Art%20supplies%20clutter%20%28Unsplash%29.jpg?width=900';$('materialsGrid').innerHTML=list.map(s=>'<article class="product-card"><img src="'+esc(s.image_url||fallback)+'" alt="'+esc(s.name)+'" loading="lazy" data-material-id="'+s.id+'" data-material-name="'+esc(s.name)+'" onerror="repairMaterialImage(this)"><div class="pad"><span class="tag">'+esc(s.category)+'</span><h3>'+esc(s.name)+'</h3><p>'+esc(s.description||'Art material')+'</p><div class="price">'+money(s.price)+'</div><p>'+esc(String(s.stock))+' '+esc(s.unit||'piece')+' available</p><button class="clean-btn primary" onclick="supplyDetails('+s.id+')">View product</button></div></article>').join('')}
+function renderMaterials(list){if(!list.length){$('materialsGrid').innerHTML='<div class="empty">No materials are currently available.</div>';return}const fallback='https://commons.wikimedia.org/wiki/Special:FilePath/Art%20supplies%20clutter%20%28Unsplash%29.jpg?width=900';$('materialsGrid').innerHTML=list.map(s=>'<article class="product-card"><img src="/api/supplies/'+encodeURIComponent(s.id)+'/image?v=3" alt="'+esc(s.name)+'" loading="lazy" data-material-id="'+s.id+'" data-material-name="'+esc(s.name)+'" onerror="repairMaterialImage(this)"><div class="pad"><span class="tag">'+esc(s.category)+'</span><h3>'+esc(s.name)+'</h3><p>'+esc(s.description||'Art material')+'</p><div class="price">'+money(s.price)+'</div><p>'+esc(String(s.stock))+' '+esc(s.unit||'piece')+' available</p><button class="clean-btn primary" onclick="supplyDetails('+s.id+')">View product</button></div></article>').join('')}
 async function repairMaterialImage(img){if(img.dataset.proxyTried==='2'){img.src='https://commons.wikimedia.org/wiki/Special:FilePath/Art%20supplies%20clutter%20%28Unsplash%29.jpg?width=900';return}const id=img.dataset.materialId;if(id&&img.dataset.proxyTried!=='1'){img.dataset.proxyTried='1';img.src='/api/supplies/'+encodeURIComponent(id)+'/image?v=2';return}img.dataset.proxyTried='2';img.src='https://commons.wikimedia.org/wiki/Special:FilePath/Art%20supplies%20clutter%20%28Unsplash%29.jpg?width=900'}
 function filterMaterials(q){const s=q.toLowerCase();renderMaterials(allMaterials.filter(x=>(x.name+' '+x.category).toLowerCase().includes(s)))}
-async function supplyDetails(id){try{const r=await apiFetch('/api/supplies/'+id);const s=await r.json();openModal('<h2>'+esc(s.name)+'</h2><img style="width:100%;height:330px;object-fit:contain;background:#fff;border-radius:15px" src="'+esc(s.image_url)+'"><p><b>Category:</b> '+esc(s.category)+'</p><p>'+esc(s.description)+'</p><p class="price">'+money(s.price)+'</p><p><b>Availability:</b> '+esc(String(s.stock))+' '+esc(s.unit||'piece')+' in stock</p><button class="clean-btn primary" onclick="addCart({type:\'supply\',id:'+s.id+',title:\''+jsq(s.name)+'\',price:'+Number(s.price)+',image:\''+jsq(s.image_url)+'\'})">Add to cart</button>')}catch(e){alert('Product details could not be loaded.')}}
+async function supplyDetails(id){try{const r=await apiFetch('/api/supplies/'+id);const s=await r.json();openModal('<h2>'+esc(s.name)+'</h2><img style="width:100%;height:330px;object-fit:contain;background:#fff;border-radius:15px" src="/api/supplies/'+encodeURIComponent(s.id)+'/image?v=3" onerror="this.src=''+esc(s.image_url||fallbackArtwork())+''"><p><b>Category:</b> '+esc(s.category)+'</p><p>'+esc(s.description)+'</p><p class="price">'+money(s.price)+'</p><p><b>Availability:</b> '+esc(String(s.stock))+' '+esc(s.unit||'piece')+' in stock</p><button class="clean-btn primary" onclick="addCart({type:\'supply\',id:'+s.id+',title:\''+jsq(s.name)+'\',price:'+Number(s.price)+',image:\''+jsq(s.image_url)+'\'})">Add to cart</button>')}catch(e){alert('Product details could not be loaded.')}}
 async function loadDeals(){const g=$('dealsGrid');g.innerHTML='<div class="empty">Loading today’s selected materials…</div>';try{const r=await apiFetch('/api/supplies');const a=await r.json();renderDeals(a.slice(0,6))}catch(e){g.innerHTML='<div class="empty">Deals could not be loaded.</div>'}}
-function renderDeals(a){$('dealsGrid').innerHTML=a.length?a.map(s=>'<article class="product-card deal"><img src="'+esc(s.image_url)+'" alt="'+esc(s.name)+'"><div class="pad"><span class="tag">DEAL OF THE DAY</span><h3>'+esc(s.name)+'</h3><p>'+esc(s.category)+'</p><div class="price">'+money(s.price)+'</div><button class="clean-btn primary" onclick="supplyDetails('+s.id+')">View deal</button></div></article>').join(''):'<div class="empty">No deals are currently listed.</div>'}
+function renderDeals(a){$('dealsGrid').innerHTML=a.length?a.map(s=>'<article class="product-card deal"><img src="/api/supplies/'+encodeURIComponent(s.id)+'/image?v=3" alt="'+esc(s.name)+'" onerror="repairMaterialImage(this)"><div class="pad"><span class="tag">DEAL OF THE DAY</span><h3>'+esc(s.name)+'</h3><p>'+esc(s.category)+'</p><div class="price">'+money(s.price)+'</div><button class="clean-btn primary" onclick="supplyDetails('+s.id+')">View deal</button></div></article>').join(''):'<div class="empty">No deals are currently listed.</div>'}
 async function loadTopArtists(){const g=$('topGrid');g.innerHTML='<div class="empty">Loading today’s artists…</div>';try{const r=await apiFetch('/api/top-artists');const a=await r.json();g.innerHTML=a.length?a.map((x,i)=>'<article class="top-card"><span class="rank">#'+(i+1)+'</span><img src="'+esc(x.image_url||fallbackArtist())+'" alt="'+esc(x.name)+'" onerror="this.src=\''+fallbackArtist()+'\'"><div class="pad"><span class="tag">'+esc(x.artist_type==='kid'?'Superkid':x.artist_type==='signature'?'Veteran/Signature':'Professional')+'</span><h3>'+esc(x.name)+'</h3><p class="muted">'+esc(x.specialty||'African artist')+'</p><button class="clean-btn primary" onclick="openProfile('+x.id+')">View artist</button></div></article>').join(''):'<div class="empty">Top artist information will appear as approved artists build activity.</div>'}catch(e){g.innerHTML='<div class="empty">Top artists could not be loaded.</div>'}}
 function toggleTraining(which){$('trainingFaq').classList.toggle('open',which==='faq');$('trainingEnquiry').classList.toggle('open',which==='enquiry');if(which==='enquiry')$('trainingEnquiry').scrollIntoView({behavior:'smooth',block:'nearest'})}
 async function submitTraining(e){e.preventDefault();const body={child_name:$('tc').value,child_age:Number($('ta').value),guardian_name:$('tg').value,guardian_phone:$('tp').value,email:$('te').value,location:$('tl').value,training_type:$('tt').value,notes:$('tn').value};try{const r=await apiFetch('/api/training-requests',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)});const d=await r.json();if(!r.ok)throw Error(d.error||'Could not submit enquiry');alert('Training enquiry submitted. Reference #'+d.id+'.');e.target.reset()}catch(err){alert(err.message)}}
