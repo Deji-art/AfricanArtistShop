@@ -11,19 +11,17 @@
 
   const AAS_SIGNATURE_WORKS={
     'Mufu Onifade':[
-      {title:'The Ancestral Lineage',year:'2013',medium:'Oil on canvas',image:'https://artsandculture.google.com/asset/the-ancestral-lineage-mufu-onifade/cgEu0qVf0vApSQ?hl=en',source:'Yemisi Shyllon Museum of Art'},
-      {title:'Òòyà Má Yà Wá (Marital Bond)',year:'2021',medium:'Acrylic on canvas · Araism',image:'https://artgidi.com/get_artwork/1305',source:'Artgidi'},
-      {title:'OJO KETA (Third Day)',year:'2021',medium:'Painting',image:'https://artgidi.com/artists/52',source:'Artgidi'}
+      {title:'Mosaic Portrait with Roman Numerals',year:'',medium:'Painting',image:'https://d7hftxdivxxvm.cloudfront.net/?height=630&quality=80&resize_to=fill&src=https%3A%2F%2Fd32dm0rphc51dk.cloudfront.net%2F9F3nncqc07z-usX1zi2uAg%2Flarge.jpg&width=1200',source:'Artsy'}
     ],
     'Duke Asidere':[
-      {title:'The Lady',year:'2011',medium:'Oil on canvas',image:'https://gallery.omenka.net/project/duke-asidere/',source:'Omenka Gallery'},
-      {title:'Peace',year:'2014',medium:'Oil on canvas',image:'https://gallery.omenka.net/project/duke-asidere/',source:'Omenka Gallery'},
-      {title:'Re-connections',year:'2014',medium:'Oil on canvas',image:'https://d32dm0rphc51dk.cloudfront.net/0lHzz7LB5qTM6ZDVFCVlhw/large.jpg',source:'Artsy'}
+      {title:'April Dates',year:'2013',medium:'Oil painting',image:'https://artlogic-res.cloudinary.com/w_1200%2Cc_limit%2Cf_auto%2Cfl_lossy%2Cq_auto/artlogicstorage/odaart/images/view/7cb1f22170bb6e1d6cfe34d1be44b98f/odaart-duke-asidere-april-dates-2013.jpg',source:'ODA Art'},
+      {title:'The Day Off',year:'2016',medium:'Mixed media',image:'https://static-assets.artlogic.net/w_1200%2Cc_limit%2Cf_auto%2Cfl_lossy%2Cq_auto/artlogicstorage/smocontemporaryart/images/view/2935d88465b5dbf2ef39df1dabd44c6bj/smocontemporaryart-duke-asidere-the-day-off-2016.jpg',source:'SMO Contemporary Art'},
+      {title:'Patience',year:'2024',medium:'Oil on canvas',image:'https://d7hftxdivxxvm.cloudfront.net/?quality=80&resize_to=width&src=https%3A%2F%2Fd32dm0rphc51dk.cloudfront.net%2FEPhHtxhQ0L37z9oCB2nDAg%2Fmain.jpg&width=450',source:'Artsy'}
     ],
     'Bruce Onobrakpeya':[
       {title:'Efioto Vephran (Hunting Rabbits and Birds)',year:'1977',medium:'Deep etching',image:'https://static-assets.artlogic.net/w_1600%2Ch_1600%2Cc_limit%2Cf_auto%2Cfl_lossy%2Cq_auto/artlogicstorage/smocontemporaryart/images/view/7e342b41ad11bb1f6fedb779a0741298j/smocontemporaryart-bruce-onobrakpeya-efioto-vephran-hunting-rabbits-and-birds-black-and-white-1977.jpg',source:'SMO Contemporary Art'},
-      {title:'The Great Hunter',year:'',medium:'Print',image:'https://artsandculture.google.com/asset/the-great-hunter/rAEDqscVuTWMYw',source:'Yemisi Shyllon Museum of Art'},
-      {title:'Ugbudia (Fly Whisk) Leadership',year:'2013',medium:'Print',image:'https://toofcollection.com/artists/bruce-onobrakpeya',source:'The Osahon Okunbo Foundation Collection'}
+      {title:'Ugbudia (Leadership)',year:'2013',medium:'Plastograph on board',image:'https://media.mutualart.com/Images/2019_07/16/06/065805027/bf835244-b6f4-4460-b14f-c52fcffd5365_570.Jpeg',source:'MutualArt'},
+      {title:'Ekugbe (Unity)',year:'1995',medium:'Oil on canvas',image:'https://img1.bonhams.com/image?src=Images%2Flive%2F2019-02%2F01%2F9226436-1-1.jpg',source:'Bonhams'}
     ],
     'Chief Nike Okundaye':[
       {title:'Rythm of Life',year:'1995',medium:'Acrylic and pen-and-ink on canvas',image:'https://d7hftxdivxxvm.cloudfront.net/?height=1574&quality=85&resize_to=fit&src=https%3A%2F%2Fd32dm0rphc51dk.cloudfront.net%2Fq9Ol1Mj9o74FjtsS0-X66Q%2Fnormalized.jpg&width=1600',source:'Artsy / Nike Art Gallery'},
@@ -33,7 +31,6 @@
   };
 
   function esc(v){return String(v==null?'':v).replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));}
-
   function showSignatureProfileByName(name){
     const data=(window.AAS_SIGNATURES||[]).find(x=>x.name===name)||{name:name,specialty:'Signature artist',bio:'Approved or featured signature artist on AfricanArtistShop.',image:'',url:''};
     const works=AAS_SIGNATURE_WORKS[data.name]||[];
@@ -52,173 +49,46 @@
     window.openM();
   }
   window.showSignatureProfile=showSignatureProfileByName;
-
-  window.showNikeSignature = function(){ showSignatureProfileByName('Chief Nike Okundaye'); };
+  window.showNikeSignature=function(){showSignatureProfileByName('Chief Nike Okundaye');};
 
   function setupLayout(){
-    const about=document.getElementById('about');
-    const contact=document.getElementById('contact');
-    const signature=document.getElementById('signature');
-    const footer=document.querySelector('footer');
-    if(!footer) return;
-
-    if(about) about.remove();
-    if(contact) contact.remove();
-
+    const about=document.getElementById('about'),contact=document.getElementById('contact'),signature=document.getElementById('signature'),footer=document.querySelector('footer');
+    if(!footer)return;
+    if(about)about.remove(); if(contact)contact.remove();
     if(!document.getElementById('artistPaths')){
-      const section=document.createElement('section');
-      section.id='artistPaths';
-      section.className='artist-paths page-section';
-      section.innerHTML=
-        '<div class="sectionhead"><div><div class="kicker">CHOOSE YOUR PATH</div><h2>Discover artists or become one</h2><p class="muted sub">Shop from our young and professional artists, or register to build your own AfricanArtistShop storefront.</p></div></div>'+
-        '<div class="artist-path-grid">'+
-          '<article class="artist-path-card kid-path"><div class="path-icon">🎨</div><span class="pill">AGES 4–18</span><h3>Young Artists</h3><p class="muted">Discover original works from young creators. Registration is completed by a parent or guardian.</p><div class="path-actions"><a class="btn" href="#kidartists">Shop from Kid Artists</a><button class="btn primary" type="button" onclick="openArtistApplyKid()">Register as Kid Artist</button></div></article>'+
-          '<article class="artist-path-card pro-path"><div class="path-icon">🖌️</div><span class="pill">ADULT CREATORS</span><h3>Professional Artists</h3><p class="muted">Explore collections from adult and professional artists, or create a professional storefront.</p><div class="path-actions"><a class="btn" href="#proartists">Shop from Professional Artists</a><button class="btn primary" type="button" onclick="openArtistApplyPro()">Register as Professional Artist</button></div></article>'+
-          '<article class="artist-path-card signature-path"><div class="path-icon">✦</div><span class="pill">SIGNATURE</span><h3>Signature Artists</h3><p class="muted">Explore invited and approved renowned artists and their dedicated collections.</p><div class="path-actions"><a class="btn" href="#signature">Shop Signature Artists</a><button class="btn primary" type="button" onclick="openArtistApplySignature()">Register as Signature Artist</button></div></article>'+
-        '</div>';
+      const section=document.createElement('section');section.id='artistPaths';section.className='artist-paths page-section';
+      section.innerHTML='<div class="sectionhead"><div><div class="kicker">CHOOSE YOUR PATH</div><h2>Discover artists or become one</h2><p class="muted sub">Shop from our young and professional artists, or register to build your own AfricanArtistShop storefront.</p></div></div><div class="artist-path-grid">'+
+        '<article class="artist-path-card kid-path"><div class="path-icon">🎨</div><span class="pill">AGES 4–18</span><h3>Young Artists</h3><p class="muted">Discover original works from young creators. Registration is completed by a parent or guardian.</p><div class="path-actions"><a class="btn" href="#kidartists">Shop from Kid Artists</a><button class="btn primary" type="button" onclick="openArtistApplyKid()">Register as Kid Artist</button></div></article>'+ 
+        '<article class="artist-path-card pro-path"><div class="path-icon">🖌️</div><span class="pill">ADULT CREATORS</span><h3>Professional Artists</h3><p class="muted">Explore collections from adult and professional artists, or create a professional storefront.</p><div class="path-actions"><a class="btn" href="#proartists">Shop from Professional Artists</a><button class="btn primary" type="button" onclick="openArtistApplyPro()">Register as Professional Artist</button></div></article>'+ 
+        '<article class="artist-path-card signature-path"><div class="path-icon">✦</div><span class="pill">SIGNATURE</span><h3>Signature Artists</h3><p class="muted">Explore invited and approved renowned artists and their dedicated collections.</p><div class="path-actions"><a class="btn" href="#signature">Shop Signature Artists</a><button class="btn primary" type="button" onclick="openArtistApplySignature()">Register as Signature Artist</button></div></article></div>';
       const hero=document.getElementById('home');
-      if(hero && !document.getElementById('adSlotHero')){ const ad=document.createElement('div'); ad.id='adSlotHero'; ad.className='ad-slot'; ad.innerHTML='<span>ADVERTISEMENT · MUST BUY</span><div class="ad-content"><img src="https://goodsstores.com/cdn/shop/files/paints_set_on_canvas.jpg?v=1776876090&width=900" alt="Acrylic Paint Set"><div><strong>Acrylic Paint Set</strong><p>Build your studio with a versatile acrylic paint set.</p><button class="btn primary" type="button" onclick="document.getElementById(\'supplies\').scrollIntoView({behavior:\'smooth\'});setTimeout(()=>{const q=document.getElementById(\'supplyQ\');if(q){q.value=\'Acrylic Paint Set\';loadSupplies()}},150)">Shop now</button></div></div>'; hero.parentNode.insertBefore(ad,hero.nextSibling); }
+      if(hero&&!document.getElementById('adSlotHero')){const ad=document.createElement('div');ad.id='adSlotHero';ad.className='ad-slot';ad.innerHTML='<span>ADVERTISEMENT · MUST BUY</span><div class="ad-content"><img src="https://goodsstores.com/cdn/shop/files/paints_set_on_canvas.jpg?v=1776876090&width=900" alt="Acrylic Paint Set"><div><strong>Acrylic Paint Set</strong><p>Build your studio with a versatile acrylic paint set.</p><button class="btn primary" type="button" onclick="document.getElementById(\'supplies\').scrollIntoView({behavior:\'smooth\'});setTimeout(()=>{const q=document.getElementById(\'supplyQ\');if(q){q.value=\'Acrylic Paint Set\';loadSupplies()}},150)">Shop now</button></div></div>';hero.parentNode.insertBefore(ad,hero.nextSibling);}
       const sig=document.getElementById('signature');
-      if(sig && !document.getElementById('adSlotSignature')){ const ad=document.createElement('div'); ad.id='adSlotSignature'; ad.className='ad-slot'; ad.innerHTML='<span>FEATURED ARTWORK</span><div class="ad-content"><img src="/face-of-time.svg" alt="Face of Time"><div><strong>Face of Time</strong><p>Featured artwork by Peace Ayodeji.</p><button class="btn primary" type="button" onclick="openPeaceFeature()">View artwork</button></div></div>'; sig.parentNode.insertBefore(ad,sig); }
+      if(sig&&!document.getElementById('adSlotSignature')){const ad=document.createElement('div');ad.id='adSlotSignature';ad.className='ad-slot';ad.innerHTML='<span>FEATURED ARTWORK</span><div class="ad-content"><img src="/face-of-time.svg" alt="Face of Time"><div><strong>Face of Time</strong><p>Featured artwork by Peace Ayodeji.</p><button class="btn primary" type="button" onclick="openPeaceFeature()">View artwork</button></div></div>';sig.parentNode.insertBefore(ad,sig);}
       const footerEl=document.querySelector('footer');
-      if(footerEl && !document.getElementById('adSlotFooter')){ const ad=document.createElement('div'); ad.id='adSlotFooter'; ad.className='ad-slot ad-slot-footer'; ad.innerHTML='<span>FEATURED ARTIST</span><div class="ad-content"><img src="https://static.wixstatic.com/media/4bf3c6_86287c8864954058ae891282071e54c0~mv2.jpg/v1/fill/w_900%2Ch_790%2Cal_c%2Clg_1%2Cq_85/4bf3c6_86287c8864954058ae891282071e54c0~mv2.jpg" alt="Chief Nike Okundaye"><div><strong>Chief Nike Okundaye</strong><p>Nigerian artist, textile artist and founder of Nike Art Gallery.</p><a class="btn primary" href="https://nikeartgallery.ng/" target="_blank" rel="noopener">Official Nike Art Gallery ↗</a></div></div>'; footerEl.parentNode.insertBefore(ad,footerEl); }
-
-      const shop=document.getElementById('shop');
-      const pro=document.getElementById('proartists');
-      if(shop && shop.parentNode) shop.parentNode.insertBefore(section,shop);
-      else if(pro && pro.parentNode) pro.parentNode.insertBefore(section,signature||pro.nextSibling);
-      else if(footer.previousSibling) footer.parentNode.insertBefore(section,footer);
+      if(footerEl&&!document.getElementById('adSlotFooter')){const ad=document.createElement('div');ad.id='adSlotFooter';ad.className='ad-slot ad-slot-footer';ad.innerHTML='<span>FEATURED ARTIST</span><div class="ad-content"><img src="https://static.wixstatic.com/media/4bf3c6_86287c8864954058ae891282071e54c0~mv2.jpg/v1/fill/w_900%2Ch_790%2Cal_c%2Clg_1%2Cq_85/4bf3c6_86287c8864954058ae891282071e54c0~mv2.jpg" alt="Chief Nike Okundaye"><div><strong>Chief Nike Okundaye</strong><p>Nigerian artist, textile artist and founder of Nike Art Gallery.</p><a class="btn primary" href="https://nikeartgallery.ng/" target="_blank" rel="noopener">Official Nike Art Gallery ↗</a></div></div>';footerEl.parentNode.insertBefore(ad,footerEl);}
+      const shop=document.getElementById('shop'),pro=document.getElementById('proartists');
+      if(shop&&shop.parentNode)shop.parentNode.insertBefore(section,shop);else if(pro&&pro.parentNode)pro.parentNode.insertBefore(section,signature||pro.nextSibling);else if(footer.previousSibling)footer.parentNode.insertBefore(section,footer);
     }
-
     let info=document.getElementById('footerInfo');
-    if(!info){
-      info=document.createElement('div');
-      info.id='footerInfo';
-      info.className='footer-info';
-      info.innerHTML=
-        '<div class="footer-col" id="footer-about"><div class="footer-kicker">ABOUT US</div><h3>A marketplace for African creativity.</h3><p>AfricanArtistShop brings original artwork, artists and art materials together, helping collectors discover creators while giving artists a place to present their work.</p></div>'+
-        '<div class="footer-col" id="footer-contact"><div class="footer-kicker">CONTACT US</div><h3>We are here to help.</h3><p>Orders, artist applications, training enquiries and delivery questions can be sent to us.</p><p><b>Phone & WhatsApp:</b><br><span class="contact-number"><a href="tel:+2349075452255">+234 907 545 2255</a> · <a href="https://wa.me/2349075452255" target="_blank" rel="noopener">WhatsApp</a></span><br><span class="contact-number"><a href="tel:+2347031484486">+234 703 148 4486</a> · <a href="https://wa.me/2347031484486" target="_blank" rel="noopener">WhatsApp</a></span></p><p><b>Gmail:</b><br><a href="mailto:africanartistshop@gmail.com">africanartistshop@gmail.com</a></p></div>'+
-        '<div class="footer-col" id="footer-social"><div class="footer-kicker">SOCIAL MEDIA</div><h3>Follow AfricanArtistShop</h3><div class="social-grid"><a href="https://youtube.com/@africanartistsshop" target="_blank" rel="noopener">YouTube · @africanartistsshop</a><a href="https://www.tiktok.com/@africanartistshop" target="_blank" rel="noopener">TikTok · @africanartistshop</a><a href="https://www.instagram.com/africanartistshop" target="_blank" rel="noopener">Instagram · @africanartistshop</a><a href="https://www.linkedin.com/in/africanartistshop" target="_blank" rel="noopener">LinkedIn · @africanartistshop</a><a href="https://www.facebook.com/africanartistshop" target="_blank" rel="noopener">Facebook · africanartistshop</a><a href="https://x.com/africanartistshop" target="_blank" rel="noopener">X · @africanartistshop</a></div><p class="footer-note">Connect with us for new artwork, artist stories, materials and marketplace updates.</p></div>';
-      footer.insertBefore(info,footer.firstChild);
-    }
-    if(about) about.remove();
-    if(contact) contact.remove();
-
-    const generalArtists=document.getElementById('artists');
-    if(generalArtists) generalArtists.remove();
-    const signatureGrid=document.getElementById('signatureGrid');
-    if(signatureGrid){ signatureGrid.innerHTML=''; signatureGrid.style.display='none'; }
-    const sigIntro=document.querySelector('#signature .sectionhead:first-child .sub');
-    if(sigIntro) sigIntro.textContent='Approved and invited signature artists are presented below with portraits and their collections inside AfricanArtistShop.';
-
+    if(!info){info=document.createElement('div');info.id='footerInfo';info.className='footer-info';info.innerHTML='<div class="footer-col" id="footer-about"><div class="footer-kicker">ABOUT US</div><h3>A marketplace for African creativity.</h3><p>AfricanArtistShop brings original artwork, artists and art materials together, helping collectors discover creators while giving artists a place to present their work.</p></div><div class="footer-col" id="footer-contact"><div class="footer-kicker">CONTACT US</div><h3>We are here to help.</h3><p>Orders, artist applications, training enquiries and delivery questions can be sent to us.</p><p><b>Phone & WhatsApp:</b><br><span class="contact-number"><a href="tel:+2349075452255">+234 907 545 2255</a> · <a href="https://wa.me/2349075452255" target="_blank" rel="noopener">WhatsApp</a></span><br><span class="contact-number"><a href="tel:+2347031484486">+234 703 148 4486</a> · <a href="https://wa.me/2347031484486" target="_blank" rel="noopener">WhatsApp</a></span></p><p><b>Gmail:</b><br><a href="mailto:africanartistshop@gmail.com">africanartistshop@gmail.com</a></p></div><div class="footer-col" id="footer-social"><div class="footer-kicker">SOCIAL MEDIA</div><h3>Follow AfricanArtistShop</h3><div class="social-grid"><a href="https://youtube.com/@africanartistsshop" target="_blank" rel="noopener">YouTube · @africanartistsshop</a><a href="https://www.tiktok.com/@africanartistshop" target="_blank" rel="noopener">TikTok · @africanartistshop</a><a href="https://www.instagram.com/africanartistshop" target="_blank" rel="noopener">Instagram · @africanartistshop</a><a href="https://www.linkedin.com/in/africanartistshop" target="_blank" rel="noopener">LinkedIn · @africanartistshop</a><a href="https://www.facebook.com/africanartistshop" target="_blank" rel="noopener">Facebook · africanartistshop</a><a href="https://x.com/africanartistshop" target="_blank" rel="noopener">X · @africanartistshop</a></div><p class="footer-note">Connect with us for new artwork, artist stories, materials and marketplace updates.</p></div>';footer.insertBefore(info,footer.firstChild);}
+    if(about)about.remove();if(contact)contact.remove();
+    const generalArtists=document.getElementById('artists');if(generalArtists)generalArtists.remove();
+    const signatureGrid=document.getElementById('signatureGrid');if(signatureGrid){signatureGrid.innerHTML='';signatureGrid.style.display='none';}
+    const sigIntro=document.querySelector('#signature .sectionhead:first-child .sub');if(sigIntro)sigIntro.textContent='Approved and invited signature artists are presented below with portraits and their collections inside AfricanArtistShop.';
     const directoryCards=document.querySelectorAll('#signature .signature-reference .signature-directory-card');
-    const portraits=[
-      ['https://i2.wp.com/www.johfrimartanddesign.com/wp-content/uploads/2018/09/Artist-Mufu-1.jpg?resize=600%2C600&ssl=1','Mufu Onifade'],
-      ['https://thewheatbakerlagos.com/oatchace/2024/11/Duke-Asidere.jpg','Duke Asidere'],
-      ['https://npr.brightspotcdn.com/dims3/default/strip/false/crop/2857x4000%2B0%2B0/resize/2857x4000%21/?url=http%3A%2F%2Fnpr-brightspot.s3.amazonaws.com%2F5b%2F27%2Fc2d89f0a49178985bd1f5feeb596%2Fbruce-onobrakpeya-artist-13.jpg','Bruce Onobrakpeya']
-    ];
-    directoryCards.forEach((card,i)=>{
-      const p=portraits[i];
-      if(!p || card.querySelector('.directory-portrait')) return;
-      const img=document.createElement('img');
-      img.className='directory-portrait'; img.src=p[0]; img.alt=p[1]+' portrait'; img.loading='lazy'; img.referrerPolicy='no-referrer';
-      img.onerror=function(){this.style.display='none';const ph=document.createElement('div');ph.className='directory-image-fallback';ph.textContent=p[1];this.parentNode.insertBefore(ph,this);};
-      card.insertBefore(img,card.firstChild);
-    });
-
-    document.querySelectorAll('#footer-contact a[href^="mailto:"]').forEach(a=>{
-      const email=a.getAttribute('href').slice(7);
-      a.href='https://mail.google.com/mail/?view=cm&fs=1&to='+encodeURIComponent(email);
-      a.target='_blank'; a.rel='noopener';
-      a.textContent=email+' · Open Gmail';
-    });
-
-    const ref=document.querySelector('#signature .signature-reference');
-    if(false && ref && !document.getElementById('nikeSignatureCard')){
-      const card=document.createElement('article');
-      card.id='nikeSignatureCard';
-      card.className='card signature-directory-card nike-card';
-      card.innerHTML='<img src="https://static.wixstatic.com/media/4bf3c6_86287c8864954058ae891282071e54c0~mv2.jpg/v1/fill/w_900%2Ch_790%2Cal_c%2Clg_1%2Cq_85/4bf3c6_86287c8864954058ae891282071e54c0~mv2.jpg" alt="Chief Nike Okundaye"><div class="body"><span class="pill">APPROVED SIGNATURE ARTIST</span><h3>Nike Art Gallery</h3><p class="muted">Chief Nike Okundaye · artist, textile artist and founder of Nike Art Gallery.</p><button class="btn primary" type="button" onclick="showNikeSignature()">View profile & selected works</button></div>';
-      ref.insertBefore(card,ref.firstChild);
-    }
-
-    document.querySelectorAll('a[href="#about"]').forEach(a=>a.href='#footer-about');
-    document.querySelectorAll('a[href="#contact"]').forEach(a=>a.href='#footer-contact');
-
-    const become=document.getElementById('become');
-    if(become){
-      const tiers=become.querySelectorAll('.tier-card');
-      if(tiers[0]) tiers[0].style.display='none';
-      if(tiers[1]) tiers[1].style.display='none';
-      const heading=become.querySelector('.tier-grid');
-      if(heading) heading.remove();
-      if(false && heading && !heading.querySelector('.signature-only-note')){
-        const note=document.createElement('div');
-        note.className='signature-only-note tier-card';
-        note.innerHTML='<span class="pill">SIGNATURE</span><h3>Renowned / Signature</h3><div class="fee">FREE</div><ul><li>8–10 works</li><li>For invited or approved artists</li><li>Dedicated signature shop</li></ul><button class="btn primary" type="button" onclick="openArtistApplySignature()">Register as Signature Artist</button>';
-        heading.appendChild(note);
-      }
-    }
+    const portraits=[['https://i2.wp.com/www.johfrimartanddesign.com/wp-content/uploads/2018/09/Artist-Mufu-1.jpg?resize=600%2C600&ssl=1','Mufu Onifade'],['https://thewheatbakerlagos.com/oatchace/2024/11/Duke-Asidere.jpg','Duke Asidere'],['https://npr.brightspotcdn.com/dims3/default/strip/false/crop/2857x4000%2B0%2B0/resize/2857x4000%21/?url=http%3A%2F%2Fnpr-brightspot.s3.amazonaws.com%2F5b%2F27%2Fc2d89f0a49178985bd1f5feeb596%2Fbruce-onobrakpeya-artist-13.jpg','Bruce Onobrakpeya']];
+    directoryCards.forEach((card,i)=>{const p=portraits[i];if(!p||card.querySelector('.directory-portrait'))return;const img=document.createElement('img');img.className='directory-portrait';img.src=p[0];img.alt=p[1]+' portrait';img.loading='lazy';img.referrerPolicy='no-referrer';img.onerror=function(){this.style.display='none';const ph=document.createElement('div');ph.className='directory-image-fallback';ph.textContent=p[1];this.parentNode.insertBefore(ph,this);};card.insertBefore(img,card.firstChild);});
+    document.querySelectorAll('#footer-contact a[href^="mailto:"]').forEach(a=>{const email=a.getAttribute('href').slice(7);a.href='https://mail.google.com/mail/?view=cm&fs=1&to='+encodeURIComponent(email);a.target='_blank';a.rel='noopener';a.textContent=email+' · Open Gmail';});
+    document.querySelectorAll('a[href="#about"]').forEach(a=>a.href='#footer-about');document.querySelectorAll('a[href="#contact"]').forEach(a=>a.href='#footer-contact');
+    const become=document.getElementById('become');if(become){const tiers=become.querySelectorAll('.tier-card');if(tiers[0])tiers[0].style.display='none';if(tiers[1])tiers[1].style.display='none';const heading=become.querySelector('.tier-grid');if(heading)heading.remove();}
   }
 
-  function removeDuplicatePeaceListings(){
-    const removeFrom=(selector)=>{
-      document.querySelectorAll(selector+' .card').forEach(card=>{
-        const h=card.querySelector('h3');
-        if(h && /Peace Ayodeji/i.test(h.textContent.trim())) card.remove();
-      });
-    };
-    removeFrom('#adultGrid');
-    removeFrom('#artistGrid');
-  }
-  function fixMarketplaceImages(){
-    const fix=()=>{
-      document.querySelectorAll('img').forEach(img=>{
-        const src=img.getAttribute('src')||'';
-        if(src.includes('/uploads/peace-ayodeji-profile.jpg')) img.src='/peace-ayodeji-profile.svg';
-        if(src.includes('5b99be3e191f60c420084af5b098899b.jpg')) img.src='https://back.vantaart.com/uploads/images/3569d17946031a3d5207b1fc31c935fc.webp';
-        img.style.maxWidth='100%';
-      });
-    };
-    fix();
-    const mo=new MutationObserver(()=>{fix(); if(typeof fixSupplyImages==='function') fixSupplyImages();});
-    mo.observe(document.body,{childList:true,subtree:true});
-    window.addEventListener('load',fix);
-  }
-
-  function setupMobileNav(){
-    const nav=document.querySelector('nav');
-    const links=document.querySelector('.links');
-    if(!nav||!links||document.getElementById('mobileMenuBtn')) return;
-    const btn=document.createElement('button');
-    btn.id='mobileMenuBtn'; btn.className='iconbtn mobile-menu-btn'; btn.type='button';
-    btn.setAttribute('aria-label','Open menu'); btn.setAttribute('aria-expanded','false'); btn.textContent='☰';
-    nav.insertBefore(btn,links);
-    btn.onclick=()=>{
-      const open=links.classList.toggle('mobile-open');
-      btn.setAttribute('aria-expanded',String(open)); btn.textContent=open?'✕':'☰';
-    };
-    links.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>{
-      links.classList.remove('mobile-open'); btn.setAttribute('aria-expanded','false'); btn.textContent='☰';
-    }));
-  }
-
-  function addStyles(){
-    if(document.getElementById('aasCoordinatedStyles')) return;
-    const s=document.createElement('style');
-    s.id='aasCoordinatedStyles';
-    s.textContent='.artist-paths{max-width:1240px;margin:20px auto 0;padding:70px 22px 25px}.artist-path-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px}.artist-path-card{background:var(--paper);border:1px solid var(--line);border-radius:22px;padding:26px;box-shadow:var(--shadow);display:flex;flex-direction:column;min-height:290px}.artist-path-card.kid-path{background:linear-gradient(135deg,#fff8e8,#f7ead2)}.artist-path-card.pro-path{background:linear-gradient(135deg,#eef5f0,#dceae4)}.artist-path-card.signature-path{background:linear-gradient(135deg,#f5f0ff,#ebe2f8)}.path-icon{font-size:30px;margin-bottom:14px}.artist-path-card h3{font:700 29px Georgia,serif;margin:9px 0}.artist-path-card p{line-height:1.65}.path-actions{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-top:auto;padding-top:18px}.path-actions .btn{width:100%;text-align:center}.footer-info{display:grid;grid-template-columns:1.2fr 1fr 1fr;gap:28px;margin:0 0 35px;padding-bottom:32px;border-bottom:1px solid #ffffff22}.footer-col{min-width:0}.footer-kicker{font-size:11px;letter-spacing:2px;font-weight:900;color:#e5a23b;margin-bottom:10px}.footer-col h3{font:700 24px Georgia,serif;color:#fff;margin:0 0 12px}.footer-col p{color:#aaa;line-height:1.65;margin:8px 0}.footer-col a{color:#fff}.footer-col a:hover{color:#e5a23b}.footer-note{font-size:13px}.social-grid{display:grid;grid-template-columns:1fr;gap:8px}.nike-card img{height:260px;width:100%;object-fit:cover}.directory-portrait{display:block!important;width:100%!important;height:250px!important;object-fit:cover!important;border-radius:16px 16px 0 0;aspect-ratio:4/3}.signature-reference .signature-directory-card{overflow:hidden;min-width:0;min-height:0}.signature-reference .body{height:auto;min-height:190px;display:flex;flex-direction:column;justify-content:flex-start}.signature-reference img,.nike-card img{max-width:100%;display:block}.directory-image-fallback{height:250px;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,#173f36,#d36a2a);color:#fff;font:700 28px Georgia,serif;padding:20px;text-align:center}.ad-slot{max-width:1200px;min-height:110px;margin:28px auto;padding:16px 22px;border:1px dashed #c9bda9;border-radius:18px;background:#f8f2e8;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:6px;color:#756d61}.ad-slot span{font-size:10px;letter-spacing:2px;font-weight:900}.ad-slot strong{font-size:14px;font-weight:600}.ad-slot-footer{min-height:90px}.ad-content{width:100%;display:grid;grid-template-columns:180px 1fr;gap:18px;align-items:center;text-align:left}.ad-content img{width:180px;height:120px;object-fit:cover;border-radius:14px}.ad-content strong{font:700 24px Georgia,serif;color:#173f36}.ad-content p{margin:7px 0 12px}.signature-inline-profile{display:block}.signature-inline-head{display:grid;grid-template-columns:280px 1fr;gap:24px;align-items:start}.signature-inline-portrait{width:100%;height:340px;object-fit:cover;border-radius:16px}.signature-inline-head h2{font:700 38px/1.05 Georgia,serif;margin:10px 0}.signature-inline-registration{margin:18px 0;padding:15px 17px;background:#f3eadb;border:1px solid var(--line);border-radius:14px;line-height:1.6}.signature-work-image-wrap{position:relative;background:#fff}.signature-work-image-wrap img{width:100%;height:260px;object-fit:cover;border-radius:0;display:block}.signature-source{position:absolute;left:9px;bottom:9px;padding:5px 8px;background:#111b;color:#fff;border-radius:12px;font-size:10px}.signature-inline-profile .artist-collection{margin-top:30px}.signature-inline-profile .artist-collection-grid{grid-template-columns:repeat(3,1fr)}.signature-inline-profile .signature-work-card{overflow:hidden}.signature-inline-profile .signature-work-card .body{padding:15px}.signature-inline-profile>.btn{margin-top:22px}.artist-collection-grid .card img{max-width:100%}@media(max-width:900px){.artist-path-grid{grid-template-columns:1fr 1fr}.footer-info{grid-template-columns:1fr 1fr}}@media(max-width:700px){.directory-portrait{height:210px!important}.signature-reference{grid-template-columns:1fr!important}.signature-reference .signature-directory-card{width:100%}.directory-image-fallback{height:210px}.ad-slot{min-height:86px;margin:20px 14px;padding:14px}.ad-slot strong{font-size:12px}.nike-profile{grid-template-columns:1fr}.nike-profile-main{height:280px}.nike-work-grid{grid-template-columns:1fr 1fr}.nike-work-grid img{height:130px}.signature-inline-head{grid-template-columns:1fr}.signature-inline-portrait{height:280px}.signature-inline-profile .artist-collection-grid{grid-template-columns:1fr 1fr}.signature-work-image-wrap img{height:180px}.artist-path-grid{grid-template-columns:1fr}.artist-path-card{min-height:0}.path-actions{grid-template-columns:1fr}.footer-info{grid-template-columns:1fr;gap:24px}nav{position:sticky;top:0;padding:9px 12px;gap:7px;flex-wrap:nowrap}.mobile-menu-btn{display:inline-flex;align-items:center;justify-content:center;flex:0 0 auto}.links{display:none;position:absolute;left:0;right:0;top:100%;background:var(--paper);border-bottom:1px solid var(--line);box-shadow:0 14px 30px #0002;padding:10px 14px;flex-direction:column;gap:0;z-index:60;max-height:70vh;overflow:auto}.links.mobile-open{display:flex}.links a{padding:14px 8px;border-bottom:1px solid var(--line);font-size:14px}.links a:last-child{border-bottom:0}.navsearch{display:none}.artist-paths{padding:50px 14px 10px}main{padding-left:4%;padding-right:4%}.hero{margin:0}.two,.stats{grid-template-columns:1fr}.modal{padding:8px}.box{width:100%;max-height:94vh}.form input,.form select,.form textarea{font-size:16px}.nike-profile-main{width:100%;object-fit:cover;border-radius:16px}}@media(max-width:600px){.signature-reference .body{min-height:0}.footer-info{grid-template-columns:1fr}.site-shell,.audience{padding:0 14px}.grid{grid-template-columns:1fr 1fr;gap:12px}.card img{height:180px}.card .body{padding:13px}.card h3{font-size:18px}.btn{width:100%;justify-content:center}.tier-card{padding:18px}.form{gap:10px}.logoImage{max-width:165px;max-height:44px}.signature-inline-profile .artist-collection-grid{grid-template-columns:1fr}.signature-work-image-wrap img{height:240px}}@media(max-width:420px){.grid{grid-template-columns:1fr}.card img{height:230px}.hero h1{font-size:38px}.sectionhead h2{font-size:30px}}';
-    document.head.appendChild(s);
-  }
-
-  setupMobileNav();
-  addStyles();
-  fixMarketplaceImages();
-  removeDuplicatePeaceListings();
-  const peaceObserver=new MutationObserver(removeDuplicatePeaceListings);
-  peaceObserver.observe(document.body,{childList:true,subtree:true});
-  if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',setupLayout);
-  else setupLayout();
+  function removeDuplicatePeaceListings(){const removeFrom=selector=>{document.querySelectorAll(selector+' .card').forEach(card=>{const h=card.querySelector('h3');if(h&&/Peace Ayodeji/i.test(h.textContent.trim()))card.remove();});};removeFrom('#adultGrid');removeFrom('#artistGrid');}
+  function fixMarketplaceImages(){const fix=()=>{document.querySelectorAll('img').forEach(img=>{const src=img.getAttribute('src')||'';if(src.includes('/uploads/peace-ayodeji-profile.jpg'))img.src='/peace-ayodeji-profile.svg';if(src.includes('5b99be3e191f60c420084af5b098899b.jpg'))img.src='https://back.vantaart.com/uploads/images/3569d17946031a3d5207b1fc31c935fc.webp';img.style.maxWidth='100%';});};fix();const mo=new MutationObserver(()=>{fix();if(typeof fixSupplyImages==='function')fixSupplyImages();});mo.observe(document.body,{childList:true,subtree:true});window.addEventListener('load',fix);}
+  function setupMobileNav(){const nav=document.querySelector('nav'),links=document.querySelector('.links');if(!nav||!links||document.getElementById('mobileMenuBtn'))return;const btn=document.createElement('button');btn.id='mobileMenuBtn';btn.className='iconbtn mobile-menu-btn';btn.type='button';btn.setAttribute('aria-label','Open menu');btn.setAttribute('aria-expanded','false');btn.textContent='☰';nav.insertBefore(btn,links);btn.onclick=()=>{const open=links.classList.toggle('mobile-open');btn.setAttribute('aria-expanded',String(open));btn.textContent=open?'✕':'☰';};links.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>{links.classList.remove('mobile-open');btn.setAttribute('aria-expanded','false');btn.textContent='☰';}));}
+  function addStyles(){if(document.getElementById('aasCoordinatedStyles'))return;const s=document.createElement('style');s.id='aasCoordinatedStyles';s.textContent='.artist-paths{max-width:1240px;margin:20px auto 0;padding:70px 22px 25px}.artist-path-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px}.artist-path-card{background:var(--paper);border:1px solid var(--line);border-radius:22px;padding:26px;box-shadow:var(--shadow);display:flex;flex-direction:column;min-height:290px}.artist-path-card.kid-path{background:linear-gradient(135deg,#fff8e8,#f7ead2)}.artist-path-card.pro-path{background:linear-gradient(135deg,#eef5f0,#dceae4)}.artist-path-card.signature-path{background:linear-gradient(135deg,#f5f0ff,#ebe2f8)}.path-icon{font-size:30px;margin-bottom:14px}.artist-path-card h3{font:700 29px Georgia,serif;margin:9px 0}.artist-path-card p{line-height:1.65}.path-actions{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-top:auto;padding-top:18px}.path-actions .btn{width:100%;text-align:center}.footer-info{display:grid;grid-template-columns:1.2fr 1fr 1fr;gap:28px;margin:0 0 35px;padding-bottom:32px;border-bottom:1px solid #ffffff22}.footer-col{min-width:0}.footer-kicker{font-size:11px;letter-spacing:2px;font-weight:900;color:#e5a23b;margin-bottom:10px}.footer-col h3{font:700 24px Georgia,serif;color:#fff;margin:0 0 12px}.footer-col p{color:#aaa;line-height:1.65;margin:8px 0}.footer-col a{color:#fff}.footer-col a:hover{color:#e5a23b}.footer-note{font-size:13px}.social-grid{display:grid;grid-template-columns:1fr;gap:8px}.directory-portrait{display:block!important;width:100%!important;height:250px!important;object-fit:cover!important;border-radius:16px 16px 0 0;aspect-ratio:4/3}.signature-reference .signature-directory-card{overflow:hidden;min-width:0;min-height:0}.signature-reference .body{height:auto;min-height:190px;display:flex;flex-direction:column;justify-content:flex-start}.signature-reference img{max-width:100%;display:block}.directory-image-fallback{height:250px;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,#173f36,#d36a2a);color:#fff;font:700 28px Georgia,serif;padding:20px;text-align:center}.ad-slot{max-width:1200px;min-height:110px;margin:28px auto;padding:16px 22px;border:1px dashed #c9bda9;border-radius:18px;background:#f8f2e8;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:6px;color:#756d61}.ad-slot span{font-size:10px;letter-spacing:2px;font-weight:900}.ad-slot strong{font-size:14px;font-weight:600}.ad-slot-footer{min-height:90px}.ad-content{width:100%;display:grid;grid-template-columns:180px 1fr;gap:18px;align-items:center;text-align:left}.ad-content img{width:180px;height:120px;object-fit:cover;border-radius:14px}.ad-content strong{font:700 24px Georgia,serif;color:#173f36}.ad-content p{margin:7px 0 12px}.signature-inline-head{display:grid;grid-template-columns:280px 1fr;gap:24px;align-items:start}.signature-inline-portrait{width:100%;height:340px;object-fit:cover;border-radius:16px}.signature-inline-head h2{font:700 38px/1.05 Georgia,serif;margin:10px 0}.signature-inline-registration{margin:18px 0;padding:15px 17px;background:#f3eadb;border:1px solid var(--line);border-radius:14px;line-height:1.6}.signature-work-image-wrap{position:relative;background:#fff}.signature-work-image-wrap img{width:100%;height:260px;object-fit:cover;border-radius:0;display:block}.signature-source{position:absolute;left:9px;bottom:9px;padding:5px 8px;background:#111b;color:#fff;border-radius:12px;font-size:10px}.signature-inline-profile .artist-collection{margin-top:30px}.signature-inline-profile .artist-collection-grid{grid-template-columns:repeat(3,1fr)}.signature-inline-profile .signature-work-card{overflow:hidden}.signature-inline-profile .signature-work-card .body{padding:15px}.signature-inline-profile>.btn{margin-top:22px}@media(max-width:900px){.artist-path-grid{grid-template-columns:1fr 1fr}.footer-info{grid-template-columns:1fr 1fr}}@media(max-width:700px){.directory-portrait{height:210px!important}.signature-reference{grid-template-columns:1fr!important}.signature-reference .signature-directory-card{width:100%}.directory-image-fallback{height:210px}.ad-slot{min-height:86px;margin:20px 14px;padding:14px}.ad-slot strong{font-size:12px}.signature-inline-head{grid-template-columns:1fr}.signature-inline-portrait{height:280px}.signature-inline-profile .artist-collection-grid{grid-template-columns:1fr 1fr}.signature-work-image-wrap img{height:180px}.artist-path-grid{grid-template-columns:1fr}.artist-path-card{min-height:0}.path-actions{grid-template-columns:1fr}.footer-info{grid-template-columns:1fr;gap:24px}nav{position:sticky;top:0;padding:9px 12px;gap:7px;flex-wrap:nowrap}.mobile-menu-btn{display:inline-flex;align-items:center;justify-content:center;flex:0 0 auto}.links{display:none;position:absolute;left:0;right:0;top:100%;background:var(--paper);border-bottom:1px solid var(--line);box-shadow:0 14px 30px #0002;padding:10px 14px;flex-direction:column;gap:0;z-index:60;max-height:70vh;overflow:auto}.links.mobile-open{display:flex}.links a{padding:14px 8px;border-bottom:1px solid var(--line);font-size:14px}.links a:last-child{border-bottom:0}.navsearch{display:none}.artist-paths{padding:50px 14px 10px}main{padding-left:4%;padding-right:4%}.hero{margin:0}.two,.stats{grid-template-columns:1fr}.modal{padding:8px}.box{width:100%;max-height:94vh}.form input,.form select,.form textarea{font-size:16px}}@media(max-width:600px){.signature-reference .body{min-height:0}.footer-info{grid-template-columns:1fr}.site-shell,.audience{padding:0 14px}.grid{grid-template-columns:1fr 1fr;gap:12px}.card img{height:180px}.card .body{padding:13px}.card h3{font-size:18px}.btn{width:100%;justify-content:center}.tier-card{padding:18px}.form{gap:10px}.logoImage{max-width:165px;max-height:44px}.signature-inline-profile .artist-collection-grid{grid-template-columns:1fr}.signature-work-image-wrap img{height:240px}}@media(max-width:420px){.grid{grid-template-columns:1fr}.card img{height:230px}.hero h1{font-size:38px}.sectionhead h2{font-size:30px}}';document.head.appendChild(s);}
+  setupMobileNav();addStyles();fixMarketplaceImages();removeDuplicatePeaceListings();const peaceObserver=new MutationObserver(removeDuplicatePeaceListings);peaceObserver.observe(document.body,{childList:true,subtree:true});if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',setupLayout);else setupLayout();
 
   window.AAS_SIGNATURES=[
     {name:'Ben Enwonwu',specialty:'Nigerian modernist · painter & sculptor',bio:'Pioneer of modern Nigerian art; documented by the Ben Enwonwu Foundation and major museum collections.',image:'https://commons.wikimedia.org/wiki/Special:FilePath/Ben%20Enwonwu.jpg',url:'https://benenwonwufoundation.org/about/'},
@@ -231,87 +101,13 @@
     {name:'Chief Nike Okundaye',specialty:'Artist · textile artist · founder of Nike Art Gallery',bio:'Nigerian artist and founder of Nike Art Gallery, known for painting, batik and Adire textile practice.',image:'https://static.wixstatic.com/media/4bf3c6_86287c8864954058ae891282071e54c0~mv2.jpg/v1/fill/w_900%2Ch_790%2Cal_c%2Clg_1%2Cq_85/4bf3c6_86287c8864954058ae891282071e54c0~mv2.jpg',url:'https://nikeartgallery.ng/'}
   ];
 
-  function addExpandedSignatureDirectory(){
-    const ref=document.querySelector('#signature .signature-reference');
-    if(!ref) return;
-    const names=[...ref.querySelectorAll('h3')].map(x=>x.textContent.trim());
-    window.AAS_SIGNATURES.forEach(x=>{
-      if(names.includes(x.name)) return;
-      const card=document.createElement('article');
-      card.className='card signature-directory-card discovery-signature-card';
-      card.innerHTML='<img class="directory-portrait" src="'+x.image+'" alt="'+x.name+'" loading="lazy"><div class="body"><span class="pill">SIGNATURE ARTIST</span><h3>'+x.name+'</h3><p class="muted">'+x.bio+'</p><button class="btn primary" type="button" onclick="showSignatureProfile('+JSON.stringify(x.name)+')">View profile & artworks</button></div>';
-      const img=card.querySelector('img');
-      img.onerror=function(){this.onerror=null;this.src='https://images.unsplash.com/photo-1577083288073-40892c0860a4?auto=format&fit=crop&w=900&q=80';};
-      ref.appendChild(card);
-    });
-    wireInlineSignatureCards(ref);
-  }
-
-  function wireInlineSignatureCards(ref){
-    if(!ref) return;
-    ref.querySelectorAll('.signature-directory-card').forEach(card=>{
-      const h=card.querySelector('h3'); if(!h) return;
-      const name=h.textContent.trim();
-      const anchors=[...card.querySelectorAll('a')];
-      anchors.forEach(a=>{
-        const text=(a.textContent||'').toLowerCase();
-        if(text.includes('profile')||text.includes('works')||a.getAttribute('href')){
-          const b=document.createElement('button');
-          b.className=a.className||'btn primary'; b.type='button'; b.textContent='View profile & artworks'; b.onclick=()=>showSignatureProfileByName(name);
-          a.replaceWith(b);
-        }
-      });
-      if(!card.querySelector('button[data-inline-signature]')){
-        const b=document.createElement('button');
-        b.dataset.inlineSignature='1'; b.className='btn primary'; b.type='button'; b.textContent='View profile & artworks'; b.onclick=()=>showSignatureProfileByName(name);
-        const body=card.querySelector('.body'); if(body) body.appendChild(b);
-      }
-    });
-  }
-
+  function addExpandedSignatureDirectory(){const ref=document.querySelector('#signature .signature-reference');if(!ref)return;const names=[...ref.querySelectorAll('h3')].map(x=>x.textContent.trim());window.AAS_SIGNATURES.forEach(x=>{if(names.includes(x.name))return;const card=document.createElement('article');card.className='card signature-directory-card discovery-signature-card';card.innerHTML='<img class="directory-portrait" src="'+x.image+'" alt="'+x.name+'" loading="lazy"><div class="body"><span class="pill">SIGNATURE ARTIST</span><h3>'+x.name+'</h3><p class="muted">'+x.bio+'</p><button class="btn primary" type="button" onclick="showSignatureProfile('+JSON.stringify(x.name)+')">View profile & artworks</button></div>';const img=card.querySelector('img');img.onerror=function(){this.onerror=null;this.src='https://images.unsplash.com/photo-1577083288073-40892c0860a4?auto=format&fit=crop&w=900&q=80';};ref.appendChild(card);});wireInlineSignatureCards(ref);}
+  function wireInlineSignatureCards(ref){if(!ref)return;ref.querySelectorAll('.signature-directory-card').forEach(card=>{const h=card.querySelector('h3');if(!h)return;const name=h.textContent.trim();[...card.querySelectorAll('a')].forEach(a=>{const b=document.createElement('button');b.className=a.className||'btn primary';b.type='button';b.textContent='View profile & artworks';b.onclick=()=>showSignatureProfileByName(name);a.replaceWith(b);});if(!card.querySelector('button[data-inline-signature]')){const b=document.createElement('button');b.dataset.inlineSignature='1';b.className='btn primary';b.type='button';b.textContent='View profile & artworks';b.onclick=()=>showSignatureProfileByName(name);const body=card.querySelector('.body');if(body)body.appendChild(b);}});}
   setTimeout(()=>{addExpandedSignatureDirectory();},400);
 
-  window.loadTopArtists=async function(){
-    const grid=document.getElementById('topArtistsGrid');
-    if(!grid) return;
-    const market=[];
-    try{const a=await fetch('/api/top-artists',{credentials:'same-origin'}).then(r=>r.json()); a.forEach(x=>market.push({kind:'market',...x}));}catch(e){}
-    const sig=window.AAS_SIGNATURES.slice(0,5).map(x=>({kind:'signature',...x,views:0,sales:0}));
-    const out=[]; let m=0,s=0;
-    while(out.length<10 && (m<market.length || s<sig.length)){
-      if(s<sig.length) out.push(sig[s++]);
-      if(out.length<10 && m<market.length) out.push(market[m++]);
-    }
-    while(out.length<10 && m<market.length) out.push(market[m++]);
-    grid.innerHTML=out.slice(0,10).map((x,i)=>{
-      if(x.kind==='signature') return '<article class="card toprank"><span class="rank">#'+(i+1)+'</span><img src="'+x.image+'" alt="'+x.name+'" loading="lazy"><div class="body"><span class="pill">Signature Artist</span><h3>'+x.name+'</h3><p class="muted">'+x.specialty+'</p><button class="btn primary" type="button" onclick="showSignatureProfile('+JSON.stringify(x.name)+')">View profile & artworks</button></div></article>';
-      return '<article class="card toprank"><span class="rank">#'+(i+1)+'</span><img src="'+(x.image_url||'https://images.unsplash.com/photo-1577083288073-40892c0860a4?auto=format&fit=crop&w=900&q=80')+'" alt="'+x.name+'" loading="lazy"><div class="body"><span class="pill">'+(x.artist_type==='kid'?'Kid Artist':x.artist_type==='signature'?'Signature Artist':'Professional Artist')+'</span><h3>'+x.name+'</h3><p class="muted">'+(x.specialty||'African artist')+'</p><p class="mini-note">Today: '+x.views+' artwork views · '+x.sales+' sold</p><button class="btn primary" onclick="showArtistPage('+x.id+')">View artist & artworks</button></div></article>';
-    }).join('');
-  };
-
-  const AAS_TOP10=[
-    {name:'Ben Enwonwu',specialty:'Nigerian modernist · painter & sculptor',image:'https://commons.wikimedia.org/wiki/Special:FilePath/Ben%20Enwonwu.jpg',url:'https://benenwonwufoundation.org/about/'},
-    {name:'El Anatsui',specialty:'Ghanaian sculptor · Nigeria-based',image:'https://commons.wikimedia.org/wiki/Special:FilePath/Artempo%20ElAnatsui.jpg',url:'https://elanatsui.art/biography'},
-    {name:'Yinka Shonibare',specialty:'British-Nigerian contemporary artist',image:'https://commons.wikimedia.org/wiki/Special:FilePath/YinkaShonibare2012.jpg',url:'https://www.npg.org.uk/schools-hub/yinka-shonibare-cbe-ra-by-sal-idriss'},
-    {name:'Njideka Akunyili Crosby',specialty:'Nigerian-born contemporary artist',image:'https://commons.wikimedia.org/wiki/Special:FilePath/Njideka%20Akunyili%20ed.jpg',url:'https://www.njidekaakunyilicrosby.com/about'},
-    {name:'Bruce Onobrakpeya',specialty:'Nigerian printmaker · painter & sculptor',image:'https://commons.wikimedia.org/wiki/Special:FilePath/Bruce%20Onobrakpeya%20The%20Pride%20of%20all%20nigerians.jpg',url:'https://arttwentyone.ng/artists/79-bruce-onobrakpeya/biography/'},
-    {name:'Mufu Onifade',specialty:'Nigerian painter · Araism',image:'https://i2.wp.com/www.johfrimartanddesign.com/wp-content/uploads/2018/09/Artist-Mufu-1.jpg?resize=600%2C600&ssl=1',url:'https://www.johfrimartanddesign.com/artists/'},
-    {name:'Duke Asidere',specialty:'Nigerian contemporary painter',image:'https://thewheatbakerlagos.com/oatchace/2024/11/Duke-Asidere.jpg',url:'https://dukeasidere.com/'},
-    {name:'Peju Alatise',specialty:'Nigerian interdisciplinary artist',image:'https://static-assets.artlogic.net/c_limit%2Cf_auto%2Cfl_lossy%2Cq_auto/ws-koartspace/usr/library/main/images/peju-alatise_photo-1.jpg',url:'https://www.aicon.art/artists/peju-alatise'},
-    {name:'Sokari Douglas Camp',specialty:'Nigerian-born sculptor · steel artist',image:'https://cdn.sanity.io/images/cxgd3urn/production/fe2ec2993b88eb487bcf2c19e84f6fc4564c758b-629x945.jpg?auto=format&fit=crop&h=1803&q=85&w=1200',url:'https://sokari.co.uk/'},
-    {name:'Toyin Ojih Odutola',specialty:'Nigerian-born contemporary artist · drawing & works on paper',image:'https://commons.wikimedia.org/wiki/Special:FilePath/Toyin%20Ojih%20Odutola.jpg',url:'https://toyinojihodutola.com/'}
-  ];
-  function renderFixedTop10(){
-    const grid=document.getElementById('topArtistsGrid'); if(!grid)return;
-    const sub=document.querySelector('#top10 .sectionhead .sub'); if(sub) sub.textContent='Ten selected featured artists, with profile and works displayed inside AfricanArtistShop where verified works are available.';
-    grid.innerHTML=AAS_TOP10.map((x,i)=>'<article class="card toprank"><span class="rank">#'+(i+1)+'</span><img src="'+x.image+'" alt="'+x.name+'" loading="lazy"><div class="body"><span class="pill">FEATURED ARTIST</span><h3>'+x.name+'</h3><p class="muted">'+x.specialty+'</p><button class="btn primary" type="button" onclick="showSignatureProfile('+JSON.stringify(x.name)+')">View profile & artworks</button></div></article>').join('');
-    grid.querySelectorAll('img').forEach((img)=>{img.onerror=function(){this.onerror=null;this.src='https://images.unsplash.com/photo-1577083288073-40892c0860a4?auto=format&fit=crop&w=900&q=80';};});
-  }
-
-  function fixSupplyImages(){
-    const safeSvg=name=>{const label=String(name||'Art material').replace(/[<>&"']/g,''); const svg='<svg xmlns="http://www.w3.org/2000/svg" width="900" height="700"><rect width="100%" height="100%" fill="#f3eadb"/><text x="50%" y="45%" text-anchor="middle" font-family="Georgia,serif" font-size="46" font-weight="700" fill="#173f36">'+label.slice(0,26)+'</text><text x="50%" y="55%" text-anchor="middle" font-family="Arial,sans-serif" font-size="22" fill="#756d61">AfricanArtistShop material</text></svg>';return 'data:image/svg+xml;charset=UTF-8,'+encodeURIComponent(svg)};
-    document.querySelectorAll('#supplyGrid img').forEach(img=>{if(img.dataset.aasFixed)return;img.dataset.aasFixed='1';const name=img.alt||'Art material';img.onerror=function(){this.onerror=null;this.src=safeSvg(name)};});
-  }
+  window.loadTopArtists=async function(){const grid=document.getElementById('topArtistsGrid');if(!grid)return;const market=[];try{const a=await fetch('/api/top-artists',{credentials:'same-origin'}).then(r=>r.json());a.forEach(x=>market.push({kind:'market',...x}));}catch(e){}const sig=window.AAS_SIGNATURES.slice(0,5).map(x=>({kind:'signature',...x,views:0,sales:0}));const out=[];let m=0,s=0;while(out.length<10&&(m<market.length||s<sig.length)){if(s<sig.length)out.push(sig[s++]);if(out.length<10&&m<market.length)out.push(market[m++]);}while(out.length<10&&m<market.length)out.push(market[m++]);grid.innerHTML=out.slice(0,10).map((x,i)=>{if(x.kind==='signature')return '<article class="card toprank"><span class="rank">#'+(i+1)+'</span><img src="'+x.image+'" alt="'+x.name+'" loading="lazy"><div class="body"><span class="pill">Signature Artist</span><h3>'+x.name+'</h3><p class="muted">'+x.specialty+'</p><button class="btn primary" type="button" onclick="showSignatureProfile('+JSON.stringify(x.name)+')">View profile & artworks</button></div></article>';return '<article class="card toprank"><span class="rank">#'+(i+1)+'</span><img src="'+(x.image_url||'https://images.unsplash.com/photo-1577083288073-40892c0860a4?auto=format&fit=crop&w=900&q=80')+'" alt="'+x.name+'" loading="lazy"><div class="body"><span class="pill">'+(x.artist_type==='kid'?'Kid Artist':x.artist_type==='signature'?'Signature Artist':'Professional Artist')+'</span><h3>'+x.name+'</h3><p class="muted">'+(x.specialty||'African artist')+'</p><p class="mini-note">Today: '+x.views+' artwork views · '+x.sales+' sold</p><button class="btn primary" onclick="showArtistPage('+x.id+')">View artist & artworks</button></div></article>';}).join('');};
+  const AAS_TOP10=[{name:'Ben Enwonwu',specialty:'Nigerian modernist · painter & sculptor',image:'https://commons.wikimedia.org/wiki/Special:FilePath/Ben%20Enwonwu.jpg',url:'https://benenwonwufoundation.org/about/'},{name:'El Anatsui',specialty:'Ghanaian sculptor · Nigeria-based',image:'https://commons.wikimedia.org/wiki/Special:FilePath/Artempo%20ElAnatsui.jpg',url:'https://elanatsui.art/biography'},{name:'Yinka Shonibare',specialty:'British-Nigerian contemporary artist',image:'https://commons.wikimedia.org/wiki/Special:FilePath/YinkaShonibare2012.jpg',url:'https://www.npg.org.uk/schools-hub/yinka-shonibare-cbe-ra-by-sal-idriss'},{name:'Njideka Akunyili Crosby',specialty:'Nigerian-born contemporary artist',image:'https://commons.wikimedia.org/wiki/Special:FilePath/Njideka%20Akunyili%20ed.jpg',url:'https://www.njidekaakunyilicrosby.com/about'},{name:'Bruce Onobrakpeya',specialty:'Nigerian printmaker · painter & sculptor',image:'https://commons.wikimedia.org/wiki/Special:FilePath/Bruce%20Onobrakpeya%20The%20Pride%20of%20all%20nigerians.jpg',url:'https://arttwentyone.ng/artists/79-bruce-onobrakpeya/biography/'},{name:'Mufu Onifade',specialty:'Nigerian painter · Araism',image:'https://i2.wp.com/www.johfrimartanddesign.com/wp-content/uploads/2018/09/Artist-Mufu-1.jpg?resize=600%2C600&ssl=1',url:'https://www.johfrimartanddesign.com/artists/'},{name:'Duke Asidere',specialty:'Nigerian contemporary painter',image:'https://thewheatbakerlagos.com/oatchace/2024/11/Duke-Asidere.jpg',url:'https://dukeasidere.com/'},{name:'Peju Alatise',specialty:'Nigerian interdisciplinary artist',image:'https://static-assets.artlogic.net/c_limit%2Cf_auto%2Cfl_lossy%2Cq_auto/ws-koartspace/usr/library/main/images/peju-alatise_photo-1.jpg',url:'https://www.aicon.art/artists/peju-alatise'},{name:'Sokari Douglas Camp',specialty:'Nigerian-born sculptor · steel artist',image:'https://cdn.sanity.io/images/cxgd3urn/production/fe2ec2993b88eb487bcf2c19e84f6fc4564c758b-629x945.jpg?auto=format&fit=crop&h=1803&q=85&w=1200',url:'https://sokari.co.uk/'},{name:'Toyin Ojih Odutola',specialty:'Nigerian-born contemporary artist · drawing & works on paper',image:'https://commons.wikimedia.org/wiki/Special:FilePath/Toyin%20Ojih%20Odutola.jpg',url:'https://toyinojihodutola.com/'}];
+  function renderFixedTop10(){const grid=document.getElementById('topArtistsGrid');if(!grid)return;const sub=document.querySelector('#top10 .sectionhead .sub');if(sub)sub.textContent='Ten selected featured artists, with profile and works displayed inside AfricanArtistShop where verified works are available.';grid.innerHTML=AAS_TOP10.map((x,i)=>'<article class="card toprank"><span class="rank">#'+(i+1)+'</span><img src="'+x.image+'" alt="'+x.name+'" loading="lazy"><div class="body"><span class="pill">FEATURED ARTIST</span><h3>'+x.name+'</h3><p class="muted">'+x.specialty+'</p><button class="btn primary" type="button" onclick="showSignatureProfile('+JSON.stringify(x.name)+')">View profile & artworks</button></div></article>').join('');grid.querySelectorAll('img').forEach(img=>{img.onerror=function(){this.onerror=null;this.src='https://images.unsplash.com/photo-1577083288073-40892c0860a4?auto=format&fit=crop&w=900&q=80';};});}
+  function fixSupplyImages(){const safeSvg=name=>{const label=String(name||'Art material').replace(/[<>&"']/g,'');const svg='<svg xmlns="http://www.w3.org/2000/svg" width="900" height="700"><rect width="100%" height="100%" fill="#f3eadb"/><text x="50%" y="45%" text-anchor="middle" font-family="Georgia,serif" font-size="46" font-weight="700" fill="#173f36">'+label.slice(0,26)+'</text><text x="50%" y="55%" text-anchor="middle" font-family="Arial,sans-serif" font-size="22" fill="#756d61">AfricanArtistShop material</text></svg>';return 'data:image/svg+xml;charset=UTF-8,'+encodeURIComponent(svg)};document.querySelectorAll('#supplyGrid img').forEach(img=>{if(img.dataset.aasFixed)return;img.dataset.aasFixed='1';const name=img.alt||'Art material';img.onerror=function(){this.onerror=null;this.src=safeSvg(name)};});}
   setTimeout(()=>{renderFixedTop10();fixSupplyImages();},650);
-
 })();
