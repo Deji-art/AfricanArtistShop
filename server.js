@@ -338,14 +338,17 @@ app.get('/api/supplies/:id/image',async(req,res)=>{try{
   let source=x.image_url;
   let response=null;
   try{if(source)response=await fetch(source,{headers:{'User-Agent':'AfricanArtistShop/1.0'}})}catch(e){}
-  if(!response||!response.ok){
+  /* Some image hosts return an HTML anti-hotlink page with HTTP 200. Treat that as a failed image and use the image-search fallback instead. */
+  if(response&&(!response.ok||!String(response.headers.get('content-type')||'').toLowerCase().startsWith('image/')))response=null;
+  if(!response){
     const q=encodeURIComponent(x.name.replace(/\b(set|collection|pad|pack|piece|roll|book|bottle|can)\b/gi,'').trim()+' art material');
     try{
       const sr=await fetch('https://commons.wikimedia.org/w/api.php?action=query&generator=search&gsrsearch='+q+'&gsrnamespace=6&gsrlimit=6&prop=imageinfo&iiprop=url&iiurlwidth=1000&format=json&origin=*');
       if(sr.ok){const data=await sr.json();const pages=Object.values(data.query?.pages||{});const p=pages.find(v=>v.imageinfo?.[0]?.thumburl||v.imageinfo?.[0]?.url);const u=p?.imageinfo?.[0]?.thumburl||p?.imageinfo?.[0]?.url;if(u)response=await fetch(u,{headers:{'User-Agent':'AfricanArtistShop/1.0'}})}
     }catch(e){}
   }
-  if(!response||!response.ok)return res.status(404).end();
+  if(response&&(!response.ok||!String(response.headers.get('content-type')||'').toLowerCase().startsWith('image/')))response=null;
+  if(!response)return res.status(404).end();
   const type=response.headers.get('content-type')||'image/jpeg';
   const buf=Buffer.from(await response.arrayBuffer());
   res.set('Content-Type',type);res.set('Cache-Control','public, max-age=86400');res.send(buf);
