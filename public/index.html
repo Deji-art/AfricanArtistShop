@@ -248,6 +248,13 @@ html,body{max-width:100%;overflow-x:hidden}
   .option-grid{grid-template-columns:1fr!important}
   .hero-carousel .hero-actions{grid-template-columns:1fr!important}
 }
+</style><style>
+.promo-inline{padding:13px 16px;background:#fff0d5;border:1px solid #e5a23b;border-radius:13px;color:#573b12;line-height:1.55}
+.promo-overlay{display:none;position:fixed;inset:0;z-index:1000;background:#111b;align-items:center;justify-content:center;padding:18px}
+.promo-overlay.open{display:flex}.promo-card{position:relative;width:min(560px,100%);overflow:hidden;background:#fffaf2;border-radius:24px;box-shadow:0 24px 80px #0005;border:1px solid #f0d4a3}
+.promo-top{padding:28px 28px 25px;background:linear-gradient(135deg,#173c35,#24584c);color:#fff}
+.promo-top small{font-size:11px;letter-spacing:2px;font-weight:900;color:#f7d59e}.promo-top h2{font:700 clamp(34px,7vw,48px)/1 Georgia,serif;margin:13px 0}.promo-top h2 span{color:#ffd477;text-decoration:line-through;text-decoration-thickness:3px}.promo-top p{line-height:1.6;color:#fff}.promo-bottom{padding:22px 28px 26px}.promo-bottom p{line-height:1.55;color:#756b5f;margin-top:0}.promo-actions{display:flex;gap:10px;flex-wrap:wrap}.promo-actions button{flex:1;min-width:150px}.promo-close{position:absolute;right:13px;top:13px;width:36px;height:36px;border:0;border-radius:50%;background:#ffffffd9;color:#171513;font-size:23px;cursor:pointer;z-index:2}
+@media(max-width:480px){.promo-top,.promo-bottom{padding:23px 20px}.promo-actions{display:grid}.promo-actions button{width:100%}}
 </style></head>
 <body>
 <div class="top">AfricanArtistShop • Original African art • Artist storefronts • Art materials</div>
@@ -280,7 +287,7 @@ html,body{max-width:100%;overflow-x:hidden}
   <div class="artist-reg-intro">
    <div class="kicker">ARTIST ENLISTMENT</div>
    <h2>Register as an African Artist</h2>
-   <p>Choose the artist category that applies to you, then complete the formal registration procedure for that category. Paid registrations must be completed through Paystack before the artist application is enlisted.</p>
+   <p>Choose the artist category that applies to you, then complete the formal registration procedure. Paid registrations must be completed through Paystack before the application is enlisted.</p><p class="promo-inline"><b>Launch offer:</b> 50% off Superkid and Professional registration fees for the first 100 eligible paid registrations. The discount is applied automatically at checkout while places remain.</p>
   </div>
   <div class="reg-steps">
    <div class="reg-step"><b>1. Choose your category</b><span>Superkid, Professional or Veteran/Signature.</span></div>
@@ -405,7 +412,7 @@ html,body{max-width:100%;overflow-x:hidden}
   </div>
 </footer>
 
-<div id="cleanModal" class="clean-modal"><div id="modalBox" class="clean-box"><button class="modal-close" onclick="closeModal()">×</button><div id="modalContent"></div></div></div>
+<div id="artistPromoPopup" class="promo-overlay" role="dialog" aria-modal="true" aria-labelledby="promoTitle"><div class="promo-card"><button class="promo-close" aria-label="Close promotion" onclick="closeArtistPromo()">×</button><div class="promo-top"><small>AFRICANARTISTSHOP LAUNCH OFFER</small><h2 id="promoTitle">50% OFF<br><span>REGISTRATION</span></h2><p>Showcase your creativity. Join the first 100 eligible paid artist registrations and get half off your Superkid or Professional registration fee.</p></div><div class="promo-bottom"><p><b>Limited launch offer.</b> Applied automatically at Paystack checkout while eligible places remain. Signature registration remains free.</p><div class="promo-actions"><button class="clean-btn primary" onclick="registerFromPromo()">Register & claim offer →</button><button class="clean-btn" onclick="closeArtistPromo()">Maybe later</button></div></div></div></div>\n<div id="cleanModal" class="clean-modal"><div id="modalBox" class="clean-box"><button class="modal-close" onclick="closeModal()">×</button><div id="modalContent"></div></div></div>
 
 <script>
 const AAS_API_ORIGIN=(window.AAS_API_ORIGIN||'https://africanartistshop.onrender.com').replace(/\/$/,''); // Static frontend calls the existing backend; backend CORS allowlist must include this static site's origin.
@@ -417,7 +424,7 @@ const $=id=>document.getElementById(id);
 let currentCategory='',currentMode='',currentArtists=[],currentProfile=null,allMaterials=[],cart=JSON.parse(localStorage.getItem('aas_cart_v2')||'[]');
 const money=n=>'₦'+Number(n||0).toLocaleString('en-NG');
 const esc=s=>String(s??'').replace(/[&<>'"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[c]));
-function showView(id){document.querySelectorAll('.view').forEach(v=>v.classList.remove('open'));$(id).classList.add('open');window.scrollTo({top:0,behavior:'smooth'});if(id==='exploreView'||id==='artShopView')renderCategories(id)}
+function showView(id){const target=$(id);if(!target){console.error('AfricanArtistShop view not found:',id);return false}document.querySelectorAll('.view').forEach(v=>v.classList.remove('open'));target.classList.add('open');window.scrollTo({top:0,behavior:'smooth'});if(id==='exploreView'||id==='artShopView')renderCategories(id);return true}
 function goHome(){showView('homeView')}
 function renderCategories(target){if(target==='artShopView'){loadShopArtworks();return}const html=[['kid','Superkid Artists','Young artists aged 4–18. Explore approved young-artist storefronts.'],['professional','Professional Artists','Browse approved professional artists and their collections.'],['signature','Veteran/Signature Artists','Explore approved veteran and signature artist storefronts.']].map(x=>'<button class="category-card" onclick="openDirectory(&quot;'+x[0]+'&quot;,&quot;'+target+'&quot;)"><span class="tag">'+esc(x[0]==='kid'?'SUPERKID':x[0]==='professional'?'PROFESSIONAL':'VETERAN / SIGNATURE')+'</span><h3>'+esc(x[1])+'</h3><p>'+esc(x[2])+'</p><span class="arrow">View artists →</span></button>').join('');$('exploreCategories').innerHTML=html}
 let shopArtworkFilter='all';
@@ -528,7 +535,11 @@ function renderProfile(a){const img=a.image_url||fallbackArtist();$('profileCont
 function fallbackArtwork(){return 'https://images.unsplash.com/photo-1549490349-8643362247b5?auto=format&fit=crop&w=900&q=80'}
 function backToCategory(){showView(currentMode||'exploreView')}
 function backToDirectory(){if(profileReturnMode==='artShopView'){showView('artShopView');return}showView('directoryView');if(currentCategory==='signature')renderSignatureArtists(currentArtists);else renderArtists(currentArtists)}
-function openFaceOfTime(){openModal('<h2>Face of Time</h2><div style="display:grid;grid-template-columns:minmax(220px,420px) 1fr;gap:24px;align-items:start"><img style="width:100%;max-height:520px;object-fit:contain;border-radius:16px;background:#fff" src="/face-of-time.svg" alt="Face of Time by Peace Ayodeji"><div><span class="tag">FEATURED ARTWORK</span><p><b>Artist:</b> Peace Ayodeji</p><p><b>Artwork:</b> Face of Time</p><p>This featured artwork is part of Peace Ayodeji collection on AfricanArtistShop.</p><p><b>Price:</b> Available on enquiry</p><p><b>Availability:</b> Please enquire for current availability.</p><button class="clean-btn primary" onclick="window.open(\'https://wa.me/2347031484486?text=\'+encodeURIComponent(\'Hello AfricanArtistShop, I am enquiring about Peace Ayodeji Face of Time artwork. Please send me the current price and availability.\'),\'_blank\')">Enquire about Face of Time</button></div></div>')}
+function openFaceOfTime(){
+ const message='Hello AfricanArtistShop, I am enquiring about Peace Ayodeji’s Face of Time artwork. Please share the current price, availability and ordering steps.';
+ pendingWhatsAppUrl='https://wa.me/2347031484486?text='+encodeURIComponent(message);
+ openModal('<h2>Face of Time — Artwork Enquiry</h2><p class="muted">Choose WhatsApp or email. Your message will be prepared for you to review and send.</p><div class="profile-top"><img style="width:100%;max-height:360px;object-fit:contain;border-radius:14px;background:#fff" src="/face-of-time.svg" alt="Face of Time by Peace Ayodeji"><div><span class="tag">FEATURED ARTWORK</span><p><b>Artist:</b> Peace Ayodeji</p><p><b>Price:</b> Please enquire for current price.</p><p><b>Availability:</b> Confirmed on enquiry.</p></div></div><div class="reg-submit"><button class="clean-btn primary" onclick="continueWhatsAppBusiness()">Open WhatsApp Business →</button><button class="clean-btn" onclick="continueWhatsAppStandard()">Open WhatsApp →</button><button class="clean-btn" onclick="continueEmailEnquiry()">Email AfricanArtistShop →</button><button class="clean-btn" onclick="closeModal()">Close</button></div>');
+}
 async function artDetails(id){try{const r=await apiFetch('/api/artworks/'+id);const a=await r.json();openModal('<h2>'+esc(a.title)+'</h2><img style="width:100%;max-height:480px;object-fit:contain;border-radius:16px;background:#fff" src="'+esc(a.image_url||fallbackArtwork())+'" onerror="this.src=\''+fallbackArtwork()+'\'"><p><b>Artist:</b> '+esc(a.artist_name)+'</p><p><b>Medium:</b> '+esc(a.medium)+' &nbsp; <b>Size:</b> '+esc(a.size||'Not supplied')+'</p><p>'+esc(a.description||'Original African artwork.')+'</p><p class="price">'+money(a.price)+'</p><p><b>Availability:</b> '+esc(a.availability||'Available')+'</p><button class="clean-btn primary" onclick="addCart({type:\'art\',id:'+a.id+',title:\''+jsq(a.title)+'\',price:'+Number(a.price)+',image:\''+jsq(a.image_url||fallbackArtwork())+'\'})">Add to cart</button>')}catch(e){openFaceOfTime()}}
 function jsq(s){return String(s??'').replace(/\\/g,'\\\\').replace(/'/g,"\\'")}
 async function loadMaterials(){if(allMaterials.length){renderMaterials(allMaterials);return}$('materialsGrid').innerHTML='<div class="empty">Loading materials…</div>';try{const r=await apiFetch('/api/supplies');allMaterials=await r.json();renderMaterials(allMaterials)}catch(e){$('materialsGrid').innerHTML='<div class="empty">Materials could not be loaded.</div>'}}
@@ -538,7 +549,24 @@ function filterMaterials(q){const s=q.toLowerCase();renderMaterials(allMaterials
 async function supplyDetails(id){try{const r=await apiFetch('/api/supplies/'+id);const s=await r.json();openModal('<h2>'+esc(s.name)+'</h2><img style="width:100%;height:330px;object-fit:contain;background:#fff;border-radius:15px" src="'+esc(materialImage(s))+'" alt="'+esc(s.name)+'"><p><b>Category:</b> '+esc(s.category)+'</p><p>'+esc(s.description)+'</p><p class="price">'+money(s.price)+'</p><p><b>Availability:</b> '+esc(String(s.stock))+' '+esc(s.unit||'piece')+' in stock</p><button class="clean-btn primary" onclick="addCart({type:\'supply\',id:'+s.id+',title:\''+jsq(s.name)+'\',price:'+Number(s.price)+',image:\''+jsq(s.image_url||('/api/supplies/'+s.id+'/image'))+'\'})">Add to cart</button>')}catch(e){alert('Product details could not be loaded.')}}
 async function loadDeals(){const g=$('dealsGrid');g.innerHTML='<div class="empty">Loading today’s selected materials…</div>';try{const r=await apiFetch('/api/supplies');const a=await r.json();renderDeals(a.slice(0,6))}catch(e){g.innerHTML='<div class="empty">Deals could not be loaded.</div>'}}
 function renderDeals(a){$('dealsGrid').innerHTML=a.length?a.map(s=>'<article class="product-card deal"><img loading="lazy" decoding="async" src="'+esc(materialImage(s))+'" alt="'+esc(s.name)+'" onerror="repairMaterialImage(this)"><div class="pad"><span class="tag">DEAL OF THE DAY</span><h3>'+esc(s.name)+'</h3><p>'+esc(s.category)+'</p><div class="price">'+money(s.price)+'</div><button class="clean-btn primary" onclick="supplyDetails('+s.id+')">View deal</button></div></article>').join(''):'<div class="empty">No deals are currently listed.</div>'}
-async function loadTopArtists(){const g=$('topGrid');g.innerHTML='<div class="empty">Loading today’s artists…</div>';try{const r=await apiFetch('/api/top-artists');const a=await r.json();g.innerHTML=a.length?a.map((x,i)=>'<article class="top-card"><span class="rank">#'+(i+1)+'</span><img loading="lazy" decoding="async" src="'+esc(x.image_url||fallbackArtist())+'" alt="'+esc(x.name)+'" onerror="this.src=\''+fallbackArtist()+'\'"><div class="pad"><span class="tag">'+esc(x.artist_type==='kid'?'Superkid':x.artist_type==='signature'?'Veteran/Signature':'Professional')+'</span><h3>'+esc(x.name)+'</h3><p class="muted">'+esc(x.specialty||'African artist')+'</p><button class="clean-btn primary" onclick="openProfile('+x.id+')">View artist</button></div></article>').join(''):'<div class="empty">Top artist information will appear as approved artists build activity.</div>'}catch(e){g.innerHTML='<div class="empty">Top artists could not be loaded.</div>'}}
+async function loadTopArtists(){
+ const g=$('topGrid');if(!g)return;g.innerHTML='<div class="empty">Selecting today’s featured artists…</div>';
+ try{
+  const r=await apiFetch('/api/artists');let artists=r.ok?await r.json():[];
+  artists=Array.isArray(artists)?artists.filter(a=>a&&a.id&&a.name):[];
+  const pool=artists.slice();
+  const selected=[];
+  while(pool.length&&selected.length<4){selected.push(pool.splice(Math.floor(Math.random()*pool.length),1)[0])}
+  if(selected.length<2){
+   for(const a of signatureArtists){if(selected.length>=2)break;if(!selected.some(x=>x.name===a.name))selected.push({...a,staticSignature:true})}
+  }
+  if(!selected.length)selected.push(...signatureArtists.slice(0,2).map(a=>({...a,staticSignature:true})));
+  g.innerHTML=selected.map(x=>'<article class="top-card"><span class="tag">FEATURED TODAY</span><img loading="lazy" decoding="async" src="'+esc(x.image_url||x.image||fallbackArtist())+'" alt="'+esc(x.name)+'" onerror="this.src=\''+fallbackArtist()+'\'"><div class="pad"><h3>'+esc(x.name)+'</h3><p class="muted">'+esc(shortArtistBio(x))+'</p><button class="clean-btn primary" onclick="'+(x.staticSignature?'openSignatureCollectionByName(\''+String(x.name).replace(/\\/g,'\\\\').replace(/'/g,"\\'")+'\')':'openProfile('+Number(x.id)+')')+'">View artist profile →</button></div></article>').join('');
+ }catch(e){
+  const fallback=signatureArtists.slice(0,2);
+  g.innerHTML=fallback.map(x=>'<article class="top-card"><span class="tag">FEATURED TODAY</span><img loading="lazy" src="'+esc(x.image)+'" alt="'+esc(x.name)+'"><div class="pad"><h3>'+esc(x.name)+'</h3><p class="muted">'+esc(shortArtistBio(x))+'</p><button class="clean-btn primary" onclick="openSignatureCollectionByName(\''+String(x.name).replace(/'/g,"\\'")+'\')">View artist profile →</button></div></article>').join('');
+ }
+}
 function toggleTraining(which){$('trainingFaq').classList.toggle('open',which==='faq');$('trainingEnquiry').classList.toggle('open',which==='enquiry');if(which==='enquiry')$('trainingEnquiry').scrollIntoView({behavior:'smooth',block:'nearest'})}
 async function submitTraining(e){e.preventDefault();const body={child_name:$('tc').value,child_age:Number($('ta').value),guardian_name:$('tg').value,guardian_phone:$('tp').value,email:$('te').value,location:$('tl').value,training_type:$('tt').value,notes:$('tn').value};try{const r=await apiFetch('/api/training-requests',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)});const d=await r.json();if(!r.ok)throw Error(d.error||'Could not submit enquiry');alert('Training enquiry submitted. Reference #'+d.id+'.');e.target.reset()}catch(err){alert(err.message)}}
 function globalSearch(q){if(!q.trim())return;showView('materialsView');loadMaterials().then(()=>{const m=allMaterials.filter(x=>x.name.toLowerCase().includes(q.toLowerCase()));if(m.length){renderMaterials(m);return}showView('artShopView')})}
@@ -548,10 +576,18 @@ function submitRenewalEnquiry(e){
   const name=$('rrName').value.trim(),phone=$('rrPhone').value.trim(),service=$('rrService').value,artwork=$('rrArtwork').value.trim(),size=$('rrSize').value.trim(),location=$('rrLocation').value.trim(),notes=$('rrNotes').value.trim();
   const textMsg='Hello AfricanArtistShop 👋\n\nI would like to enquire about artwork renewal / reframing.\n\nNAME: '+name+'\nPHONE/WHATSAPP: '+phone+'\nSERVICE: '+service+'\nARTWORK: '+(artwork||'Not supplied')+'\nSIZE: '+(size||'Not supplied')+'\nLOCATION: '+(location||'Not supplied')+'\nDETAILS: '+(notes||'Not supplied')+'\n\nPlease let me know the next steps, estimated cost and how I can send/show the artwork.\n\nThank you.\nAfricanArtistShop';
   pendingWhatsAppUrl='https://wa.me/2347031484486?text='+encodeURIComponent(textMsg);
-  openModal('<h2>Send your enquiry</h2><p class="muted">Choose the app you use. The message opens ready to send; it is not sent until you press Send in the app.</p><div style="padding:12px;border:1px solid var(--line,#ddd);border-radius:12px;white-space:pre-wrap;max-height:240px;overflow:auto;font-size:13px">'+esc(textMsg)+'</div><div class="reg-submit"><button class="clean-btn primary" onclick="continueWhatsAppBusiness()">Open WhatsApp Business →</button><button class="clean-btn" onclick="continueWhatsAppStandard()">Open WhatsApp →</button><button class="clean-btn" onclick="closeModal()">Cancel</button></div>');
+  openModal('<h2>Send your enquiry</h2><p class="muted">Choose the app you use. The message opens ready to send; it is not sent until you press Send in the app.</p><div style="padding:12px;border:1px solid var(--line,#ddd);border-radius:12px;white-space:pre-wrap;max-height:240px;overflow:auto;font-size:13px">'+esc(textMsg)+'</div><div class="reg-submit"><button class="clean-btn primary" onclick="continueWhatsAppBusiness()">Open WhatsApp Business →</button><button class="clean-btn" onclick="continueWhatsAppStandard()">Open WhatsApp →</button><button class="clean-btn" onclick="continueEmailEnquiry()">Email AfricanArtistShop →</button><button class="clean-btn" onclick="closeModal()">Cancel</button></div>');
 }
 function continueWhatsAppBusiness(){if(!pendingWhatsAppUrl)return;const phone='2347031484486';const query=pendingWhatsAppUrl.split('?')[1]||'';const textMsg=decodeURIComponent(query.replace(/^text=/,''));const fallback='https://api.whatsapp.com/send?phone='+phone+'&text='+encodeURIComponent(textMsg);const intent='intent://send/?phone='+phone+'&text='+encodeURIComponent(textMsg)+'#Intent;scheme=whatsapp;package=com.whatsapp.w4b;S.browser_fallback_url='+encodeURIComponent(fallback)+';end';window.location.href=intent}
 function continueWhatsAppStandard(){if(pendingWhatsAppUrl)window.location.href=pendingWhatsAppUrl}
+
+function continueEmailEnquiry(){
+ const encoded=(pendingWhatsAppUrl.split('?text=')[1]||'');
+ const message=encoded?decodeURIComponent(encoded):'Hello AfricanArtistShop, I would like to make an enquiry.';
+ const mail='mailto:africanartistshop@gmail.com?subject='+encodeURIComponent('AfricanArtistShop enquiry')+'&body='+encodeURIComponent(message);
+ window.location.href=mail;
+}
+
 
 function openModal(html){$('modalContent').innerHTML=html;$('cleanModal').classList.add('open')}function closeModal(){$('cleanModal').classList.remove('open')}
 function addCart(item){const found=cart.find(x=>x.type===item.type&&x.id===item.id);if(found)found.quantity++;else{item.quantity=1;cart.push(item)}saveCart();closeModal();alert(item.title+' added to cart.')}
@@ -601,5 +637,15 @@ async function uploadStudioArtwork(e){e.preventDefault();const form=e.target;con
 renderCategories('exploreView');renderCategories('artShopView');saveCart();
 document.addEventListener('DOMContentLoaded',handleArtistPaymentResult);
 </script>
-<script>let heroIndex=0,heroTimer;function heroGo(i){const s=document.querySelectorAll('.hero-slide'),d=document.querySelectorAll('.hero-dot');if(!s.length)return;heroIndex=(i+s.length)%s.length;s.forEach((x,n)=>x.classList.toggle('active',n===heroIndex));d.forEach((x,n)=>x.classList.toggle('active',n===heroIndex));clearInterval(heroTimer);heroTimer=setInterval(()=>heroStep(1),6500)}function heroStep(n){heroGo(heroIndex+n)}document.addEventListener('DOMContentLoaded',()=>heroGo(0));</script></body>
+<script>let heroIndex=0,heroTimer;function heroGo(i){const s=document.querySelectorAll('.hero-slide'),d=document.querySelectorAll('.hero-dot');if(!s.length)return;heroIndex=(i+s.length)%s.length;s.forEach((x,n)=>x.classList.toggle('active',n===heroIndex));d.forEach((x,n)=>x.classList.toggle('active',n===heroIndex));clearInterval(heroTimer);heroTimer=setInterval(()=>heroStep(1),6500)}function heroStep(n){heroGo(heroIndex+n)}document.addEventListener('DOMContentLoaded',()=>heroGo(0));</script><script>
+(function(){
+ window.closeArtistPromo=function(){var p=document.getElementById('artistPromoPopup');if(p)p.classList.remove('open');try{sessionStorage.setItem('aas_promo_seen','1')}catch(e){}};
+ window.registerFromPromo=function(){window.closeArtistPromo();if(typeof window.showView==='function'){window.showView('artistRegistrationView')}else{var views=document.querySelectorAll('.view');views.forEach(function(v){v.classList.remove('open')});var t=document.getElementById('artistRegistrationView');if(t)t.classList.add('open')}window.scrollTo(0,0)};
+ window.addEventListener('load',function(){try{if(sessionStorage.getItem('aas_promo_seen'))return}catch(e){}setTimeout(function(){var p=document.getElementById('artistPromoPopup');if(p&&!document.getElementById('cleanModal')?.classList.contains('open'))p.classList.add('open')},4500)});
+ // If a script error prevents the main navigation handlers from loading, keep section navigation usable.
+ window.showView=window.showView||function(id){var t=document.getElementById(id);if(!t)return false;document.querySelectorAll('.view').forEach(function(v){v.classList.remove('open')});t.classList.add('open');window.scrollTo(0,0);return true};
+ window.goHome=window.goHome||function(){window.showView('homeView')};
+ document.addEventListener('click',function(e){var el=e.target.closest('[onclick]');if(!el)return;var code=el.getAttribute('onclick')||'';var m=code.match(/^\s*showView\(['"]([^'"]+)['"]\)/);if(m&&typeof window.showView==='function'&&!document.getElementById(m[1])){e.preventDefault();e.stopImmediatePropagation()}},true);
+})();
+</script></body>
 </html>
