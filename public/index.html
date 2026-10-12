@@ -648,7 +648,7 @@ document.addEventListener('DOMContentLoaded',handleArtistPaymentResult);
  document.addEventListener('click',function(e){
   var el=e.target.closest('[onclick]');if(!el)return;
   var code=el.getAttribute('onclick')||'';
-  var m=code.match(/^\s*([A-Za-z_$][\\w$]*)\\s*\\(/);if(!m)return;
+  var m=code.match(/^\s*([A-Za-z_$][\w$]*)\s*\(/);if(!m)return;
   var fn=m[1];if(typeof window[fn]==='function')return;
   var target=null;
   if(fn==='openDirectory'||fn==='filterArtists')target='directoryView';
