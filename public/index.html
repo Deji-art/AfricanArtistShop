@@ -408,7 +408,7 @@ html,body{max-width:100%;overflow-x:hidden}
 <div id="cleanModal" class="clean-modal"><div id="modalBox" class="clean-box"><button class="modal-close" onclick="closeModal()">×</button><div id="modalContent"></div></div></div>
 
 <script>
-const AAS_API_ORIGIN=(window.AAS_API_ORIGIN||'https://africanartistshop.onrender.com').replace(/\/$/,''); // Keep the API on the known-live Render service until api.africanartistshop.com is configured.
+const AAS_API_ORIGIN=(window.AAS_API_ORIGIN||window.location.origin).replace(/\/$/,''); // Same-origin API keeps the custom domain working without cross-origin CORS/cookie failures; set AAS_API_ORIGIN only after the separate API host is configured.
 async function apiFetch(path,options={}){const opts={...options,credentials:'include',headers:{...(options.headers||{})}};return fetch(AAS_API_ORIGIN+path,opts)}
 const $=id=>document.getElementById(id);
 let currentCategory='',currentMode='',currentArtists=[],currentProfile=null,allMaterials=[],cart=JSON.parse(localStorage.getItem('aas_cart_v2')||'[]');
