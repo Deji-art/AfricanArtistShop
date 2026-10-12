@@ -40,10 +40,10 @@ const DB_PATH=process.env.DB_PATH||path.join(__dirname,'africanartistshop.db');
 const uploadDir=path.join(__dirname,'public','uploads'); fs.mkdirSync(uploadDir,{recursive:true});
 const db=new Database(DB_PATH); db.pragma('journal_mode=WAL');
 app.use(express.json({verify:(req,res,buf)=>{req.rawBody=buf}})); app.use(express.urlencoded({extended:true,limit:'1mb'}));
-const FRONTEND_URL=(process.env.FRONTEND_URL||'').replace(/\/$/,'');
+const FRONTEND_URLS=(process.env.FRONTEND_URL||'').split(',').map(value=>value.trim().replace(/\/$/,'')).filter(Boolean);
 app.use((req,res,next)=>{
   const origin=req.headers.origin;
-  if(origin && FRONTEND_URL && origin===FRONTEND_URL){
+  if(origin && FRONTEND_URLS.includes(origin)){
     res.setHeader('Access-Control-Allow-Origin',origin);
     res.setHeader('Vary','Origin');
     res.setHeader('Access-Control-Allow-Credentials','true');
