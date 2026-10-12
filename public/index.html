@@ -410,6 +410,9 @@ html,body{max-width:100%;overflow-x:hidden}
 <script>
 const AAS_API_ORIGIN=(window.AAS_API_ORIGIN||'https://africanartistshop.onrender.com').replace(/\/$/,''); // Static frontend calls the existing backend; backend CORS allowlist must include this static site's origin.
 async function apiFetch(path,options={}){const opts={...options,credentials:'include',headers:{...(options.headers||{})}};return fetch(AAS_API_ORIGIN+path,opts)}
+// Wake the free backend while the visitor reads the homepage, so the first catalogue/account action is less likely to wait on cold start.
+function warmBackend(){try{fetch(AAS_API_ORIGIN+'/api/health',{method:'GET',mode:'cors',cache:'no-store'}).catch(()=>{})}catch(e){}}
+warmBackend();
 const $=id=>document.getElementById(id);
 let currentCategory='',currentMode='',currentArtists=[],currentProfile=null,allMaterials=[],cart=JSON.parse(localStorage.getItem('aas_cart_v2')||'[]');
 const money=n=>'₦'+Number(n||0).toLocaleString('en-NG');
