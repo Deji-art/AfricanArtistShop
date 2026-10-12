@@ -341,7 +341,7 @@ app.get('/api/supplies/:id/image',async(req,res)=>{try{
   /* Some image hosts return an HTML anti-hotlink page with HTTP 200. Treat that as a failed image and use the image-search fallback instead. */
   if(response&&(!response.ok||!String(response.headers.get('content-type')||'').toLowerCase().startsWith('image/')))response=null;
   if(!response){
-    const name=x.name.toLowerCase();const searchText=name.includes('easel')?'wooden tabletop painting easel product photo':name.includes('illustration board')?'illustration board art paper product photo':name.includes('pastel paper')?'Canson Mi-Teintes pastel paper sheets product photo':x.name.replace(/\\b(set|collection|pad|pack|piece|roll|book|bottle|can)\\b/gi,'').trim()+' art material product photo';const q=encodeURIComponent(searchText);
+    const name=x.name.toLowerCase();const searchText=name.includes('easel')?'wooden tabletop painting easel product photo':name.includes('illustration board')?'illustration board art paper product photo':name.includes('pastel paper')?'Canson Mi-Teintes pastel paper sheets product photo':x.name.replace(/\b(set|collection|pad|pack|piece|roll|book|bottle|can)\b/gi,'').trim()+' art material product photo';const q=encodeURIComponent(searchText);
     try{
       const sr=await fetch('https://commons.wikimedia.org/w/api.php?action=query&generator=search&gsrsearch='+q+'&gsrnamespace=6&gsrlimit=6&prop=imageinfo&iiprop=url&iiurlwidth=1000&format=json&origin=*');
       if(sr.ok){const data=await sr.json();const pages=Object.values(data.query?.pages||{});const p=pages.find(v=>v.imageinfo?.[0]?.thumburl||v.imageinfo?.[0]?.url);const u=p?.imageinfo?.[0]?.thumburl||p?.imageinfo?.[0]?.url;if(u)response=await fetch(u,{headers:{'User-Agent':'AfricanArtistShop/1.0'}})}
