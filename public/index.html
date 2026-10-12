@@ -256,7 +256,32 @@ html,body{max-width:100%;overflow-x:hidden}
 .promo-top{padding:28px 28px 25px;background:linear-gradient(135deg,#173c35,#24584c);color:#fff}
 .promo-top small{font-size:11px;letter-spacing:2px;font-weight:900;color:#f7d59e}.promo-top h2{font:700 clamp(34px,7vw,48px)/1 Georgia,serif;margin:13px 0}.promo-top h2 span{color:#ffd477}.promo-price-row{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:17px}.promo-price-row>div{padding:12px;border:1px solid #ffffff45;border-radius:12px;background:#ffffff12}.promo-price-row small{display:block;color:#f7d59e;font-size:10px;letter-spacing:.7px;font-weight:900}.promo-price-row del{color:#e9d9c4;font-size:13px;margin-right:5px}.promo-price-row b{font-size:18px;color:#fff}@media(max-width:420px){.promo-price-row{grid-template-columns:1fr}}.promo-top p{line-height:1.6;color:#fff}.promo-bottom{padding:22px 28px 26px}.promo-bottom p{line-height:1.55;color:#756b5f;margin-top:0}.promo-actions{display:flex;gap:10px;flex-wrap:wrap}.promo-actions button{flex:1;min-width:150px}.promo-close{position:absolute;right:13px;top:13px;width:36px;height:36px;border:0;border-radius:50%;background:#ffffffd9;color:#171513;font-size:23px;cursor:pointer;z-index:2}
 @media(max-width:480px){.promo-top,.promo-bottom{padding:23px 20px}.promo-actions{display:grid}.promo-actions button{width:100%}}
-</style></head>
+</style><style>
+/* Homepage refresh: balanced category cards and in-site veteran artist browsing */
+.option-grid{grid-template-columns:repeat(4,minmax(0,1fr));gap:16px;align-items:stretch}
+.option-card{position:relative;display:flex;flex-direction:column;align-items:flex-start;min-height:205px;padding:22px 20px 20px;border-radius:20px;border:1px solid #dfd2bd;background:linear-gradient(145deg,#fffdf8 0%,#f5ecdc 100%);box-shadow:0 7px 20px #2a1b0d0a;overflow:hidden}
+.option-card:before{content:"";position:absolute;left:0;top:0;width:100%;height:4px;background:linear-gradient(90deg,var(--forest),var(--gold),var(--orange))}
+.option-card:nth-child(3n+2){background:linear-gradient(145deg,#fffdf8 0%,#e8f0e9 100%)}
+.option-card:nth-child(3n){background:linear-gradient(145deg,#fffdf8 0%,#f7e8dc 100%)}
+.option-card:hover,.option-card:focus-visible{transform:translateY(-3px);border-color:var(--orange);box-shadow:0 15px 32px #2a1b0d18;outline:none}
+.option-no{width:34px;height:34px;margin-bottom:13px;background:var(--forest);box-shadow:0 4px 12px #173c3530}
+.option-card h2{font-size:22px;line-height:1.18;margin:0 0 9px}
+.option-card p{font-size:13px;line-height:1.5}
+.category-grid{gap:15px}
+.category-card{background:linear-gradient(145deg,#fffdf8,#f1e7d6);border-radius:18px;box-shadow:0 8px 22px #26180b0a;transition:transform .18s,box-shadow .18s}
+.category-card:nth-child(2){background:linear-gradient(145deg,#fffdf8,#e5eee7)}
+.category-card:nth-child(3){background:linear-gradient(145deg,#fffdf8,#f6e4d8)}
+.category-card:hover{transform:translateY(-3px);box-shadow:0 14px 28px #26180b14}
+.tier-card .fee{line-height:1.6}.tier-card .fee del{font-size:14px;color:var(--muted);font-weight:600}.launch-fee{font-size:24px;font-weight:900;color:var(--forest)}
+.veteran-artist-tile .artist-card-image{height:280px;object-fit:cover;background:#eee7db}
+.veteran-card-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:14px}
+.veteran-card-actions .clean-btn{flex:1;min-width:130px;white-space:normal}
+.signature-profile #signatureWorks{scroll-margin-top:90px}
+@media(max-width:1050px){.option-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.option-card{min-height:175px}}
+@media(max-width:620px){.option-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.option-card{min-height:190px;padding:17px 13px;border-radius:16px}.option-no{width:30px;height:30px;margin-bottom:10px}.option-card h2{font-size:17px;line-height:1.2}.option-card p{font-size:12px;line-height:1.42}.veteran-artist-tile .artist-card-image{height:230px}.veteran-card-actions{flex-direction:column}.veteran-card-actions .clean-btn{width:100%;min-width:0}.launch-fee{font-size:21px}}
+@media(max-width:360px){.option-grid{grid-template-columns:1fr}.option-card{min-height:150px}}
+</style>
+</head>
 <body>
 <div class="top">AfricanArtistShop • Original African art • Artist storefronts • Art materials</div>
 <nav class="clean-nav">
@@ -297,11 +322,11 @@ html,body{max-width:100%;overflow-x:hidden}
   </div>
   <div class="tier-grid">
    <button type="button" class="tier-card" id="tier-kid" onclick="selectArtistTier('kid')">
-    <span class="tier-label">SUPERKID / KID ARTIST</span><h3>Young Artist</h3><div class="fee">US$3 / ₦4,000</div>
+    <span class="tier-label">SUPERKID / KID ARTIST</span><h3>Young Artist</h3><div class="fee"><span class="launch-fee">₦2,000</span> <span class="tag">50% OFF</span><br><del>₦4,000</del></div>
     <ul><li>Ages 4–18</li><li>Showcase 3–5 artworks</li><li>Parent/guardian details required</li><li>Payment before enlistment</li></ul><span class="clean-btn primary select-tier">Choose Superkid →</span>
    </button>
    <button type="button" class="tier-card" id="tier-professional" onclick="selectArtistTier('professional')">
-    <span class="tier-label">PROFESSIONAL ARTIST</span><h3>Professional</h3><div class="fee">US$10 / ₦13,000</div>
+    <span class="tier-label">PROFESSIONAL ARTIST</span><h3>Professional</h3><div class="fee"><span class="launch-fee">₦6,500</span> <span class="tag">50% OFF</span><br><del>₦13,000</del></div>
     <ul><li>Adult artist registration</li><li>Showcase 5–7 artworks</li><li>Professional profile & biography</li><li>Payment before enlistment</li></ul><span class="clean-btn primary select-tier">Choose Professional →</span>
    </button>
    <button type="button" class="tier-card" id="tier-signature" onclick="selectArtistTier('signature')">
@@ -320,7 +345,7 @@ html,body{max-width:100%;overflow-x:hidden}
      <div><label>Age <span class="reg-required">*</span><input id="arAge" type="number" min="4" max="120" placeholder="Age"></label></div>
      <div><label>Profile image URL <span class="mini-note">(optional)</span><input id="arImage" placeholder="Link to the artist profile image"></label></div>
      <div id="guardianFields" class="full reg-hidden"><div class="reg-form-grid"><div><label>Parent/guardian name <span class="reg-required">*</span><input id="arGuardianName" placeholder="Parent or guardian"></label></div><div><label>Parent/guardian phone <span class="reg-required">*</span><input id="arGuardianPhone" placeholder="Phone / WhatsApp"></label></div></div></div>
-     <div id="currencyField"><label>Payment currency <span class="reg-required">*</span><select id="arCurrency"><option value="NGN">Nigerian Naira (₦)</option></select></label><div class="mini-note">Paystack checkout will use the Nigerian Naira amount. Kid: ₦4,000 (about US$3). Professional: ₦13,000 (about US$10).</div></div>
+     <div id="currencyField"><label>Payment currency <span class="reg-required">*</span><select id="arCurrency"><option value="NGN">Nigerian Naira (₦)</option></select></label><div class="mini-note">Launch offer: Superkid ₦2,000 (was ₦4,000) and Professional ₦6,500 (was ₦13,000), 50% off for the first 100 eligible paid registrations. The price shown in the registration form is checked against the live offer before Paystack checkout.</div></div>
     </div>
     <div id="artistRegMessage" class="reg-message"></div>
     <div class="reg-submit"><button id="artistRegSubmit" class="clean-btn primary" type="submit">Continue to Paystack</button></div>
@@ -341,7 +366,7 @@ html,body{max-width:100%;overflow-x:hidden}
 </section>
 
 <section id="exploreView" class="view"><div class="view-head"><div><button class="back" onclick="goHome()">← Back to homepage</button><h2>Explore African Artists</h2><p>Choose an artist category first. The artist list opens after your selection.</p></div></div><div id="exploreCategories" class="category-grid"></div></section>
-<section id="artShopView" class="view"><div class="view-head"><div><button class="back" onclick="goHome()">← Back to homepage</button><h2>Shop African Artists’ Artworks</h2><p>Browse artworks by title, artist and price. Open an artwork here, or visit the artist profile for the full collection.</p></div></div><div id="shopCategories" class="category-grid" style="display:none"></div><div id="shopArtworkFilters" class="directory-tools" style="display:flex;gap:8px;flex-wrap:wrap;margin:16px 0"><button class="clean-btn primary" data-filter="all" onclick="setShopArtworkFilter('all')">All artworks</button><button class="clean-btn" data-filter="signature" onclick="setShopArtworkFilter('signature')">Veteran artists</button><button class="clean-btn" data-filter="professional" onclick="setShopArtworkFilter('professional')">Professional artists</button><button class="clean-btn" data-filter="kid" onclick="setShopArtworkFilter('kid')">Superkid artists</button></div><div id="shopArtworkGrid" class="work-grid"><div class="empty">Loading artworks…</div></div><p class="mini-note" style="margin-top:18px">Some veteran artist works are shown for discovery only. Where a verified selling price is unavailable, the listing says “Price on enquiry”; final price and availability must be confirmed with the artist or gallery.</p></section>
+<section id="artShopView" class="view"><div class="view-head"><div><button class="back" onclick="goHome()">← Back to homepage</button><h2>Shop African Artists’ Artworks</h2><p>Browse artworks by title, artist and price. Open an artwork here, or visit the artist profile for the full collection.</p></div></div><div id="shopCategories" class="category-grid" style="display:none"></div><div id="shopArtworkFilters" class="directory-tools" style="display:flex;gap:8px;flex-wrap:wrap;margin:16px 0"><button class="clean-btn primary" data-filter="all" onclick="setShopArtworkFilter('all')">All artworks</button><button class="clean-btn" data-filter="signature" onclick="setShopArtworkFilter('signature')">Veteran artists</button><button class="clean-btn" data-filter="professional" onclick="setShopArtworkFilter('professional')">Professional artists</button><button class="clean-btn" data-filter="kid" onclick="setShopArtworkFilter('kid')">Superkid artists</button></div><div id="shopArtworkGrid" class="work-grid"><div class="empty">Loading artworks…</div></div><p class="mini-note" style="margin-top:18px">Veteran artist profiles and selected artworks are displayed inside AfricanArtistShop. Where a verified selling price is unavailable, the listing says “Price on enquiry”; final price and availability must be confirmed with the artist or gallery.</p></section>
 
 <section id="directoryView" class="view"><div class="view-head"><div><button class="back" onclick="backToCategory()">← Back to categories</button><h2 id="directoryTitle">Artists</h2><p id="directoryDescription">Search the artist list by name.</p></div></div><div class="directory-tools"><input id="artistSearch" placeholder="Search artist by name..." oninput="filterArtists(this.value)"></div><div id="artistDirectory" class="artist-grid-clean"></div></section>
 
@@ -514,17 +539,17 @@ const SIGNATURE_WORKS={
 ]
 };
 function renderSignatureArtists(list){
- const cards=[];
- list.forEach(a=>{(SIGNATURE_WORKS[a.name]||[]).forEach(w=>cards.push('<article class="work-card"><button type="button" class="art-image-button" onclick="openSignatureCollectionByName(&quot;'+jsq(a.name)+'&quot;)" aria-label="View '+esc(w[0])+' by '+esc(a.name)+'"><img loading="lazy" decoding="async" src="'+esc(w[3])+'" alt="'+esc(w[0])+' by '+esc(a.name)+'" onerror="this.onerror=null;this.src=artistPlaceholder()"></button><div class="pad"><span class="tag">VETERAN / SIGNATURE</span><h3>'+esc(w[0])+'</h3><p><b>Artist:</b> '+esc(a.name)+'</p><p class="muted">'+esc(w[1]+' · '+w[2])+'</p><div class="price">Price on enquiry</div><button class="clean-btn primary" onclick="openSignatureCollectionByName(&quot;'+jsq(a.name)+'&quot;)">View artist profile →</button></div></article>'))});
- $('artistDirectory').innerHTML=cards.length?'<div class="work-grid">'+cards.join('')+'</div>':'<div class="empty">No veteran artist works are listed yet.</div>';
+ const cards=list.map(a=>'<article class="artist-tile veteran-artist-tile"><img class="artist-card-image" loading="lazy" decoding="async" src="'+esc(a.image||artistPlaceholder())+'" alt="Portrait of '+esc(a.name)+'" onerror="this.onerror=null;this.src=artistPlaceholder()"><div class="pad"><span class="tag">VETERAN / SIGNATURE ARTIST</span><h3>'+esc(a.name)+'</h3><p class="artist-short-bio">'+esc(shortArtistBio(a))+'</p><div class="veteran-card-actions"><button class="clean-btn primary" type="button" onclick="openSignatureCollectionByName(&quot;'+jsq(a.name)+'&quot;)">View Artist Profile →</button><button class="clean-btn" type="button" onclick="openSignatureArtworksByName(&quot;'+jsq(a.name)+'&quot;)">View Artworks</button></div></div></article>').join('');
+ $('artistDirectory').innerHTML=cards||'<div class="empty">No veteran artists are listed yet.</div>';
 }
 function openSignatureCollectionByName(name){const a=signatureArtists.find(x=>x.name===name);if(a)openSignatureCollection(a)}
+function openSignatureArtworksByName(name){const a=signatureArtists.find(x=>x.name===name);if(!a)return;openSignatureCollection(a);const works=document.getElementById('signatureWorks');if(works)works.scrollIntoView({behavior:'smooth',block:'start'})}
 function openSignatureCollection(a){
  const works=SIGNATURE_WORKS[a.name]||[];
  currentCategory='signature';currentArtists=signatureArtists;
  if(!profileReturnMode)profileReturnMode='directoryView';
  showView('profileView');
- $('profileContent').innerHTML='<div class="profile signature-profile"><button class="back" onclick="openDirectory(&quot;signature&quot;,&quot;'+esc(currentMode||'exploreView')+'&quot;)">← Back to veteran artworks</button><div class="profile-top"><img loading="lazy" decoding="async" src="'+esc(a.image)+'" alt="'+esc(a.name)+'" onerror="this.onerror=null;this.src=artistPlaceholder()"><div><span class="tag">VETERAN / SIGNATURE ARTIST</span><h2>'+esc(a.name)+'</h2><p class="profile-bio">'+esc(a.bio)+'</p><p class="muted">Selected works are shown here for discovery. Images are not offered for sale by AfricanArtistShop unless a listing explicitly says otherwise; rights remain with the respective artists or rights holders.</p></div></div><h2 style="font:700 30px Georgia,serif;margin-top:30px">Selected works</h2><div class="work-grid">'+works.map(w=>'<article class="work-card"><img loading="lazy" decoding="async" src="'+esc(w[3])+'" alt="'+esc(w[0])+' by '+esc(a.name)+'" onerror="this.onerror=null;this.src=artistPlaceholder()"><div class="pad"><h3>'+esc(w[0])+'</h3><p class="muted">'+esc(w[1])+' · '+esc(w[2])+'</p><div class="price">Price on enquiry</div></div></article>').join('')+'</div><p class="mini-note" style="margin-top:18px">Artwork image credits remain with the respective sources and rights holders.</p></div>';
+ $('profileContent').innerHTML='<div class="profile signature-profile"><button class="back" onclick="openDirectory(&quot;signature&quot;,&quot;'+esc(currentMode||'exploreView')+'&quot;)">← Back to veteran artworks</button><div class="profile-top"><img loading="lazy" decoding="async" src="'+esc(a.image)+'" alt="'+esc(a.name)+'" onerror="this.onerror=null;this.src=artistPlaceholder()"><div><span class="tag">VETERAN / SIGNATURE ARTIST</span><h2>'+esc(a.name)+'</h2><p class="profile-bio">'+esc(a.bio)+'</p><p class="muted">Selected works are shown here for discovery. Images are not offered for sale by AfricanArtistShop unless a listing explicitly says otherwise; rights remain with the respective artists or rights holders.</p></div></div><h2 id="signatureWorks" style="font:700 30px Georgia,serif;margin-top:30px">Selected works by '+esc(a.name)+'</h2><div class="work-grid">'+works.map(w=>'<article class="work-card"><img loading="lazy" decoding="async" src="'+esc(w[3])+'" alt="'+esc(w[0])+' by '+esc(a.name)+'" onerror="this.onerror=null;this.src=artistPlaceholder()"><div class="pad"><h3>'+esc(w[0])+'</h3><p class="muted">'+esc(w[1])+' · '+esc(w[2])+'</p><div class="price">Price on enquiry</div></div></article>').join('')+'</div><p class="mini-note" style="margin-top:18px">Artwork image credits remain with the respective sources and rights holders.</p></div>';
 }
 function openMufuProfile(){openSignatureCollectionByName('Mufu Onifade')}
 function filterArtists(q){const s=q.trim().toLowerCase();if(currentCategory==='signature'){renderSignatureArtists(signatureArtists.filter(a=>a.name.toLowerCase().includes(s)));return}renderArtists(currentArtists.filter(a=>a.name.toLowerCase().includes(s)))}
@@ -579,8 +604,8 @@ function submitRenewalEnquiry(e){
   pendingWhatsAppUrl='https://wa.me/2347031484486?text='+encodeURIComponent(textMsg);
   openModal('<h2>Send your enquiry</h2><p class="muted">Choose the app you use. The message opens ready to send; it is not sent until you press Send in the app.</p><div style="padding:12px;border:1px solid var(--line,#ddd);border-radius:12px;white-space:pre-wrap;max-height:240px;overflow:auto;font-size:13px">'+esc(textMsg)+'</div><div class="reg-submit"><button class="clean-btn primary" onclick="continueWhatsAppBusiness()">Open WhatsApp Business →</button><button class="clean-btn" onclick="continueWhatsAppStandard()">Open WhatsApp →</button><button class="clean-btn" onclick="continueEmailEnquiry()">Email AfricanArtistShop →</button><button class="clean-btn" onclick="closeModal()">Cancel</button></div>');
 }
-function continueWhatsAppBusiness(){if(!pendingWhatsAppUrl)return;const phone='2347031484486';const query=pendingWhatsAppUrl.split('?')[1]||'';const textMsg=decodeURIComponent(query.replace(/^text=/,''));const fallback='https://api.whatsapp.com/send?phone='+phone+'&text='+encodeURIComponent(textMsg);const intent='intent://send/?phone='+phone+'&text='+encodeURIComponent(textMsg)+'#Intent;scheme=whatsapp;package=com.whatsapp.w4b;S.browser_fallback_url='+encodeURIComponent(fallback)+';end';window.location.href=intent}
-function continueWhatsAppStandard(){if(pendingWhatsAppUrl)window.location.href=pendingWhatsAppUrl}
+function continueWhatsAppBusiness(){if(!pendingWhatsAppUrl)return;const phone='2347031484486';let message='Hello AfricanArtistShop, I would like to make an enquiry.';try{message=new URL(pendingWhatsAppUrl,window.location.href).searchParams.get('text')||message}catch(e){}const target='https://api.whatsapp.com/send?phone='+phone+'&text='+encodeURIComponent(message);window.location.assign(target)}
+function continueWhatsAppStandard(){if(!pendingWhatsAppUrl)return;window.location.assign(pendingWhatsAppUrl)}
 
 function continueEmailEnquiry(){
  const encoded=(pendingWhatsAppUrl.split('?text=')[1]||'');
@@ -605,7 +630,7 @@ async function logout(){await apiFetch('/api/logout',{method:'POST'});closeModal
 
 let selectedArtistTier='';
 function artistTierLabel(t){return t==='kid'?'Superkid / Kid Artist':t==='professional'?'Professional Artist':'Veteran / Signature Artist'}
-function artistTierFee(t,c){if(t==='signature')return 'FREE';if(t==='kid')return c==='USD'?'US$3':'₦4,000';return c==='USD'?'US$10':'₦13,000'}
+function artistTierFee(t,c){if(t==='signature')return 'FREE';if(t==='kid')return c==='USD'?'US$1.50':'₦2,000';return c==='USD'?'US$5':'₦6,500'}
 function openArtistRegistration(){showView('artistRegistrationView');selectedArtistTier='';document.querySelectorAll('.tier-card').forEach(x=>x.classList.remove('selected'));$('artistRegFormPanel').classList.remove('open');$('artistRegSuccess').classList.add('reg-hidden');apiFetch('/api/me').then(r=>r.json()).then(me=>{if(!me.user)artistAccountGate();}).catch(()=>artistAccountGate())}
 function artistAccountGate(){openModal('<h2>Artist registration account</h2><p class="muted">Please create a customer account or sign in first. Your artist registration, payment and application will be tied to this account.</p><div class="form-grid"><input id="artistAccName" placeholder="Full name"><input id="artistAccEmail" type="email" placeholder="Email"><input id="artistAccPassword" type="password" placeholder="Password"></div><div class="reg-submit"><button class="clean-btn primary" onclick="registerArtistAccount()">Create account & continue</button><button class="clean-btn" onclick="loginArtistAccount()">Sign in & continue</button></div><div id="artistAccMsg" class="reg-message"></div>')}
 async function registerArtistAccount(){try{const name=$('artistAccName').value.trim(),email=$('artistAccEmail').value.trim(),password=$('artistAccPassword').value;if(!name||!email||!password)throw Error('Please complete your name, email and password.');const r=await apiFetch('/api/register',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({name,email,password})});const d=await r.json();if(!r.ok)throw Error(d.error||'Could not create account');closeModal();showView('artistRegistrationView');alert('Account created. Continue by choosing your artist category.')}catch(e){$('artistAccMsg').textContent=e.message;$('artistAccMsg').classList.add('show')}}
