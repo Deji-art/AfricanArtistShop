@@ -645,7 +645,26 @@ document.addEventListener('DOMContentLoaded',handleArtistPaymentResult);
  // If a script error prevents the main navigation handlers from loading, keep section navigation usable.
  window.showView=window.showView||function(id){var t=document.getElementById(id);if(!t)return false;document.querySelectorAll('.view').forEach(function(v){v.classList.remove('open')});t.classList.add('open');window.scrollTo(0,0);return true};
  window.goHome=window.goHome||function(){window.showView('homeView')};
- document.addEventListener('click',function(e){var el=e.target.closest('[onclick]');if(!el)return;var code=el.getAttribute('onclick')||'';var m=code.match(/^\s*showView\(['"]([^'"]+)['"]\)/);if(m&&typeof window.showView==='function'&&!document.getElementById(m[1])){e.preventDefault();e.stopImmediatePropagation()}},true);
+ document.addEventListener('click',function(e){
+  var el=e.target.closest('[onclick]');if(!el)return;
+  var code=el.getAttribute('onclick')||'';
+  var m=code.match(/^\s*([A-Za-z_$][\\w$]*)\\s*\\(/);if(!m)return;
+  var fn=m[1];if(typeof window[fn]==='function')return;
+  var target=null;
+  if(fn==='openDirectory'||fn==='filterArtists')target='directoryView';
+  else if(fn==='openProfile'||fn==='openSignatureProfile'||fn==='openSignatureCollectionByName'||fn==='openPeaceProfile'||fn==='openShopSignatureProfile'||fn==='openFaceOfTime'||fn==='artDetails')target='profileView';
+  else if(fn==='openArtistRegistration')target='artistRegistrationView';
+  else if(fn==='openCart'||fn==='openAccount')target='accountView';
+  else if(fn==='loadMaterials'||fn==='globalSearch')target='materialsView';
+  else if(fn==='loadTopArtists')target='topView';
+  else if(fn==='loadDeals')target='dealsView';
+  else if(fn==='toggleTraining'||fn==='submitTraining')target='trainingView';
+  if(target&&document.getElementById(target)){
+   e.preventDefault();e.stopImmediatePropagation();window.showView(target);
+   if(target==='directoryView'){var d=document.getElementById('artistDirectory');if(d)d.innerHTML='<div class="empty">Navigation is available, but this section needs its data script to load. Please refresh the page and try again.</div>'}
+   else if(target==='profileView'){var p=document.getElementById('profileContent');if(p)p.innerHTML='<div class="empty">Artist profile details could not load. Please refresh and try again.</div>'}
+  }
+ },true);
 })();
 </script></body>
 </html>
