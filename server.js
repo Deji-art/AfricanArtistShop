@@ -30,7 +30,7 @@ async function uploadToSupabaseStorage(file,folder='artworks'){
   if(!SUPABASE_URL||!SUPABASE_SERVICE_ROLE_KEY) throw new Error('Supabase Storage is not configured. Add SUPABASE_URL and SUPABASE_SERVICE_ROLE_KEY.');
   const safeName=(file.originalname||'artwork').replace(/[^a-zA-Z0-9._-]/g,'_');
   const safeFolder=String(folder||'artworks').replace(/[^a-zA-Z0-9_-]/g,'');
-  const objectPath=safeFolder+'/'+Date.now()+'-'+crypto.randomBytes(6).toString('hex')+'-'+safeName;
+  const objectPath='artworks/'+(safeFolder==='artworks'?'':safeFolder+'/')+Date.now()+'-'+crypto.randomBytes(6).toString('hex')+'-'+safeName;
   const r=await fetch(SUPABASE_URL+'/storage/v1/object/'+objectPath,{method:'POST',headers:{Authorization:'Bearer '+SUPABASE_SERVICE_ROLE_KEY,apikey:SUPABASE_SERVICE_ROLE_KEY,'Content-Type':file.mimetype,'x-upsert':'false'},body:file.buffer});
   if(!r.ok) throw new Error('Supabase Storage upload failed: '+await r.text());
   return SUPABASE_URL+'/storage/v1/object/public/'+objectPath;
