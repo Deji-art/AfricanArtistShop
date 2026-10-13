@@ -652,8 +652,23 @@ function submitRenewalEnquiry(e){
   pendingWhatsAppUrl='https://wa.me/2347031484486?text='+encodeURIComponent(textMsg);
   openModal('<h2>Send your enquiry</h2><p class="muted">Choose the app you use. The message opens ready to send; it is not sent until you press Send in the app.</p><div style="padding:12px;border:1px solid var(--line,#ddd);border-radius:12px;white-space:pre-wrap;max-height:240px;overflow:auto;font-size:13px">'+esc(textMsg)+'</div><div class="reg-submit"><button class="clean-btn primary" onclick="continueWhatsAppBusiness()">Open WhatsApp Business →</button><button class="clean-btn" onclick="continueWhatsAppStandard()">Open WhatsApp →</button><button class="clean-btn" onclick="continueEmailEnquiry()">Email AfricanArtistShop →</button><button class="clean-btn" onclick="closeModal()">Cancel</button></div>');
 }
-function continueWhatsAppBusiness(){if(!pendingWhatsAppUrl)return;const phone='2347031484486';let message='Hello AfricanArtistShop, I would like to make an enquiry.';try{message=new URL(pendingWhatsAppUrl,window.location.href).searchParams.get('text')||message}catch(e){}const target='https://api.whatsapp.com/send?phone='+phone+'&text='+encodeURIComponent(message);window.location.assign(target)}
-function continueWhatsAppStandard(){if(!pendingWhatsAppUrl)return;window.location.assign(pendingWhatsAppUrl)}
+function continueWhatsAppBusiness(){openWhatsAppApp('com.whatsapp.w4b','business')}
+function continueWhatsAppStandard(){openWhatsAppApp('com.whatsapp','standard')}
+function openWhatsAppApp(packageName,kind){
+ if(!pendingWhatsAppUrl)return;
+ const phone='2347031484486';
+ let message='Hello AfricanArtistShop, I would like to make an enquiry.';
+ try{message=new URL(pendingWhatsAppUrl,window.location.href).searchParams.get('text')||message}catch(e){}
+ const webUrl='https://api.whatsapp.com/send?phone='+phone+'&text='+encodeURIComponent(message);
+ const isAndroid=/Android/i.test(navigator.userAgent||'');
+ if(isAndroid){
+  const fallback=encodeURIComponent(webUrl);
+  const intent='intent://send?phone='+phone+'&text='+encodeURIComponent(message)+'#Intent;scheme=whatsapp;package='+packageName+';S.browser_fallback_url='+fallback+';end';
+  window.location.href=intent;
+ }else{
+  window.location.href=webUrl;
+ }
+}
 
 function continueEmailEnquiry(){
  const encoded=(pendingWhatsAppUrl.split('?text=')[1]||'');
