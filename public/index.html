@@ -466,6 +466,7 @@ html{scroll-behavior:smooth}
 </style>
 </head>
 <body>
+<div id="backendWake" class="backend-wake" role="status" aria-live="polite" hidden><span class="wake-spinner" aria-hidden="true"></span><span><b>Waking up the marketplace…</b><small>Connecting to the shop. This can take a moment on free hosting.</small></span></div>
 <div class="top">AfricanArtistShop • Original African art • Artist storefronts • Art materials</div>
 <nav class="clean-nav">
   <button class="clean-btn brand-logo" onclick="goHome()" aria-label="AfricanArtistShop home"><img class="site-logo" src="/africanartistshop-logo.svg" alt="African Artists Shop"></button>
@@ -630,7 +631,10 @@ html{scroll-behavior:smooth}
 const AAS_API_ORIGIN=(window.AAS_API_ORIGIN||'https://africanartistshop.onrender.com').replace(/\/$/,''); // Static frontend calls the existing backend; backend CORS allowlist must include this static site's origin.
 async function apiFetch(path,options={}){const opts={...options,credentials:'include',headers:{...(options.headers||{})}};try{return await fetch(AAS_API_ORIGIN+path,opts)}catch(e){if(String(opts.method||'GET').toUpperCase()!=='GET')throw e;await new Promise(resolve=>setTimeout(resolve,900));return fetch(AAS_API_ORIGIN+path,opts)}}
 // Wake the free backend quietly; show a small status only if startup takes more than a moment.
-function showBackendWake(){} function hideBackendWake(){} function warmBackend(){}
+function showBackendWake(){const el=document.getElementById('backendWake');if(el)el.hidden=false}
+function hideBackendWake(){const el=document.getElementById('backendWake');if(el)el.hidden=true}
+function warmBackend(){try{const request=fetch(AAS_API_ORIGIN+'/api/health',{method:'GET',mode:'cors',cache:'no-store'});const timer=setTimeout(showBackendWake,1300);request.catch(()=>{}).finally(()=>{clearTimeout(timer);hideBackendWake()})}catch(e){}}
+warmBackend();
 const $=id=>document.getElementById(id);
 let currentCategory='',currentMode='',currentArtists=[],currentProfile=null,allMaterials=[],cart=JSON.parse(localStorage.getItem('aas_cart_v2')||'[]');
 const money=n=>'₦'+Number(n||0).toLocaleString('en-NG');
