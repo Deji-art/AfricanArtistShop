@@ -409,9 +409,63 @@ body{font-family:Inter,"Aptos",system-ui,-apple-system,"Segoe UI",sans-serif;lin
 .clean-footer{padding:24px 18px!important}
 }
 @media(min-width:701px) and (max-width:980px){.clean-info-grid{grid-template-columns:repeat(2,minmax(0,1fr))!important}.footer-inner{grid-template-columns:1fr 1fr!important}}</style>
+<style id="aas-final-mobile-repair">
+/* Final mobile layout repair: fit the hero to its content and keep controls clear. */
+html{scroll-behavior:smooth}
+.clean-nav{display:grid!important;grid-template-columns:132px minmax(0,1fr) auto auto!important;align-items:center!important;gap:12px!important;padding:14px 24px!important}
+.clean-nav .brand-logo{width:132px!important;max-width:132px!important;height:68px!important;min-width:0!important;padding:5px!important;border-radius:12px!important;display:flex!important;align-items:center!important;justify-content:center!important}
+.clean-nav .site-logo{width:100%!important;height:56px!important;max-width:120px!important;object-fit:contain!important;object-position:center!important}
+.clean-search{width:100%!important;min-width:0!important;max-width:none!important;height:48px!important;margin:0!important;border-radius:12px!important}
+.clean-nav .dark,.clean-nav button:not(.brand-logo){min-width:72px!important;min-height:46px!important;padding:10px 13px!important;border-radius:12px!important}
+.home-quick-links{position:relative!important;z-index:5;display:flex!important;justify-content:center!important;gap:clamp(12px,3vw,28px)!important;flex-wrap:wrap!important;padding:13px 16px!important}
+.home-quick-links a{font-size:13px!important}
+.clean-main{padding-top:26px!important}
+.hero-premium.hero-carousel{height:auto!important;min-height:470px!important;margin:0 0 42px!important;padding:0!important;border-radius:18px!important;overflow:hidden!important;display:block!important}
+.hero-carousel .hero-slide{position:absolute;inset:0;min-height:470px;box-sizing:border-box;padding:38px 64px 58px!important;align-items:center!important;background-position:center!important}
+.hero-carousel .hero-premium-inner{width:100%!important;max-width:690px!important;margin:0 auto!important;padding:18px 0!important;box-sizing:border-box!important}
+.hero-carousel .hero-premium h1{font-size:clamp(40px,5vw,64px)!important;line-height:1.03!important;letter-spacing:-1.7px!important;overflow-wrap:normal!important;margin:8px 0 16px!important}
+.hero-carousel .hero-premium p{font-size:17px!important;line-height:1.6!important;max-width:570px!important}
+.hero-carousel .hero-actions{display:flex!important;flex-wrap:wrap!important;gap:10px!important}
+.hero-carousel .hero-actions .clean-btn{flex:0 1 auto!important;min-height:46px!important;padding:12px 17px!important;font-size:13px!important}
+.hero-carousel .hero-dots{bottom:16px!important}
+.hero-carousel .hero-arrow{top:50%!important}
+.clean-intro{margin:0 auto 28px!important}
+@media(max-width:700px){
+ .clean-nav{grid-template-columns:76px minmax(0,1fr) auto auto!important;gap:7px!important;padding:12px 12px!important}
+ .clean-nav .brand-logo{width:76px!important;height:58px!important;padding:3px!important}
+ .clean-nav .site-logo{width:70px!important;height:50px!important;max-width:70px!important}
+ .clean-nav .dark,.clean-nav button:not(.brand-logo){min-width:42px!important;min-height:42px!important;padding:8px 9px!important;font-size:12px!important}
+ .clean-search{grid-column:1/-1!important;grid-row:2!important;height:46px!important}
+ .home-quick-links{gap:8px 18px!important;padding:11px 10px!important}
+ .home-quick-links a{font-size:12px!important}
+ .clean-main{padding:18px 14px 40px!important}
+ .hero-premium.hero-carousel{min-height:0!important;height:auto!important;margin-bottom:34px!important;border-radius:14px!important}
+ .hero-carousel .hero-slide{position:absolute!important;inset:0!important;min-height:0!important;padding:28px 42px 58px!important;align-items:center!important}
+ .hero-carousel .hero-premium-inner{padding:12px 0!important}
+ .hero-carousel .hero-kicker{font-size:9px!important;letter-spacing:1.3px!important;margin-bottom:10px!important}
+ .hero-carousel .hero-premium h1{font-size:clamp(30px,7.5vw,40px)!important;line-height:1.04!important;letter-spacing:-.9px!important;margin:8px 0 14px!important}
+ .hero-carousel .hero-premium p{font-size:14px!important;line-height:1.55!important;margin:0 0 16px!important}
+ .hero-carousel .hero-actions{display:grid!important;grid-template-columns:1fr!important;gap:8px!important;margin-top:12px!important}
+ .hero-carousel .hero-actions .clean-btn{width:100%!important;min-height:44px!important;padding:10px 12px!important;font-size:12px!important}
+ .hero-carousel .hero-actions .clean-btn:last-child{grid-column:auto!important}
+ .hero-carousel .hero-arrow{width:28px!important;height:28px!important;font-size:20px!important}
+ .hero-prev{left:7px!important}.hero-next{right:7px!important}
+ .hero-carousel .hero-dots{bottom:14px!important}
+ .clean-intro h1{font-size:clamp(30px,7.8vw,38px)!important;line-height:1.08!important;letter-spacing:-1px!important}
+ .option-grid{grid-template-columns:1fr!important;gap:12px!important}
+ .option-card{padding:19px!important}
+}
+@media(max-width:360px){
+ .clean-nav{grid-template-columns:64px minmax(0,1fr) auto auto!important;gap:5px!important;padding:10px!important}
+ .clean-nav .brand-logo{width:64px!important;height:52px!important}
+ .clean-nav .site-logo{width:60px!important;height:44px!important}
+ .clean-nav .dark,.clean-nav button:not(.brand-logo){min-width:36px!important;padding:7px!important}
+ .hero-carousel .hero-slide{padding:25px 35px 54px!important}
+ .hero-carousel .hero-premium h1{font-size:29px!important}
+}
+</style>
 </head>
 <body>
-<div id="backendWake" class="backend-wake" role="status" aria-live="polite" hidden><span class="wake-spinner" aria-hidden="true"></span><span><b>Waking up the marketplace…</b><small>Connecting to the shop. This can take a moment on free hosting.</small></span></div>
 <div class="top">AfricanArtistShop • Original African art • Artist storefronts • Art materials</div>
 <nav class="clean-nav">
   <button class="clean-btn brand-logo" onclick="goHome()" aria-label="AfricanArtistShop home"><img class="site-logo" src="/africanartistshop-logo.svg" alt="African Artists Shop"></button>
@@ -576,10 +630,7 @@ body{font-family:Inter,"Aptos",system-ui,-apple-system,"Segoe UI",sans-serif;lin
 const AAS_API_ORIGIN=(window.AAS_API_ORIGIN||'https://africanartistshop.onrender.com').replace(/\/$/,''); // Static frontend calls the existing backend; backend CORS allowlist must include this static site's origin.
 async function apiFetch(path,options={}){const opts={...options,credentials:'include',headers:{...(options.headers||{})}};try{return await fetch(AAS_API_ORIGIN+path,opts)}catch(e){if(String(opts.method||'GET').toUpperCase()!=='GET')throw e;await new Promise(resolve=>setTimeout(resolve,900));return fetch(AAS_API_ORIGIN+path,opts)}}
 // Wake the free backend quietly; show a small status only if startup takes more than a moment.
-function showBackendWake(){const el=document.getElementById('backendWake');if(el)el.hidden=false}
-function hideBackendWake(){const el=document.getElementById('backendWake');if(el)el.hidden=true}
-function warmBackend(){try{const request=fetch(AAS_API_ORIGIN+'/api/health',{method:'GET',mode:'cors',cache:'no-store'});const timer=setTimeout(showBackendWake,1300);request.catch(()=>{}).finally(()=>{clearTimeout(timer);hideBackendWake()})}catch(e){}}
-warmBackend();
+function showBackendWake(){} function hideBackendWake(){} function warmBackend(){}
 const $=id=>document.getElementById(id);
 let currentCategory='',currentMode='',currentArtists=[],currentProfile=null,allMaterials=[],cart=JSON.parse(localStorage.getItem('aas_cart_v2')||'[]');
 const money=n=>'₦'+Number(n||0).toLocaleString('en-NG');
